@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Acceso seguro a RAND Barbería.">
+    <title>RAND Barbería | Acceso</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23070707'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial' font-size='29' font-weight='700' fill='%23d6b35a'%3ER%3C/text%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { gold: '#c9a227', dark: '#111111', darker: '#070707' } } } };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&display=swap');
+        :root { --obsidian:#050505; --graphite:#151517; --ivory:#f4f1ea; --champagne:#c7a86b; --ease:cubic-bezier(.16,1,.3,1); }
+        * { box-sizing: border-box; }
+        body { font-family:'DM Sans',sans-serif; background:var(--obsidian); color:var(--ivory); }
+        h1 { font-family:'Cormorant Garamond',Georgia,serif; font-weight:400!important; letter-spacing:-.045em; line-height:.9; }
+        button,a,input { min-height:44px; }
+        :focus-visible { outline:2px solid var(--champagne); outline-offset:3px; }
+        .login-shell { width:min(1440px,100%); min-height:calc(100svh - 2rem); display:grid; grid-template-columns:minmax(0,1.2fr) minmax(420px,.8fr); background:var(--graphite); overflow:hidden; }
+        .login-visual { position:relative; min-height:760px; overflow:hidden; background:#0b0b0c; }
+        .login-visual video,.login-visual img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:grayscale(.55) saturate(.55) contrast(1.08); }
+        .login-visual video { z-index:1; }
+        .login-visual img { z-index:0; }
+        .login-visual::after { content:''; position:absolute; z-index:2; inset:0; background:linear-gradient(0deg,rgba(5,5,5,.92),transparent 60%,rgba(5,5,5,.3)); }
+        .login-visual__copy { position:absolute; z-index:3; left:clamp(2rem,5vw,5rem); right:clamp(2rem,5vw,5rem); bottom:clamp(2rem,6vw,5.5rem); }
+        .login-visual__copy h2 { font-family:'Cormorant Garamond',Georgia,serif; font-size:clamp(3.5rem,6vw,7rem); font-weight:400; letter-spacing:-.05em; line-height:.82; }
+        .login-access { display:flex; flex-direction:column; justify-content:center; padding:clamp(1.5rem,5vw,5rem); background:var(--ivory); color:var(--obsidian); }
+        .login-access > a { align-self:flex-start; color:#77747a!important; }
+        .login-card { border:0!important; background:transparent!important; box-shadow:none!important; padding:2rem 0!important; }
+        .login-card h1 { color:var(--obsidian)!important; font-size:clamp(3.5rem,7vw,5.6rem)!important; }
+        .login-card .text-zinc-500 { color:#77747a!important; }
+        .login-tabs { background:#e9e5dc!important; border-radius:0!important; padding:.35rem!important; }
+        #btn-tab-login,#btn-tab-registro { border-radius:0!important; background:transparent!important; color:#716e72!important; transition:background .35s var(--ease),color .35s var(--ease); }
+        #btn-tab-login[aria-selected='true'],#btn-tab-registro[aria-selected='true'] { background:var(--obsidian)!important; color:var(--ivory)!important; }
+        .login-card label { color:#5f5d61!important; text-transform:uppercase; letter-spacing:.16em; font-size:.65rem!important; }
+        .login-card input { min-height:56px; border-radius:0!important; background:transparent!important; border:0!important; border-bottom:1px solid rgba(5,5,5,.22)!important; color:var(--obsidian)!important; padding-inline:0!important; transition:border-color .3s var(--ease); }
+        .login-card input:focus { box-shadow:none; border-color:var(--obsidian)!important; }
+        .login-card [data-toggle-password] { color:#77747a!important; }
+        #btn-login,#btn-registro { min-height:58px; border-radius:0!important; background:var(--obsidian)!important; border:1px solid var(--obsidian)!important; color:var(--ivory)!important; letter-spacing:.16em; text-transform:uppercase; font-size:.7rem; transition:transform .4s var(--ease),background .4s var(--ease); }
+        #btn-login:hover,#btn-registro:hover { transform:translateY(-2px); background:#242426!important; }
+        #alerta { border-radius:0!important; }
+        @media(max-width:900px){
+            body{padding:0!important}.login-shell{min-height:100svh;display:block}.login-visual{min-height:280px;height:34svh}.login-visual__copy{bottom:1.5rem}.login-visual__copy h2{font-size:clamp(3rem,12vw,5rem)}.login-access{min-height:66svh;padding:1.5rem}.login-card{padding:1.5rem 0 2rem!important}.login-card h1{font-size:3.7rem!important}
+        }
+        @media(max-width:420px){.login-visual{height:27svh;min-height:220px}.login-visual__copy p:last-child{display:none}.login-access{padding:1.1rem}.login-card{padding-top:1rem!important}}
+        @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}.login-visual video{display:none}}
+
+        /* Segunda pasada visual */
+        body { -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+        .login-shell { background:#111113; }
+        .login-visual__copy h2 { max-width:780px; }
+        .login-card { max-width:560px; width:100%; }
+        .login-card h1 { font-size:clamp(3.35rem,6vw,5rem)!important; }
+        .login-card > div:first-child .text-gold { color:#77736c!important; letter-spacing:.3em!important; }
+        .login-tabs { border-radius:4px!important; gap:0!important; background:#e7e2d8!important; }
+        #btn-tab-login,#btn-tab-registro { border-radius:3px!important; transition:background .24s ease,color .24s ease; }
+        .login-card input { transition:border-color .22s ease; }
+        #btn-login,#btn-registro { border-radius:4px!important; transition:background .24s ease,color .24s ease; }
+        #btn-login:hover,#btn-registro:hover { transform:none; background:#1c1c1f!important; }
+        .login-access > a { transition:color .22s ease; }
+        @media(max-width:900px){.login-card{margin-inline:auto}.login-access{align-items:center}.login-access>a{align-self:flex-start}}
+    </style>
+</head>
+<body class="bg-darker text-zinc-200 min-h-screen flex items-center justify-center p-4 font-sans">
+<main class="login-shell">
+    <aside class="login-visual" aria-label="Experiencia RAND">
+        <video autoplay muted loop playsinline preload="metadata" poster="/media/rand-campaign-razor.webp" aria-hidden="true">
+            <source src="/media/rand-hero.mp4" type="video/mp4">
+        </video>
+        <img src="/media/rand-campaign-razor.webp" alt="Ritual de barbería privada RAND">
+        <div class="login-visual__copy">
+            <p class="text-[10px] uppercase tracking-[0.4em] text-[#c7a86b] mb-5">RAND Private House</p>
+            <h2>Tu tiempo.<br><em>Tu presencia.</em></h2>
+            <p class="mt-6 max-w-md text-sm text-white/60 leading-relaxed">Accede a una experiencia de barbería ejecutada con precisión y reservada a tu ritmo.</p>
+        </div>
+    </aside>
+
+    <div class="login-access">
+    <a href="/index.html" class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-zinc-500 hover:text-gold mb-6 transition">← Volver a RAND</a>
+
+    <section class="login-card bg-dark border border-white/10 p-7 md:p-9 rounded-2xl shadow-2xl">
+        <div class="mb-8">
+            <p class="text-gold text-xs uppercase tracking-[0.35em] mb-2">RAND Barbería</p>
+            <h1 class="text-3xl font-bold text-white">Tu cuenta</h1>
+            <p class="text-zinc-500 text-sm mt-2">Inicia sesión o crea una cuenta de cliente.</p>
+        </div>
+
+        <div class="login-tabs grid grid-cols-2 gap-2 mb-7 bg-black/40 p-1 rounded-lg" role="tablist" aria-label="Tipo de acceso">
+            <button id="btn-tab-login" type="button" role="tab" aria-selected="true" aria-controls="form-login" class="text-black bg-gold font-bold text-sm px-3 py-2.5 rounded-md transition">Iniciar sesión</button>
+            <button id="btn-tab-registro" type="button" role="tab" aria-selected="false" aria-controls="form-registro" class="text-zinc-500 font-bold text-sm px-3 py-2.5 rounded-md hover:text-white transition">Registrarse</button>
+        </div>
+
+        <form id="form-login" class="space-y-5" novalidate>
+            <div>
+                <label for="login-email" class="block text-xs text-zinc-400 mb-2">Correo electrónico</label>
+                <input type="email" id="login-email" autocomplete="email" required maxlength="150"
+                       class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-gold text-white">
+            </div>
+            <div>
+                <label for="login-password" class="block text-xs text-zinc-400 mb-2">Contraseña</label>
+                <div class="relative">
+                    <input type="password" id="login-password" autocomplete="current-password" required minlength="8" maxlength="72"
+                           class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 pr-20 focus:outline-none focus:border-gold text-white">
+                    <button type="button" data-toggle-password="login-password" aria-label="Mostrar contraseña" class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wider text-zinc-500 hover:text-white px-2">Mostrar</button>
+                </div>
+            </div>
+            <button id="btn-login" type="submit" class="w-full bg-gold text-black font-bold py-3 rounded-lg hover:brightness-110 transition disabled:opacity-50">
+                Entrar
+            </button>
+        </form>
+
+        <form id="form-registro" class="space-y-4 hidden" novalidate>
+            <div>
+                <label for="reg-nombre" class="block text-xs text-zinc-400 mb-2">Nombre completo</label>
+                <input type="text" id="reg-nombre" autocomplete="name" required maxlength="120"
+                       class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-gold text-white">
+            </div>
+            <div>
+                <label for="reg-email" class="block text-xs text-zinc-400 mb-2">Correo electrónico</label>
+                <input type="email" id="reg-email" autocomplete="email" required maxlength="150"
+                       class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-gold text-white">
+            </div>
+            <div>
+                <label for="reg-telefono" class="block text-xs text-zinc-400 mb-2">Teléfono</label>
+                <input type="tel" id="reg-telefono" autocomplete="tel" required minlength="7" maxlength="20"
+                       class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-gold text-white">
+            </div>
+            <div>
+                <label for="reg-password" class="block text-xs text-zinc-400 mb-2">Contraseña</label>
+                <div class="relative">
+                    <input type="password" id="reg-password" autocomplete="new-password" required minlength="12" maxlength="72" aria-describedby="reg-password-ayuda"
+                           class="w-full bg-black border border-white/10 rounded-lg px-4 py-3 pr-20 focus:outline-none focus:border-gold text-white">
+                    <button type="button" data-toggle-password="reg-password" aria-label="Mostrar contraseña" class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wider text-zinc-500 hover:text-white px-2">Mostrar</button>
+                </div>
+                <p id="reg-password-ayuda" class="text-[11px] text-zinc-600 mt-2">Mínimo 12 caracteres. Puedes usar una frase fácil de recordar; el límite técnico es de 72 bytes.</p>
+            </div>
+            <button id="btn-registro" type="submit" class="w-full border border-gold text-gold font-bold py-3 rounded-lg hover:bg-gold hover:text-black transition disabled:opacity-50">
+                Crear cuenta
+            </button>
+        </form>
+
+        <div id="alerta" class="mt-5 text-sm hidden rounded-lg p-3" role="status" aria-live="polite" tabindex="-1"></div>
+    </section>
+    </div>
+</main>
+
+<script>
+    const btnTabLogin = document.getElementById('btn-tab-login');
+    const btnTabRegistro = document.getElementById('btn-tab-registro');
+    const formLogin = document.getElementById('form-login');
+    const formRegistro = document.getElementById('form-registro');
+    const alerta = document.getElementById('alerta');
+    let csrf = null;
+
+    async function obtenerCsrf() {
+        if (csrf) return csrf;
+        const response = await fetch('/api/auth/csrf', { credentials: 'same-origin' });
+        if (!response.ok) throw new Error('No se pudo iniciar la sesión segura');
+        csrf = await response.json();
+        return csrf;
+    }
+
+    async function fetchSeguro(url, options = {}) {
+        const token = await obtenerCsrf();
+        const headers = new Headers(options.headers || {});
+        headers.set(token.headerName, token.token);
+        return fetch(url, { ...options, headers, credentials: 'same-origin' });
+    }
+
+    async function leerError(response, fallback) {
+        try {
+            const data = await response.json();
+            return Object.values(data.errores || {})[0] || data.mensaje || fallback;
+        } catch (_) {}
+        return fallback;
+    }
+
+    function mostrarTab(tab) {
+        const esLogin = tab === 'login';
+        formLogin.classList.toggle('hidden', !esLogin);
+        formRegistro.classList.toggle('hidden', esLogin);
+        btnTabLogin.className = esLogin
+            ? 'text-black bg-gold font-bold text-sm px-3 py-2.5 rounded-md transition'
+            : 'text-zinc-500 font-bold text-sm px-3 py-2.5 rounded-md hover:text-white transition';
+        btnTabRegistro.className = !esLogin
+            ? 'text-black bg-gold font-bold text-sm px-3 py-2.5 rounded-md transition'
+            : 'text-zinc-500 font-bold text-sm px-3 py-2.5 rounded-md hover:text-white transition';
+        alerta.classList.add('hidden');
+        btnTabLogin.setAttribute('aria-selected', String(esLogin));
+        btnTabRegistro.setAttribute('aria-selected', String(!esLogin));
+        window.setTimeout(() => document.getElementById(esLogin ? 'login-email' : 'reg-nombre').focus(), 0);
+    }
+
+    function mostrarAlerta(mensaje, esError) {
+        alerta.textContent = mensaje;
+        alerta.className = esError
+            ? 'mt-5 text-sm rounded-lg p-3 bg-red-950/40 text-red-300 border border-red-900'
+            : 'mt-5 text-sm rounded-lg p-3 bg-green-950/40 text-green-300 border border-green-900';
+        alerta.setAttribute('role', esError ? 'alert' : 'status');
+        alerta.focus();
+    }
+
+    function setCargando(boton, cargando, textoNormal, textoCarga) {
+        boton.disabled = cargando;
+        boton.textContent = cargando ? textoCarga : textoNormal;
+        boton.closest('form')?.setAttribute('aria-busy', String(cargando));
+    }
+
+    document.querySelectorAll('[data-toggle-password]').forEach(boton => boton.addEventListener('click', () => {
+        const campo = document.getElementById(boton.dataset.togglePassword);
+        const mostrar = campo.type === 'password';
+        campo.type = mostrar ? 'text' : 'password';
+        boton.textContent = mostrar ? 'Ocultar' : 'Mostrar';
+        boton.setAttribute('aria-label', mostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        campo.focus();
+    }));
+
+    btnTabLogin.addEventListener('click', () => mostrarTab('login'));
+    btnTabRegistro.addEventListener('click', () => mostrarTab('registro'));
+
+    formRegistro.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!formRegistro.reportValidity()) return;
+        const boton = document.getElementById('btn-registro');
+        setCargando(boton, true, 'Crear cuenta', 'Creando...');
+
+        const data = {
+            nombre: document.getElementById('reg-nombre').value.trim(),
+            email: document.getElementById('reg-email').value.trim(),
+            telefono: document.getElementById('reg-telefono').value.trim(),
+            password: document.getElementById('reg-password').value
+        };
+
+        try {
+            const response = await fetchSeguro('/api/auth/registro', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible crear la cuenta.'));
+            formRegistro.reset();
+            mostrarTab('login');
+            document.getElementById('login-email').value = data.email;
+            mostrarAlerta('Cuenta creada. Ya puedes iniciar sesión.', false);
+        } catch (error) {
+            mostrarAlerta(error.message || 'Error de conexión con el servidor.', true);
+        } finally {
+            setCargando(boton, false, 'Crear cuenta', 'Creando...');
+        }
+    });
+
+    formLogin.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!formLogin.reportValidity()) return;
+        const boton = document.getElementById('btn-login');
+        setCargando(boton, true, 'Entrar', 'Ingresando...');
+
+        const data = {
+            email: document.getElementById('login-email').value.trim(),
+            password: document.getElementById('login-password').value
+        };
+
+        try {
+            const response = await fetchSeguro('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) throw new Error(await leerError(response, 'Credenciales incorrectas.'));
+            const usuario = await response.json();
+            mostrarAlerta('Acceso correcto. Redirigiendo...', false);
+            const redireccionSolicitada = new URLSearchParams(location.search).get('redirect');
+            location.href = (usuario.rol === 'ADMIN' || redireccionSolicitada === 'panel') && usuario.rol === 'ADMIN'
+                ? '/panel.html'
+                : '/index.html';
+        } catch (error) {
+            mostrarAlerta(error.message || 'Error de conexión con el servidor.', true);
+            setCargando(boton, false, 'Entrar', 'Ingresando...');
+        }
+    });
+
+    obtenerCsrf().catch(() => mostrarAlerta('No se pudo inicializar la seguridad del formulario.', true));
+</script>
+</body>
+</html>

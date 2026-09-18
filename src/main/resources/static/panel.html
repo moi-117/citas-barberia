@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panel administrativo de RAND Barbería.">
+    <title>RAND Barbería | Panel</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23070707'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial' font-size='29' font-weight='700' fill='%23d6b35a'%3ER%3C/text%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+        :root { --gold:#d6b35a; --gold-light:#f0d48a; --surface:#101010; --line:rgba(255,255,255,.09); }
+        html { scroll-behavior:smooth; scroll-padding-top:88px; }
+        body { background:radial-gradient(circle at 80% -10%,rgba(214,179,90,.07),transparent 30rem),#070707; font-family:'DM Sans',sans-serif; }
+        h1,h2,h3 { font-family:'Manrope',sans-serif; letter-spacing:-.025em; }
+        .gold { color:var(--gold); }
+        .gold-bg { background:linear-gradient(135deg,var(--gold-light),var(--gold)); box-shadow:0 10px 28px rgba(214,179,90,.12); }
+        .gold-bg:hover { filter:brightness(1.06); }
+        section { box-shadow:0 18px 55px rgba(0,0,0,.18); }
+        button,a,input { min-height:44px; }
+        input { border-radius:10px; }
+        input:focus { box-shadow:0 0 0 4px rgba(214,179,90,.09); }
+        :focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+        .admin-nav { position:sticky; top:0; z-index:30; background:rgba(7,7,7,.88); backdrop-filter:blur(16px); }
+        .loading-line { display:inline-flex; align-items:center; justify-content:center; gap:10px; }
+        .loading-line::before { content:""; width:16px; height:16px; border:2px solid rgba(255,255,255,.15); border-top-color:var(--gold); border-radius:50%; animation:giro .8s linear infinite; }
+        @keyframes giro { to { transform:rotate(360deg); } }
+        @media(max-width:639px){
+            body{padding:16px!important}.admin-nav{margin-inline:-16px;padding-inline:16px;overflow-x:auto}
+            .admin-nav a{white-space:nowrap}.accion-principal{width:100%}
+            #filtrosAgenda{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}
+        }
+        @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+        /* RAND OPERATIONS — interfaz de administración premium */
+        :root { --obsidian:#070708; --graphite:#151517; --surface-strong:#1b1b1e; --ivory:#f4f1ea; --champagne:#c7a86b; --ease:cubic-bezier(.16,1,.3,1); }
+        body { background:var(--obsidian)!important; color:var(--ivory); padding:0!important; }
+        body::before { content:''; position:fixed; inset:0 0 auto; height:320px; background:linear-gradient(180deg,rgba(199,168,107,.055),transparent); pointer-events:none; }
+        main { position:relative; max-width:1440px!important; padding:2rem clamp(1rem,4vw,4rem) 5rem; }
+        main > header { padding:1.5rem 0 2rem!important; margin-bottom:0!important; border-color:rgba(244,241,234,.1)!important; }
+        main > header h1 { font-size:clamp(2.5rem,5vw,4.6rem)!important; font-weight:600!important; letter-spacing:-.055em; }
+        main > header .gold { color:var(--champagne); }
+        main > header a, main > header button { border-radius:10px; background:rgba(255,255,255,.025); }
+        .admin-nav { top:0; margin:0 0 2rem; padding:1rem 0!important; border-top:0!important; background:rgba(7,7,8,.92); backdrop-filter:blur(22px); }
+        .admin-nav a { border:0!important; border-radius:999px; padding:.7rem 1rem!important; color:#a0a0a7!important; transition:background .3s var(--ease),color .3s var(--ease); }
+        .admin-nav a:hover { background:rgba(244,241,234,.08); color:var(--ivory)!important; }
+        main > section.grid[aria-label='Resumen de agenda'] { gap:1px!important; border:1px solid rgba(244,241,234,.09); background:rgba(244,241,234,.09); box-shadow:none; }
+        main > section.grid[aria-label='Resumen de agenda'] > div { border:0!important; background:var(--graphite)!important; padding:1.5rem!important; }
+        main > section.grid[aria-label='Resumen de agenda'] p[id] { font-variant-numeric:tabular-nums; font-size:2.6rem!important; }
+        main > section:not(.grid[aria-label='Resumen de agenda']) { border-radius:22px!important; border-color:rgba(244,241,234,.08)!important; background:var(--graphite)!important; padding:clamp(1.2rem,3vw,2.2rem)!important; box-shadow:0 24px 70px rgba(0,0,0,.18); }
+        section h2 { font-size:1.65rem!important; letter-spacing:-.035em; }
+        section .gold { color:var(--champagne); }
+        input,select { min-height:50px; border-radius:10px!important; background:#0c0c0d!important; border-color:rgba(244,241,234,.1)!important; }
+        input:focus,select:focus { border-color:var(--champagne)!important; box-shadow:0 0 0 4px rgba(199,168,107,.08); }
+        button { border-radius:9px; transition:transform .3s var(--ease),background .3s var(--ease),border-color .3s var(--ease); }
+        button:not(:disabled):hover { transform:translateY(-1px); }
+        .gold-bg { background:var(--ivory)!important; color:var(--obsidian)!important; box-shadow:none!important; }
+        .gold-bg:hover { background:var(--champagne)!important; }
+        #citasGrid,#serviciosAdminGrid,#barberosAdminGrid { gap:1rem!important; }
+        #citasGrid article,#serviciosAdminGrid article,#barberosAdminGrid article { border-radius:14px!important; border-color:rgba(244,241,234,.08)!important; background:#101012!important; overflow:hidden; transition:border-color .35s var(--ease),transform .35s var(--ease); }
+        #citasGrid article:hover,#serviciosAdminGrid article:hover,#barberosAdminGrid article:hover { border-color:rgba(199,168,107,.35)!important; transform:translateY(-2px); }
+        #barberosAdminGrid img { filter:grayscale(.45) saturate(.65); }
+        #filtrosAgenda { padding:.3rem; border-radius:12px; background:#0d0d0f; }
+        #filtrosAgenda .filtro { border:0!important; border-radius:9px; }
+        #horarioEditor { border-radius:18px!important; background:#0e0e10!important; }
+        @media(max-width:639px){
+            main{padding:1rem 1rem 4rem}.admin-nav{margin-inline:-1rem!important;padding-inline:1rem!important}.admin-nav a{padding:.65rem .85rem!important}
+            main > header .flex{width:100%;display:grid;grid-template-columns:1fr 1fr}main > header a,main > header button{width:100%;text-align:center}
+            main > section:not(.grid[aria-label='Resumen de agenda']){border-radius:16px!important;padding:1rem!important}
+        }
+
+        /* Segunda pasada: interfaz operativa más sobria */
+        body { -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+        body::before { display:none; }
+        main { padding-top:1.5rem; }
+        main > header h1 { font-size:clamp(2.65rem,4.5vw,4rem)!important; }
+        main > header .gold { color:#8f8b83!important; letter-spacing:.3em!important; }
+        main > header a, main > header button, button { border-radius:6px; }
+        .admin-nav { margin-bottom:1.5rem; border-bottom:1px solid rgba(244,241,234,.08)!important; }
+        .admin-nav a { border-radius:4px; background:transparent!important; padding:.65rem .8rem!important; }
+        .admin-nav a:hover { background:transparent!important; color:var(--ivory)!important; }
+        main > section.grid[aria-label='Resumen de agenda'] {
+            grid-template-columns:repeat(2,minmax(0,1fr));
+            border-width:1px 0;
+            box-shadow:none;
+        }
+        main > section.grid[aria-label='Resumen de agenda'] > div { background:transparent!important; }
+        main > section:not(.grid[aria-label='Resumen de agenda']) {
+            border-radius:8px!important;
+            border:0!important;
+            border-top:1px solid rgba(244,241,234,.09)!important;
+            box-shadow:none;
+            background:#111113!important;
+        }
+        section h2 { font-size:1.55rem!important; }
+        section > div .gold { color:#8f8b83; }
+        input,select { border-radius:6px!important; }
+        input:focus,select:focus { box-shadow:0 0 0 3px rgba(199,168,107,.07); }
+        #citasGrid,#serviciosAdminGrid,#barberosAdminGrid { gap:.75rem!important; }
+        #citasGrid article,#serviciosAdminGrid article,#barberosAdminGrid article {
+            border:0!important;
+            border-radius:6px!important;
+            background:#0d0d0f!important;
+            transition:background .22s ease;
+        }
+        #citasGrid article:hover,#serviciosAdminGrid article:hover,#barberosAdminGrid article:hover {
+            border-color:transparent!important;
+            background:#18181b!important;
+            transform:none;
+        }
+        #filtrosAgenda { border-radius:6px; }
+        #filtrosAgenda .filtro { border-radius:4px; }
+        #horarioEditor { border-radius:6px!important; }
+        @media(min-width:1024px){main > section.grid[aria-label='Resumen de agenda']{grid-template-columns:repeat(4,minmax(0,1fr))}}
+        @media(max-width:639px){
+            main{padding-top:.75rem}
+            main > header{padding-top:.75rem!important}
+            main > header h1{font-size:2.75rem!important;line-height:.95}
+            main > section.grid[aria-label='Resumen de agenda']>div{padding:1.1rem!important}
+            main > section:not(.grid[aria-label='Resumen de agenda']){border-radius:6px!important}
+        }
+    </style>
+</head>
+<body class="text-white font-sans min-h-screen p-4 md:p-10">
+<main class="max-w-6xl mx-auto">
+    <header class="flex flex-col md:flex-row md:items-end justify-between gap-5 border-b border-white/10 pb-6 mb-8">
+        <div>
+            <p class="gold text-xs uppercase tracking-[0.35em] mb-2">RAND Barbería</p>
+            <h1 class="text-3xl md:text-4xl font-bold">Panel administrativo</h1>
+            <p id="saludoAdmin" class="text-zinc-500 text-sm mt-2">Cargando sesión...</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="/index.html" class="border border-white/15 px-4 py-2.5 text-xs uppercase tracking-wider hover:border-white/40 transition">Ver sitio</a>
+            <button id="btnLogout" type="button" class="border border-red-900 text-red-300 px-4 py-2.5 text-xs uppercase tracking-wider hover:bg-red-950/30 transition">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <nav class="admin-nav flex gap-2 border-y border-white/10 py-3 mb-8" aria-label="Secciones del panel">
+        <a href="#agenda" class="border border-white/10 px-4 py-2 text-xs text-zinc-300 hover:border-[#d6b35a]">Agenda</a>
+        <a href="#servicios-admin" class="border border-white/10 px-4 py-2 text-xs text-zinc-300 hover:border-[#d6b35a]">Servicios</a>
+        <a href="#barberos-admin" class="border border-white/10 px-4 py-2 text-xs text-zinc-300 hover:border-[#d6b35a]">Barberos y horarios</a>
+    </nav>
+
+    <section class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8" aria-label="Resumen de agenda">
+        <div class="border border-white/10 bg-[#0e0e0e] p-5"><p class="text-[10px] uppercase tracking-widest text-zinc-500">Hoy</p><p id="statHoy" class="text-3xl font-bold mt-2">0</p></div>
+        <div class="border border-white/10 bg-[#0e0e0e] p-5"><p class="text-[10px] uppercase tracking-widest text-zinc-500">Pendientes</p><p id="statPendientes" class="text-3xl font-bold mt-2 text-yellow-400">0</p></div>
+        <div class="border border-white/10 bg-[#0e0e0e] p-5"><p class="text-[10px] uppercase tracking-widest text-zinc-500">Confirmadas</p><p id="statConfirmadas" class="text-3xl font-bold mt-2 text-green-400">0</p></div>
+        <div class="border border-white/10 bg-[#0e0e0e] p-5"><p class="text-[10px] uppercase tracking-widest text-zinc-500">Completadas</p><p id="statCompletadas" class="text-3xl font-bold mt-2 text-blue-300">0</p></div>
+    </section>
+
+    <section id="servicios-admin" class="mb-10 border border-white/10 bg-[#0e0e0e] p-6 md:p-8 rounded-xl">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+            <div><p class="gold text-xs uppercase tracking-[0.3em] mb-2">Catálogo</p><h2 class="text-xl font-bold">Administrar servicios</h2></div>
+            <p class="text-xs text-zinc-600">Los cambios aparecen en el sitio del cliente.</p>
+        </div>
+        <form id="servicioForm" class="grid sm:grid-cols-2 gap-5">
+            <div class="sm:col-span-2"><label for="nombreServicio" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Nombre</label><input type="text" id="nombreServicio" required maxlength="100" placeholder="Ej. Corte clásico" class="w-full bg-black border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#c9a227]"></div>
+            <div class="sm:col-span-2"><label for="descripcionServicio" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Descripción</label><input type="text" id="descripcionServicio" maxlength="300" placeholder="Ej. Corte + perfilado de barba" class="w-full bg-black border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#c9a227]"></div>
+            <div><label for="precioServicio" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Precio (COP)</label><input type="number" id="precioServicio" required min="1" max="99999999" step="1" inputmode="numeric" placeholder="35000" class="w-full bg-black border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#c9a227]"></div>
+            <div><label for="duracionServicio" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Duración (min)</label><input type="number" id="duracionServicio" required min="5" max="240" step="5" placeholder="45" class="w-full bg-black border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#c9a227]"></div>
+            <div class="sm:col-span-2 flex flex-wrap justify-end gap-3">
+                <button id="btnCancelarEdicionServicio" type="button" class="hidden border border-white/15 px-6 py-3 text-xs uppercase tracking-[0.15em] text-zinc-300">Cancelar edición</button>
+                <button id="btnGuardarServicio" type="submit" class="accion-principal gold-bg text-black font-bold px-8 py-3 text-xs uppercase tracking-[0.15em] disabled:opacity-50">Guardar servicio</button>
+            </div>
+        </form>
+        <div id="servicioMensaje" class="mt-4 text-sm hidden p-3" role="status" aria-live="polite"></div>
+        <div id="serviciosAdminGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6" aria-live="polite" aria-busy="true">
+            <p class="loading-line text-zinc-500 col-span-full text-center py-8">Cargando servicios</p>
+        </div>
+    </section>
+
+
+
+    <section id="barberos-admin" class="mb-10 border border-white/10 bg-[#0e0e0e] p-6 md:p-8 rounded-xl">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+            <div>
+                <p class="gold text-xs uppercase tracking-[0.3em] mb-2">Equipo</p>
+                <h2 class="text-xl font-bold">Administrar barberos</h2>
+            </div>
+            <p class="text-xs text-zinc-600">Solo los barberos activos aparecen en reservas.</p>
+        </div>
+
+        <form id="barberoForm" class="grid sm:grid-cols-2 gap-5 mb-7">
+            <div>
+                <label for="nombreBarbero" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Nombre</label>
+                <input type="text" id="nombreBarbero" required maxlength="120" placeholder="Ej. Thomas Shelby" class="w-full bg-black border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#c9a227]">
+            </div>
+            <div>
+                <label for="especialidadBarbero" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Especialidad</label>
+                <input type="text" id="especialidadBarbero" required maxlength="160" placeholder="Ej. Cortes clásicos" class="w-full bg-black border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#c9a227]">
+            </div>
+            <div class="sm:col-span-2">
+                <label for="fotoBarbero" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Foto (URL)</label>
+                <input type="url" id="fotoBarbero" maxlength="500" placeholder="https://..." class="w-full bg-black border border-white/10 px-4 py-3 text-sm outline-none focus:border-[#c9a227]">
+                <p class="text-[11px] text-zinc-600 mt-2">Puedes dejarla vacía temporalmente. Usa una URL https de una imagen autorizada.</p>
+            </div>
+            <div class="sm:col-span-2 flex flex-wrap justify-end gap-3">
+                <button id="btnCancelarEdicionBarbero" type="button" class="hidden border border-white/15 px-6 py-3 text-xs uppercase tracking-[0.15em] text-zinc-300 hover:border-white/40">Cancelar edición</button>
+                <button id="btnGuardarBarbero" type="submit" class="accion-principal gold-bg text-black font-bold px-8 py-3 text-xs uppercase tracking-[0.15em] disabled:opacity-50">Guardar barbero</button>
+            </div>
+        </form>
+        <div id="barberoMensaje" class="mb-5 text-sm hidden p-3" role="status" aria-live="polite"></div>
+        <div id="barberosAdminGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" aria-live="polite" aria-busy="true">
+            <p class="loading-line text-zinc-500 col-span-full text-center py-8">Cargando equipo</p>
+        </div>
+
+        <div id="horarioEditor" class="hidden mt-8 border-t border-white/10 pt-7">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+                <div><p class="gold text-xs uppercase tracking-[0.3em] mb-2">Disponibilidad</p><h3 id="horarioTitulo" class="text-lg font-bold">Horario semanal</h3></div>
+                <button id="btnCerrarHorario" type="button" class="border border-white/15 px-4 py-2 text-xs uppercase tracking-wider">Cerrar</button>
+            </div>
+            <p class="text-xs text-zinc-500 mb-5">La jornada general es de 08:00 a 20:00. Un descanso bloquea ese intervalo para nuevas reservas.</p>
+            <form id="horarioForm">
+                <div id="horarioDias" class="space-y-3"></div>
+                <div id="horarioMensaje" class="mt-4 text-sm hidden p-3" role="status" aria-live="polite"></div>
+                <div class="flex justify-end mt-5"><button id="btnGuardarHorario" type="submit" class="accion-principal gold-bg text-black font-bold px-8 py-3 text-xs uppercase tracking-[0.15em] disabled:opacity-50">Guardar horario</button></div>
+            </form>
+        </div>
+    </section>
+
+    <section id="agenda" class="border border-white/10 bg-[#0e0e0e] p-6 md:p-8 rounded-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+            <div>
+                <p class="gold text-xs uppercase tracking-[0.3em] mb-2">Agenda</p>
+                <h2 id="tituloAgenda" class="text-2xl font-bold">Citas de hoy</h2>
+                <p class="text-zinc-600 text-xs mt-2">Confirma o cancela la cita. Después puedes usar “Enviar WhatsApp” si el cliente tiene un número compatible; el envío es opcional.</p>
+            </div>
+            <div class="flex gap-2" id="filtrosAgenda">
+                <button data-filtro="hoy" aria-pressed="true" class="filtro px-4 py-2 text-xs border border-[#c9a227] text-[#c9a227]">Hoy</button>
+                <button data-filtro="proximas" aria-pressed="false" class="filtro px-4 py-2 text-xs border border-white/10 text-zinc-400">Próximas</button>
+                <button data-filtro="todas" aria-pressed="false" class="filtro px-4 py-2 text-xs border border-white/10 text-zinc-400">Todas</button>
+            </div>
+        </div>
+        <div id="citasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" aria-live="polite" aria-busy="true"><p class="loading-line text-zinc-500 col-span-full text-center py-10">Cargando agenda</p></div>
+    </section>
+</main>
+
+<script>
+    let csrf = null;
+    let citas = [];
+    let barberos = [];
+    let servicios = [];
+    let barberoEditandoId = null;
+    let servicioEditandoId = null;
+    let horarioBarberoId = null;
+    let filtroActual = 'hoy';
+
+    async function obtenerCsrf() {
+        if (csrf) return csrf;
+        const response = await fetch('/api/auth/csrf', { credentials: 'same-origin' });
+        if (!response.ok) throw new Error('No se pudo inicializar CSRF');
+        csrf = await response.json();
+        return csrf;
+    }
+
+    async function fetchSeguro(url, options = {}) {
+        const token = await obtenerCsrf();
+        const headers = new Headers(options.headers || {});
+        headers.set(token.headerName, token.token);
+        return fetch(url, { ...options, headers, credentials: 'same-origin' });
+    }
+
+    async function leerError(response, fallback) {
+        if (response.status === 401) { location.href = '/login.html?redirect=panel'; return 'Sesión finalizada'; }
+        if (response.status === 403) { location.href = '/index.html'; return 'Acceso denegado'; }
+        try { const data = await response.json(); return Object.values(data.errores || {})[0] || data.mensaje || fallback; } catch (_) { return fallback; }
+    }
+
+    function escapar(valor) {
+        return String(valor ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    }
+
+    function fechaLocalISO(fecha = new Date()) {
+        return `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2,'0')}-${String(fecha.getDate()).padStart(2,'0')}`;
+    }
+
+    function parseFechaLocal(valor) { return new Date(valor); }
+
+    function claseEstado(estado) {
+        return ({PENDIENTE:'text-yellow-400', CONFIRMADA:'text-green-400', CANCELADA:'text-red-400', COMPLETADA:'text-blue-300'})[estado] || 'text-zinc-400';
+    }
+
+    function numeroParaWhatsApp(telefono) {
+        let digitos = String(telefono || '').replace(/\D/g, '');
+        if (digitos.length === 10 && digitos.startsWith('3')) digitos = `57${digitos}`;
+        return digitos;
+    }
+
+    function mensajeWhatsApp(cita, tipo) {
+        const inicio = parseFechaLocal(cita.fechaHoraInicio);
+        const fecha = inicio.toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' });
+        const hora = inicio.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+
+        if (tipo === 'cancelar') {
+            return `Hola ${cita.nombreUsuario} 👋\n\nTu cita en RAND Barbería fue cancelada ❌\n\nServicio: ${cita.nombreServicio}\nBarbero: ${cita.nombreBarbero}\nFecha: ${fecha}\nHora: ${hora}\n\nSi deseas, puedes reservar nuevamente desde nuestra página.`;
+        }
+
+        return `Hola ${cita.nombreUsuario} 👋\n\nTu cita en RAND Barbería fue confirmada ✅\n\nServicio: ${cita.nombreServicio}\nBarbero: ${cita.nombreBarbero}\nFecha: ${fecha}\nHora: ${hora}\n\nTe esperamos ✂️`;
+    }
+
+    function urlWhatsApp(cita, tipo) {
+        const numero = numeroParaWhatsApp(cita.telefonoUsuario);
+        if (numero.length < 10) return null;
+        return `https://wa.me/${numero}?text=${encodeURIComponent(mensajeWhatsApp(cita, tipo))}`;
+    }
+
+    function abrirWhatsApp(cita, tipo, ventanaExistente = null) {
+        const url = urlWhatsApp(cita, tipo);
+        if (!url) {
+            if (ventanaExistente && !ventanaExistente.closed) ventanaExistente.close();
+            alert('El teléfono de este cliente no tiene un formato válido para WhatsApp.');
+            return;
+        }
+        if (ventanaExistente && !ventanaExistente.closed) {
+            ventanaExistente.location.href = url;
+        } else {
+            const abierta = window.open(url, '_blank');
+            if (abierta) {
+                abierta.opener = null;
+            } else {
+                alert('El navegador bloqueó la ventana de WhatsApp. Usa “Enviar WhatsApp” para intentarlo de nuevo.');
+            }
+        }
+    }
+
+    async function validarSesion() {
+        const response = await fetch('/api/auth/me', { credentials: 'same-origin' });
+        if (!response.ok) { location.href = '/login.html?redirect=panel'; return false; }
+        const usuario = await response.json();
+        if (usuario.rol !== 'ADMIN') { location.href = '/index.html'; return false; }
+        document.getElementById('saludoAdmin').textContent = `${usuario.nombre} · ${new Date().toLocaleDateString('es-CO', {weekday:'long', day:'numeric', month:'long', year:'numeric'})}`;
+        return true;
+    }
+
+    async function cargarAgenda() {
+        const grid = document.getElementById('citasGrid');
+        grid.setAttribute('aria-busy', 'true');
+        try {
+            const response = await fetch('/api/citas', { credentials: 'same-origin' });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible cargar la agenda.'));
+            citas = await response.json();
+            actualizarEstadisticas();
+            renderAgenda();
+        } catch (error) {
+            grid.innerHTML = `<p class="text-red-400 col-span-full text-center py-10">${escapar(error.message)}</p>`;
+        } finally { grid.setAttribute('aria-busy', 'false'); }
+    }
+
+    function actualizarEstadisticas() {
+        const hoy = fechaLocalISO();
+        document.getElementById('statHoy').textContent = citas.filter(c => fechaLocalISO(parseFechaLocal(c.fechaHoraInicio)) === hoy && c.estado !== 'CANCELADA').length;
+        document.getElementById('statPendientes').textContent = citas.filter(c => c.estado === 'PENDIENTE').length;
+        document.getElementById('statConfirmadas').textContent = citas.filter(c => c.estado === 'CONFIRMADA').length;
+        document.getElementById('statCompletadas').textContent = citas.filter(c => c.estado === 'COMPLETADA').length;
+    }
+
+    function renderAgenda() {
+        const hoy = fechaLocalISO();
+        const ahora = new Date();
+        let lista = citas;
+        if (filtroActual === 'hoy') lista = citas.filter(c => fechaLocalISO(parseFechaLocal(c.fechaHoraInicio)) === hoy);
+        if (filtroActual === 'proximas') lista = citas.filter(c => parseFechaLocal(c.fechaHoraInicio) >= ahora && c.estado !== 'CANCELADA' && c.estado !== 'COMPLETADA');
+        lista = [...lista].sort((a,b) => parseFechaLocal(a.fechaHoraInicio) - parseFechaLocal(b.fechaHoraInicio));
+
+        document.getElementById('tituloAgenda').textContent = filtroActual === 'hoy' ? 'Citas de hoy' : filtroActual === 'proximas' ? 'Próximas citas' : 'Todas las citas';
+        const grid = document.getElementById('citasGrid');
+        if (!lista.length) { grid.innerHTML = '<p class="text-zinc-500 col-span-full text-center py-10 border border-white/10 bg-[#0e0e0e] rounded-xl">No hay citas para este filtro.</p>'; return; }
+
+        grid.innerHTML = lista.map(cita => {
+            const inicio = parseFechaLocal(cita.fechaHoraInicio);
+            const acciones = [];
+            if (cita.estado === 'PENDIENTE') {
+                acciones.push(`<button data-accion="confirmar" class="gold-bg text-black font-bold py-2.5 px-3 text-[10px] uppercase tracking-wider">Confirmar</button>`);
+                acciones.push(`<button data-accion="cancelar" class="border border-red-900 text-red-300 py-2.5 px-3 text-[10px] uppercase tracking-wider">Cancelar cita</button>`);
+            }
+            if (cita.estado === 'CONFIRMADA') {
+                acciones.push(`<button data-accion="completar" class="border border-green-800 text-green-300 py-2.5 px-3 text-[10px] uppercase tracking-wider">Completar</button>`);
+                if (urlWhatsApp(cita, 'confirmar')) acciones.push(`<button data-whatsapp-solo="confirmar" class="border border-[#c9a227]/50 text-[#c9a227] py-2.5 px-3 text-[10px] uppercase tracking-wider">Enviar WhatsApp</button>`);
+                acciones.push(`<button data-accion="cancelar" class="border border-red-900 text-red-300 py-2.5 px-3 text-[10px] uppercase tracking-wider">Cancelar cita</button>`);
+            }
+            if (cita.estado === 'CANCELADA' && urlWhatsApp(cita, 'cancelar')) {
+                acciones.push(`<button data-whatsapp-solo="cancelar" class="border border-red-900/70 text-red-300 py-2.5 px-3 text-[10px] uppercase tracking-wider">Enviar WhatsApp</button>`);
+            }
+
+            return `<article class="bg-[#0e0e0e] border border-white/10 p-5 rounded-xl" data-cita-id="${escapar(cita.id)}">
+                <div class="flex justify-between gap-3"><div><p class="text-2xl font-black gold">${escapar(inicio.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}))}</p><p class="text-xs text-zinc-600 mt-1">${escapar(inicio.toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'}))}</p></div><span class="text-[10px] uppercase tracking-widest ${claseEstado(cita.estado)}">${escapar(cita.estado)}</span></div>
+                <h3 class="text-lg font-semibold mt-5">${escapar(cita.nombreUsuario)}</h3>
+                <p class="text-zinc-400 text-sm mt-1">${escapar(cita.nombreServicio)} · ${escapar(cita.nombreBarbero)}</p>
+                <div class="mt-4 pt-4 border-t border-white/5 text-xs text-zinc-500 space-y-1"><p>${escapar(cita.telefonoUsuario || 'Sin teléfono')}</p><p>${escapar(cita.emailUsuario || 'Sin correo')}</p></div>
+                ${acciones.length ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-5">${acciones.join('')}</div>` : ''}
+            </article>`;
+        }).join('');
+
+        grid.querySelectorAll('[data-accion]').forEach(btn => btn.addEventListener('click', () => cambiarEstado(btn)));
+        grid.querySelectorAll('[data-whatsapp-solo]').forEach(btn => btn.addEventListener('click', () => {
+            const tarjeta = btn.closest('[data-cita-id]');
+            const cita = citas.find(c => c.id === tarjeta?.dataset.citaId);
+            if (cita) abrirWhatsApp(cita, btn.dataset.whatsappSolo);
+        }));
+    }
+
+    async function cambiarEstado(btn) {
+        const tarjeta = btn.closest('[data-cita-id]');
+        const id = tarjeta.dataset.citaId;
+        const accion = btn.dataset.accion;
+        if (accion === 'cancelar' && !confirm('¿Cancelar esta cita? El horario volverá a quedar disponible.')) return;
+        const original = btn.textContent;
+
+        btn.disabled = true; btn.textContent = 'Procesando...';
+        try {
+            const response = await fetchSeguro(`/api/citas/${encodeURIComponent(id)}/${accion}`, { method: 'PATCH' });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible actualizar la cita.'));
+            const actualizada = await response.json();
+            const indice = citas.findIndex(c => c.id === actualizada.id);
+            if (indice >= 0) citas[indice] = actualizada;
+
+            actualizarEstadisticas();
+            renderAgenda();
+        } catch (error) {
+            alert(error.message || 'No fue posible actualizar la cita.');
+            btn.disabled = false; btn.textContent = original;
+        }
+    }
+
+    document.getElementById('filtrosAgenda').addEventListener('click', e => {
+        const btn = e.target.closest('[data-filtro]'); if (!btn) return;
+        filtroActual = btn.dataset.filtro;
+        document.querySelectorAll('.filtro').forEach(b => { b.classList.toggle('border-[#c9a227]', b === btn); b.classList.toggle('text-[#c9a227]', b === btn); b.classList.toggle('border-white/10', b !== btn); b.classList.toggle('text-zinc-400', b !== btn); b.setAttribute('aria-pressed', String(b === btn)); });
+        renderAgenda();
+    });
+
+    async function cargarServiciosAdmin() {
+        const grid = document.getElementById('serviciosAdminGrid');
+        grid.setAttribute('aria-busy', 'true');
+        try {
+            const response = await fetch('/api/admin/servicios', { credentials: 'same-origin' });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible cargar los servicios.'));
+            servicios = await response.json();
+            renderServiciosAdmin();
+        } catch (error) {
+            grid.innerHTML = `<p class="text-red-400 col-span-full text-center py-8">${escapar(error.message)}</p>`;
+        } finally { grid.setAttribute('aria-busy', 'false'); }
+    }
+
+    function renderServiciosAdmin() {
+        const grid = document.getElementById('serviciosAdminGrid');
+        if (!servicios.length) {
+            grid.innerHTML = '<p class="text-zinc-500 col-span-full text-center py-8 border border-white/10">No hay servicios registrados.</p>';
+            return;
+        }
+        grid.innerHTML = servicios.map(servicio => `<article class="border border-white/10 bg-black p-4" data-servicio-id="${escapar(servicio.id)}">
+            <div class="flex justify-between gap-3"><h3 class="font-semibold">${escapar(servicio.nombre)}</h3><span class="text-[10px] uppercase tracking-widest ${servicio.activo ? 'text-green-400' : 'text-red-400'}">${servicio.activo ? 'Activo' : 'Inactivo'}</span></div>
+            <p class="text-xs text-zinc-500 mt-2 min-h-8">${escapar(servicio.descripcion || 'Sin descripción')}</p>
+            <p class="text-sm mt-3 text-zinc-300">$${Number(servicio.precio).toLocaleString('es-CO')} · ${escapar(servicio.duracionMinutos)} min</p>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button type="button" data-servicio-accion="editar" class="border border-white/15 py-2 text-[10px] uppercase tracking-wider">Editar</button>
+                <button type="button" data-servicio-accion="estado" class="border ${servicio.activo ? 'border-yellow-900 text-yellow-300' : 'border-green-900 text-green-300'} py-2 text-[10px] uppercase tracking-wider">${servicio.activo ? 'Desactivar' : 'Activar'}</button>
+            </div>
+        </article>`).join('');
+        grid.querySelectorAll('[data-servicio-accion]').forEach(btn => btn.addEventListener('click', () => manejarAccionServicio(btn)));
+    }
+
+    function comenzarEdicionServicio(servicio) {
+        servicioEditandoId = servicio.id;
+        document.getElementById('nombreServicio').value = servicio.nombre || '';
+        document.getElementById('descripcionServicio').value = servicio.descripcion || '';
+        document.getElementById('precioServicio').value = servicio.precio;
+        document.getElementById('duracionServicio').value = servicio.duracionMinutos;
+        document.getElementById('btnGuardarServicio').textContent = 'Guardar cambios';
+        document.getElementById('btnCancelarEdicionServicio').classList.remove('hidden');
+        document.getElementById('servicioForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function cancelarEdicionServicio() {
+        servicioEditandoId = null;
+        document.getElementById('servicioForm').reset();
+        document.getElementById('btnGuardarServicio').textContent = 'Guardar servicio';
+        document.getElementById('btnCancelarEdicionServicio').classList.add('hidden');
+    }
+
+    async function manejarAccionServicio(btn) {
+        const id = btn.closest('[data-servicio-id]')?.dataset.servicioId;
+        const servicio = servicios.find(s => String(s.id) === String(id));
+        if (!servicio) return;
+        if (btn.dataset.servicioAccion === 'editar') {
+            comenzarEdicionServicio(servicio);
+            return;
+        }
+        if (servicio.activo && !confirm(`¿Desactivar ${servicio.nombre}? Dejará de aparecer en nuevas reservas.`)) return;
+        btn.disabled = true;
+        try {
+            const response = await fetchSeguro(`/api/admin/servicios/${encodeURIComponent(id)}/estado`, {
+                method: 'PATCH', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ activo: !servicio.activo })
+            });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible cambiar el estado.'));
+            mostrarMensajeServicio(servicio.activo ? 'Servicio desactivado. Ya no aparecerá en nuevas reservas.' : 'Servicio activado.', true);
+            await cargarServiciosAdmin();
+        } catch (error) {
+            mostrarMensajeServicio(error.message || 'No fue posible cambiar el estado.', false);
+        } finally { btn.disabled = false; }
+    }
+
+    document.getElementById('servicioForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formulario = e.currentTarget;
+        if (!formulario.reportValidity()) return;
+
+        const boton = document.getElementById('btnGuardarServicio');
+        const precio = Number(document.getElementById('precioServicio').value);
+        const duracionMinutos = Number(document.getElementById('duracionServicio').value);
+
+        if (!Number.isInteger(precio) || precio <= 0 || precio > 99999999) {
+            mostrarMensajeServicio('El precio debe ser un entero entre 1 y 99.999.999 COP.', false);
+            return;
+        }
+        if (!Number.isInteger(duracionMinutos) || duracionMinutos < 5 || duracionMinutos > 240 || duracionMinutos % 5 !== 0) {
+            mostrarMensajeServicio('La duración debe estar entre 5 y 240 minutos, en intervalos de 5 minutos.', false);
+            return;
+        }
+
+        boton.disabled = true;
+        boton.textContent = 'Guardando...';
+        const payload = {
+            nombre: document.getElementById('nombreServicio').value.trim(),
+            descripcion: document.getElementById('descripcionServicio').value.trim(),
+            precio,
+            duracionMinutos
+        };
+
+        try {
+            const url = servicioEditandoId ? `/api/admin/servicios/${encodeURIComponent(servicioEditandoId)}` : '/api/admin/servicios';
+            const response = await fetchSeguro(url, {
+                method: servicioEditandoId ? 'PUT' : 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible guardar el servicio.'));
+
+            const editando = Boolean(servicioEditandoId);
+            cancelarEdicionServicio();
+            mostrarMensajeServicio(editando ? 'Servicio actualizado correctamente.' : 'Servicio creado correctamente.', true);
+            await cargarServiciosAdmin();
+        } catch (error) {
+            mostrarMensajeServicio(error.message || 'No fue posible guardar el servicio.', false);
+        } finally {
+            boton.disabled = false;
+            if (!servicioEditandoId) boton.textContent = 'Guardar servicio';
+        }
+    });
+
+    document.getElementById('btnCancelarEdicionServicio').addEventListener('click', cancelarEdicionServicio);
+
+
+
+    function urlSegura(valor) {
+        if (!valor) return '';
+        try {
+            const url = new URL(valor, window.location.origin);
+            return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+        } catch (_) {
+            return '';
+        }
+    }
+
+    async function cargarBarberosAdmin() {
+        const grid = document.getElementById('barberosAdminGrid');
+        grid.setAttribute('aria-busy', 'true');
+        try {
+            const response = await fetch('/api/admin/barberos', { credentials: 'same-origin' });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible cargar el equipo.'));
+            barberos = await response.json();
+            renderBarberosAdmin();
+        } catch (error) {
+            grid.innerHTML = `<p class="text-red-400 col-span-full text-center py-8">${escapar(error.message)}</p>`;
+        } finally { grid.setAttribute('aria-busy', 'false'); }
+    }
+
+    function renderBarberosAdmin() {
+        const grid = document.getElementById('barberosAdminGrid');
+        if (!barberos.length) {
+            grid.innerHTML = '<p class="text-zinc-500 col-span-full text-center py-8 border border-white/10">No hay barberos registrados.</p>';
+            return;
+        }
+
+        grid.innerHTML = barberos.map(barbero => {
+            const foto = urlSegura(barbero.fotoUrl);
+            const visual = foto
+                ? `<img src="${escapar(foto)}" alt="${escapar(barbero.nombre)}" class="w-full h-44 object-cover">`
+                : `<div class="w-full h-44 bg-black flex items-center justify-center text-3xl font-black text-zinc-700">RAND</div>`;
+            const estado = barbero.activo
+                ? '<span class="text-[10px] uppercase tracking-widest text-green-400">Activo</span>'
+                : '<span class="text-[10px] uppercase tracking-widest text-red-400">Inactivo</span>';
+            const accionEstado = barbero.activo ? 'Desactivar' : 'Activar';
+
+            return `<article class="border border-white/10 bg-black overflow-hidden" data-barbero-id="${escapar(barbero.id)}">
+                ${visual}
+                <div class="p-4">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <h3 class="font-semibold text-lg">${escapar(barbero.nombre)}</h3>
+                            <p class="text-xs text-[#c9a227] uppercase tracking-wider mt-1">${escapar(barbero.especialidad)}</p>
+                        </div>
+                        ${estado}
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-5">
+                        <button type="button" data-barbero-accion="editar" class="border border-white/15 py-2.5 px-3 text-[10px] uppercase tracking-wider hover:border-white/40">Editar</button>
+                        <button type="button" data-barbero-accion="estado" class="border ${barbero.activo ? 'border-yellow-900 text-yellow-300' : 'border-green-900 text-green-300'} py-2.5 px-3 text-[10px] uppercase tracking-wider">${accionEstado}</button>
+                        <button type="button" data-barbero-accion="horario" class="col-span-2 border border-[#c9a227]/50 text-[#c9a227] py-2.5 px-3 text-[10px] uppercase tracking-wider">Configurar horario</button>
+                        <button type="button" data-barbero-accion="eliminar" class="col-span-2 border border-red-950 text-red-400 py-2.5 px-3 text-[10px] uppercase tracking-wider hover:bg-red-950/20">Eliminar si no tiene historial</button>
+                    </div>
+                </div>
+            </article>`;
+        }).join('');
+
+        grid.querySelectorAll('[data-barbero-accion]').forEach(btn => {
+            btn.addEventListener('click', () => manejarAccionBarbero(btn));
+        });
+    }
+
+    function comenzarEdicionBarbero(barbero) {
+        barberoEditandoId = barbero.id;
+        document.getElementById('nombreBarbero').value = barbero.nombre || '';
+        document.getElementById('especialidadBarbero').value = barbero.especialidad || '';
+        document.getElementById('fotoBarbero').value = barbero.fotoUrl || '';
+        document.getElementById('btnGuardarBarbero').textContent = 'Guardar cambios';
+        document.getElementById('btnCancelarEdicionBarbero').classList.remove('hidden');
+        document.getElementById('barberoForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function cancelarEdicionBarbero() {
+        barberoEditandoId = null;
+        document.getElementById('barberoForm').reset();
+        document.getElementById('btnGuardarBarbero').textContent = 'Guardar barbero';
+        document.getElementById('btnCancelarEdicionBarbero').classList.add('hidden');
+    }
+
+    async function manejarAccionBarbero(btn) {
+        const tarjeta = btn.closest('[data-barbero-id]');
+        const id = tarjeta?.dataset.barberoId;
+        const barbero = barberos.find(b => String(b.id) === String(id));
+        if (!barbero) return;
+
+        const accion = btn.dataset.barberoAccion;
+        if (accion === 'editar') {
+            comenzarEdicionBarbero(barbero);
+            return;
+        }
+
+        if (accion === 'horario') {
+            await abrirHorario(barbero);
+            return;
+        }
+
+        if (accion === 'estado') {
+            const nuevoEstado = !barbero.activo;
+            if (!nuevoEstado && !confirm(`¿Desactivar a ${barbero.nombre}? Ya no aparecerá en nuevas reservas.`)) return;
+            btn.disabled = true;
+            try {
+                const response = await fetchSeguro(`/api/admin/barberos/${encodeURIComponent(id)}/estado`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ activo: nuevoEstado })
+                });
+                if (!response.ok) throw new Error(await leerError(response, 'No fue posible cambiar el estado.'));
+                mostrarMensajeBarbero(nuevoEstado ? 'Barbero activado.' : 'Barbero desactivado. Ya no aparecerá en nuevas reservas.', true);
+                await cargarBarberosAdmin();
+            } catch (error) {
+                mostrarMensajeBarbero(error.message || 'No fue posible cambiar el estado.', false);
+            } finally {
+                btn.disabled = false;
+            }
+            return;
+        }
+
+        if (accion === 'eliminar') {
+            if (!confirm(`¿Eliminar a ${barbero.nombre}? Solo funcionará si no tiene citas asociadas.`)) return;
+            btn.disabled = true;
+            try {
+                const response = await fetchSeguro(`/api/admin/barberos/${encodeURIComponent(id)}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error(await leerError(response, 'No fue posible eliminar el barbero.'));
+                if (barberoEditandoId === id) cancelarEdicionBarbero();
+                mostrarMensajeBarbero('Barbero eliminado.', true);
+                await cargarBarberosAdmin();
+            } catch (error) {
+                mostrarMensajeBarbero(error.message || 'No fue posible eliminar el barbero.', false);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    }
+
+    const nombresDias = {MONDAY:'Lunes',TUESDAY:'Martes',WEDNESDAY:'Miércoles',THURSDAY:'Jueves',FRIDAY:'Viernes',SATURDAY:'Sábado',SUNDAY:'Domingo'};
+
+    function mostrarMensajeHorario(texto, exito) {
+        const div = document.getElementById('horarioMensaje');
+        div.textContent = texto;
+        div.className = exito
+            ? 'mt-4 text-sm text-green-300 bg-green-950/30 border border-green-900 p-3'
+            : 'mt-4 text-sm text-red-300 bg-red-950/30 border border-red-900 p-3';
+    }
+
+    function actualizarFilaHorario(fila) {
+        const activo = fila.querySelector('[data-campo="activo"]').checked;
+        fila.querySelectorAll('input[type="time"]').forEach(input => input.disabled = !activo);
+    }
+
+    async function abrirHorario(barbero) {
+        horarioBarberoId = barbero.id;
+        const editor = document.getElementById('horarioEditor');
+        const dias = document.getElementById('horarioDias');
+        document.getElementById('horarioTitulo').textContent = `Horario de ${barbero.nombre}`;
+        dias.innerHTML = '<p class="text-zinc-500 py-5">Cargando horario...</p>';
+        editor.classList.remove('hidden');
+        editor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        try {
+            const response = await fetch(`/api/admin/barberos/${encodeURIComponent(barbero.id)}/horarios`, { credentials: 'same-origin' });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible cargar el horario.'));
+            const horarios = await response.json();
+            dias.innerHTML = horarios.map(h => `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 items-end border border-white/10 bg-black p-4 rounded-lg" data-dia="${escapar(h.diaSemana)}">
+                <label class="flex items-center gap-2 text-sm font-semibold md:pb-3"><input data-campo="activo" type="checkbox" ${h.activo ? 'checked' : ''}> ${escapar(nombresDias[h.diaSemana] || h.diaSemana)}</label>
+                <label class="text-[10px] uppercase tracking-wider text-zinc-500">Inicio<input data-campo="horaInicio" type="time" step="900" value="${escapar(h.horaInicio?.slice(0,5) || '08:00')}" class="mt-2 w-full bg-[#0e0e0e] border border-white/10 px-3 py-2 text-sm"></label>
+                <label class="text-[10px] uppercase tracking-wider text-zinc-500">Fin<input data-campo="horaFin" type="time" step="900" value="${escapar(h.horaFin?.slice(0,5) || '20:00')}" class="mt-2 w-full bg-[#0e0e0e] border border-white/10 px-3 py-2 text-sm"></label>
+                <label class="text-[10px] uppercase tracking-wider text-zinc-500">Descanso desde<input data-campo="descansoInicio" type="time" step="900" value="${escapar(h.descansoInicio?.slice(0,5) || '')}" class="mt-2 w-full bg-[#0e0e0e] border border-white/10 px-3 py-2 text-sm"></label>
+                <label class="text-[10px] uppercase tracking-wider text-zinc-500">Descanso hasta<input data-campo="descansoFin" type="time" step="900" value="${escapar(h.descansoFin?.slice(0,5) || '')}" class="mt-2 w-full bg-[#0e0e0e] border border-white/10 px-3 py-2 text-sm"></label>
+            </div>`).join('');
+            dias.querySelectorAll('[data-dia]').forEach(fila => {
+                fila.querySelector('[data-campo="activo"]').addEventListener('change', () => actualizarFilaHorario(fila));
+                actualizarFilaHorario(fila);
+            });
+        } catch (error) {
+            dias.innerHTML = `<p class="text-red-400 py-5">${escapar(error.message)}</p>`;
+        }
+    }
+
+    document.getElementById('horarioForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        if (!horarioBarberoId) return;
+        const boton = document.getElementById('btnGuardarHorario');
+        const filas = [...document.querySelectorAll('#horarioDias [data-dia]')];
+        const dias = filas.map(fila => {
+            const valor = campo => fila.querySelector(`[data-campo="${campo}"]`).value || null;
+            return {
+                diaSemana: fila.dataset.dia,
+                activo: fila.querySelector('[data-campo="activo"]').checked,
+                horaInicio: valor('horaInicio'), horaFin: valor('horaFin'),
+                descansoInicio: valor('descansoInicio'), descansoFin: valor('descansoFin')
+            };
+        });
+        boton.disabled = true; boton.textContent = 'Guardando...';
+        try {
+            const response = await fetchSeguro(`/api/admin/barberos/${encodeURIComponent(horarioBarberoId)}/horarios`, {
+                method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({dias})
+            });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible guardar el horario.'));
+            mostrarMensajeHorario('Horario guardado. La disponibilidad de reservas ya fue actualizada.', true);
+        } catch (error) {
+            mostrarMensajeHorario(error.message || 'No fue posible guardar el horario.', false);
+        } finally { boton.disabled = false; boton.textContent = 'Guardar horario'; }
+    });
+
+    document.getElementById('btnCerrarHorario').addEventListener('click', () => {
+        horarioBarberoId = null;
+        document.getElementById('horarioEditor').classList.add('hidden');
+    });
+
+    document.getElementById('barberoForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formulario = e.currentTarget;
+        if (!formulario.reportValidity()) return;
+
+        const boton = document.getElementById('btnGuardarBarbero');
+        const payload = {
+            nombre: document.getElementById('nombreBarbero').value.trim(),
+            especialidad: document.getElementById('especialidadBarbero').value.trim(),
+            fotoUrl: document.getElementById('fotoBarbero').value.trim()
+        };
+
+        boton.disabled = true;
+        boton.textContent = barberoEditandoId ? 'Actualizando...' : 'Guardando...';
+        try {
+            const url = barberoEditandoId
+                ? `/api/admin/barberos/${encodeURIComponent(barberoEditandoId)}`
+                : '/api/admin/barberos';
+            const response = await fetchSeguro(url, {
+                method: barberoEditandoId ? 'PUT' : 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) throw new Error(await leerError(response, 'No fue posible guardar el barbero.'));
+
+            const editando = Boolean(barberoEditandoId);
+            cancelarEdicionBarbero();
+            mostrarMensajeBarbero(editando ? 'Barbero actualizado correctamente.' : 'Barbero creado correctamente.', true);
+            await cargarBarberosAdmin();
+        } catch (error) {
+            mostrarMensajeBarbero(error.message || 'No fue posible guardar el barbero.', false);
+        } finally {
+            boton.disabled = false;
+            if (!barberoEditandoId) boton.textContent = 'Guardar barbero';
+        }
+    });
+
+    document.getElementById('btnCancelarEdicionBarbero').addEventListener('click', cancelarEdicionBarbero);
+
+    function mostrarMensajeBarbero(texto, exito) {
+        const div = document.getElementById('barberoMensaje');
+        div.textContent = texto;
+        div.className = exito
+            ? 'mb-5 text-sm text-green-300 bg-green-950/30 border border-green-900 p-3'
+            : 'mb-5 text-sm text-red-300 bg-red-950/30 border border-red-900 p-3';
+    }
+
+    function mostrarMensajeServicio(texto, exito) {
+        const div = document.getElementById('servicioMensaje'); div.textContent = texto;
+        div.className = exito ? 'mt-4 text-sm text-green-300 bg-green-950/30 border border-green-900 p-3' : 'mt-4 text-sm text-red-300 bg-red-950/30 border border-red-900 p-3';
+    }
+
+    document.getElementById('btnLogout').addEventListener('click', async () => {
+        try { await fetchSeguro('/api/auth/logout', { method:'POST' }); } finally { location.href = '/login.html'; }
+    });
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (await validarSesion()) {
+            await obtenerCsrf();
+            await Promise.all([cargarAgenda(), cargarBarberosAdmin(), cargarServiciosAdmin()]);
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,3613 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RAND Barbería | El arte del buen corte</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23070707'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial' font-size='29' font-weight='700' fill='%23d6b35a'%3ER%3C/text%3E%3C/svg%3E">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+
+        /* =========================================================
+           RAND BARBERÍA — PREMIUM UI/UX OVERRIDE
+           Mantiene Tailwind + toda la lógica JavaScript existente.
+           ========================================================= */
+
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+        :root {
+            --gold: #d6b35a;
+            --gold-light: #f0d48a;
+            --gold-soft: rgba(214, 179, 90, .14);
+            --bg: #070707;
+            --surface: #101010;
+            --surface-2: #151515;
+            --line: rgba(255,255,255,.09);
+            --muted: #8c8c8c;
+            --radius: 18px;
+            --shadow: 0 24px 70px rgba(0,0,0,.32);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--bg);
+        }
+
+        body {
+            background:
+                    radial-gradient(circle at 80% -10%, rgba(214,179,90,.07), transparent 28rem),
+                    var(--bg);
+            color: #f5f5f5;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: -0.035em;
+        }
+
+        ::selection {
+            background: rgba(214,179,90,.28);
+            color: white;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #080808; }
+        ::-webkit-scrollbar-thumb {
+            background: #2b2b2b;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Marca */
+        .gold,
+        .text-\[\#c9a227\] {
+            color: var(--gold) !important;
+        }
+
+        .gold-bg,
+        .bg-\[\#c9a227\] {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold)) !important;
+            box-shadow: 0 10px 30px rgba(214,179,90,.14);
+        }
+
+        .gold-bg:hover {
+            background: linear-gradient(135deg, #f6dda0, var(--gold-light)) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 35px rgba(214,179,90,.22);
+        }
+
+        /* Navbar */
+        header {
+            background: rgba(7,7,7,.72) !important;
+            border-bottom: 1px solid rgba(255,255,255,.07) !important;
+            box-shadow: 0 8px 35px rgba(0,0,0,.18);
+        }
+
+        header > div {
+            height: 76px !important;
+        }
+
+        header nav a {
+            position: relative;
+            transition: color .25s ease;
+        }
+
+        header nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 100%;
+            bottom: -8px;
+            height: 1px;
+            background: var(--gold);
+            transition: right .25s ease;
+        }
+
+        header nav a:hover::after {
+            right: 0;
+        }
+
+        header > div > a:last-child {
+            border-radius: 999px;
+            padding: 12px 20px !important;
+        }
+
+        /* Hero */
+        #inicio {
+            min-height: 760px;
+            isolation: isolate;
+        }
+
+        #inicio img {
+            filter: saturate(.82) contrast(1.05);
+        }
+
+        .hero-overlay {
+            background:
+                    linear-gradient(90deg,
+                    rgba(3,3,3,.96) 0%,
+                    rgba(3,3,3,.72) 45%,
+                    rgba(3,3,3,.45) 72%,
+                    rgba(3,3,3,.82) 100%) !important;
+        }
+
+        #inicio h1 {
+            max-width: 900px;
+            font-size: clamp(3.5rem, 8vw, 7.2rem);
+            line-height: .91;
+        }
+
+        #inicio .gold-bg,
+        #inicio a.border {
+            border-radius: 999px;
+            min-height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding-inline: 28px !important;
+        }
+
+        #inicio .border-white\/30 {
+            background: rgba(255,255,255,.035);
+            backdrop-filter: blur(12px);
+        }
+
+        #inicio .border-white\/30:hover {
+            background: rgba(255,255,255,.08);
+        }
+
+        /* Sections */
+        section:not(#inicio) {
+            position: relative;
+        }
+
+        section:not(#inicio)::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: min(900px, 70%);
+            height: 1px;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, transparent, rgba(214,179,90,.18), transparent);
+        }
+
+        /* Filosofía */
+        section.py-24.md\:py-32.border-b {
+            background:
+                    radial-gradient(circle at 50% 20%, rgba(214,179,90,.045), transparent 30rem);
+        }
+
+        /* Títulos */
+        section h2 {
+            font-weight: 700 !important;
+        }
+
+        /* Cards generales */
+        #popularesGrid > div,
+        #equipoGrid > div,
+        .tarjeta-servicio,
+        .tarjeta-barbero,
+        .tarjeta-dia,
+        .tarjeta-hora,
+        #reservas .lg\:col-span-2,
+        #reservas aside {
+            border-radius: var(--radius) !important;
+        }
+
+        #popularesGrid > div,
+        #equipoGrid > div {
+            background: linear-gradient(145deg, #111, #0b0b0b) !important;
+            border-color: var(--line) !important;
+            box-shadow: 0 12px 40px rgba(0,0,0,.16);
+        }
+
+        #popularesGrid > div {
+            position: relative;
+            overflow: hidden;
+            transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+        }
+
+        #popularesGrid > div::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: .55;
+        }
+
+        #popularesGrid > div:hover {
+            transform: translateY(-5px);
+            border-color: rgba(214,179,90,.38) !important;
+            box-shadow: var(--shadow);
+        }
+
+        /* Catálogo */
+        #catalogoGrid > div {
+            border-color: rgba(255,255,255,.075) !important;
+            padding-block: 26px !important;
+            transition: padding .25s ease, border-color .25s ease, background .25s ease;
+            border-radius: 12px;
+            padding-inline: 18px;
+        }
+
+        #catalogoGrid > div:hover {
+            background: rgba(255,255,255,.025);
+            border-color: rgba(214,179,90,.3) !important;
+        }
+
+        /* Equipo */
+        #equipoGrid > div {
+            transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+        }
+
+        #equipoGrid > div:hover {
+            transform: translateY(-6px);
+            border-color: rgba(214,179,90,.28) !important;
+            box-shadow: var(--shadow);
+        }
+
+        #equipoGrid img {
+            transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .35s ease;
+            filter: saturate(.82);
+        }
+
+        #equipoGrid > div:hover img {
+            filter: saturate(1);
+        }
+
+        /* Reserva */
+        #reservas {
+            background:
+                    radial-gradient(circle at 15% 45%, rgba(214,179,90,.045), transparent 28rem);
+        }
+
+        #reservas .lg\:col-span-2 {
+            background: rgba(16,16,16,.82) !important;
+            border-color: var(--line) !important;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        #reservas aside {
+            background: linear-gradient(160deg, #141414, #0d0d0d) !important;
+            border-color: rgba(214,179,90,.16) !important;
+            box-shadow: 0 20px 60px rgba(0,0,0,.28);
+        }
+
+        /* Step indicator */
+        [data-step-indicator] .step-dot {
+            transition: all .25s ease !important;
+        }
+
+        /* Botones interactivos */
+        .tarjeta-servicio {
+            background: linear-gradient(145deg, #151515, #0e0e0e) !important;
+            border-color: var(--line) !important;
+            min-height: 142px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.12);
+            transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+        }
+
+        .tarjeta-servicio:hover {
+            transform: translateY(-3px);
+            border-color: rgba(214,179,90,.55) !important;
+            box-shadow: 0 15px 40px rgba(0,0,0,.25);
+        }
+
+        .tarjeta-servicio.border-\[\#c9a227\],
+        .tarjeta-barbero.border-\[\#c9a227\],
+        .tarjeta-dia.border-\[\#c9a227\],
+        .tarjeta-hora.border-\[\#c9a227\] {
+            background: linear-gradient(145deg, rgba(214,179,90,.14), rgba(214,179,90,.045)) !important;
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 0 1px rgba(214,179,90,.08), 0 12px 35px rgba(214,179,90,.08);
+        }
+
+        .tarjeta-barbero {
+            background: #111 !important;
+            border-color: var(--line) !important;
+            border-radius: 16px !important;
+            transition: transform .25s ease, border-color .25s ease;
+        }
+
+        .tarjeta-barbero:hover {
+            transform: translateY(-3px);
+            border-color: rgba(214,179,90,.45) !important;
+        }
+
+        .tarjeta-barbero img {
+            border-radius: 12px;
+        }
+
+        .tarjeta-dia,
+        .tarjeta-hora {
+            background: #111 !important;
+            border-color: var(--line) !important;
+            transition: transform .2s ease, border-color .2s ease, background .2s ease;
+        }
+
+        .tarjeta-dia:hover,
+        .tarjeta-hora:hover {
+            transform: translateY(-2px);
+            border-color: rgba(214,179,90,.45) !important;
+        }
+
+        /* Inputs */
+        #citaForm input,
+        #citaForm select,
+        #citaForm textarea {
+            border-radius: 12px !important;
+            background: #0b0b0b !important;
+            border-color: rgba(255,255,255,.1) !important;
+            min-height: 52px;
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+
+        #citaForm input:focus,
+        #citaForm select:focus,
+        #citaForm textarea:focus {
+            background: #101010 !important;
+            border-color: var(--gold) !important;
+            box-shadow: 0 0 0 4px rgba(214,179,90,.09);
+        }
+
+        #citaForm input::placeholder {
+            color: #555 !important;
+        }
+
+        /* Botones del wizard */
+        #reservas button {
+            border-radius: 12px;
+            min-height: 50px;
+        }
+
+        #btnPaso1Siguiente,
+        #btnPaso2Siguiente,
+        #citaForm button[type="submit"] {
+            border-radius: 999px !important;
+            padding-inline: 26px !important;
+        }
+
+        #btnPaso2Atras,
+        #btnPaso3Atras {
+            background: rgba(255,255,255,.025);
+            border-radius: 999px !important;
+        }
+
+        /* Galería */
+        #galeria > div > div:last-child > div {
+            border-radius: 16px;
+            box-shadow: 0 14px 40px rgba(0,0,0,.22);
+        }
+
+        #galeria img {
+            filter: saturate(.78);
+            transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .4s ease;
+        }
+
+        #galeria > div > div:last-child > div:hover img {
+            filter: saturate(1);
+            transform: scale(1.055);
+        }
+
+        /* Footer */
+        footer {
+            background:
+                    radial-gradient(circle at 50% 0%, rgba(214,179,90,.035), transparent 24rem),
+                    #050505 !important;
+        }
+
+        footer a {
+            border-radius: 999px;
+        }
+
+        /* Carruseles */
+        .carrusel::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .carrusel::-webkit-scrollbar-thumb {
+            background: rgba(214,179,90,.45);
+            border-radius: 999px;
+        }
+
+        /* Accesibilidad */
+        a, button, input, select, textarea {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 767px) {
+            header > div {
+                height: 68px !important;
+                padding-inline: 18px !important;
+            }
+
+            header > div > a:last-child {
+                padding: 10px 15px !important;
+                font-size: 9px !important;
+            }
+
+            #inicio {
+                min-height: 700px;
+            }
+
+            #inicio h1 {
+                font-size: clamp(3rem, 15vw, 4.8rem);
+            }
+
+            #inicio .relative.z-10 {
+                padding-top: 70px !important;
+            }
+
+            #inicio .gold-bg,
+            #inicio a.border {
+                width: 100%;
+                min-height: 52px;
+            }
+
+            section:not(#inicio) {
+                padding-top: 84px !important;
+                padding-bottom: 84px !important;
+            }
+
+            #popularesGrid > div,
+            #equipoGrid > div {
+                border-radius: 16px !important;
+            }
+
+            #reservas .lg\:col-span-2 {
+                padding: 22px !important;
+                border-radius: 18px !important;
+            }
+
+            #reservas aside {
+                border-radius: 18px !important;
+            }
+
+            #wizardHoras {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+
+            #citaForm > div > div,
+            #citaForm .flex {
+                gap: 12px;
+            }
+
+            #citaForm button {
+                padding-inline: 18px !important;
+            }
+
+            #galeria > div > div:last-child {
+                gap: 8px !important;
+            }
+
+            #galeria > div > div:last-child > div {
+                border-radius: 10px;
+            }
+
+            #galeria img {
+                height: 220px !important;
+            }
+        }
+
+        @media (min-width: 768px) {
+            #inicio .relative.z-10 {
+                padding-top: 90px !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
+
+        .skip-link {
+            position: fixed;
+            left: 16px;
+            top: 12px;
+            z-index: 100;
+            transform: translateY(-160%);
+            background: var(--gold-light);
+            color: #090909;
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .skip-link:focus { transform: translateY(0); }
+
+        .loading-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loading-line::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,.14);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: giro .8s linear infinite;
+        }
+
+        @keyframes giro { to { transform: rotate(360deg); } }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #090909;
+        }
+
+        /* Color dorado principal */
+        .gold {
+            color: #c9a227;
+        }
+
+        .gold-bg {
+            background-color: #c9a227;
+        }
+
+        .gold-bg:hover {
+            background-color: #dfb632;
+        }
+
+        /* Overlay para las imágenes */
+        .hero-overlay {
+            background:
+                    linear-gradient(
+                            to right,
+                            rgba(0, 0, 0, 0.92),
+                            rgba(0, 0, 0, 0.60),
+                            rgba(0, 0, 0, 0.88)
+                    );
+        }
+
+        /* Ocultar flecha de algunos elementos */
+        select {
+            appearance: auto;
+        }
+
+        /* Barra de scroll horizontal discreta para los carruseles del wizard */
+        .carrusel::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .carrusel::-webkit-scrollbar-thumb {
+            background: rgba(201, 162, 39, 0.35);
+        }
+
+        .carrusel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* =========================================================
+           RAND PRIVATE HOUSE — DIRECCIÓN VISUAL 2026
+           Capa final: conserva todos los hooks funcionales existentes.
+           ========================================================= */
+        :root {
+            --obsidian: #050505;
+            --graphite: #151517;
+            --graphite-soft: #1d1d20;
+            --ivory: #f4f1ea;
+            --champagne: #c7a86b;
+            --titanium: #98989f;
+            --ease-luxury: cubic-bezier(.16, 1, .3, 1);
+        }
+
+        body {
+            background: var(--obsidian) !important;
+            color: var(--ivory);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 500 !important;
+            letter-spacing: -.025em;
+        }
+
+        .gold, .text-\[\#c9a227\] { color: var(--champagne) !important; }
+        .gold-bg, .bg-\[\#c9a227\] {
+            background: var(--ivory) !important;
+            color: var(--obsidian) !important;
+            box-shadow: none;
+        }
+        .gold-bg:hover {
+            background: var(--champagne) !important;
+            box-shadow: none;
+            transform: translateY(-2px);
+        }
+
+        header {
+            background: transparent !important;
+            border-color: transparent !important;
+            box-shadow: none;
+            transition: background .6s var(--ease-luxury), border-color .6s var(--ease-luxury), transform .6s var(--ease-luxury);
+        }
+        header.is-scrolled {
+            background: rgba(5,5,5,.92) !important;
+            border-color: rgba(244,241,234,.09) !important;
+            backdrop-filter: blur(24px) saturate(120%);
+        }
+        header > div { max-width: 1440px !important; height: 88px !important; }
+        header nav a { color: rgba(244,241,234,.66) !important; }
+        header nav a:hover { color: var(--ivory) !important; }
+        header nav a::after { background: var(--champagne); bottom: -11px; }
+        header > div > a:last-child {
+            background: var(--ivory) !important;
+            border-radius: 0;
+            box-shadow: none;
+            letter-spacing: .22em;
+        }
+        #btnMenuMovil { position: relative; z-index: 80; border-color: rgba(244,241,234,.25); }
+
+        #inicio { min-height: 100svh; background: var(--obsidian); }
+        #inicio .hero-film,
+        #inicio .hero-poster {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        #inicio .hero-film { opacity: .74; filter: saturate(.62) contrast(1.08); }
+        #inicio .hero-poster { z-index: -1; filter: saturate(.45) contrast(1.12); }
+        .hero-overlay {
+            background:
+                linear-gradient(90deg, rgba(5,5,5,.97) 0%, rgba(5,5,5,.76) 44%, rgba(5,5,5,.12) 78%),
+                linear-gradient(0deg, rgba(5,5,5,.72), transparent 36%, rgba(5,5,5,.2)) !important;
+        }
+        #inicio .relative.z-10 { max-width: 1440px; }
+        #inicio .max-w-3xl { max-width: 920px; }
+        #inicio h1 {
+            max-width: 1000px;
+            color: var(--ivory);
+            font-size: clamp(4.5rem, 10vw, 9.5rem);
+            font-weight: 400 !important;
+            line-height: .78;
+            letter-spacing: -.055em;
+            text-transform: none;
+        }
+        #inicio h1 .gold { font-style: italic; font-weight: 400; }
+        #inicio .gold-bg, #inicio a.border {
+            min-height: 58px;
+            border-radius: 0 !important;
+            transition: transform .45s var(--ease-luxury), background .45s var(--ease-luxury), color .45s var(--ease-luxury);
+        }
+        #inicio a.border { border-color: rgba(244,241,234,.26); background: rgba(5,5,5,.18); }
+        #inicio a.border:hover { border-color: var(--ivory); background: var(--ivory); color: var(--obsidian); }
+        .scroll-cue { display: flex; align-items: center; gap: 12px; }
+        .scroll-cue::before { content: ''; width: 42px; height: 1px; background: rgba(244,241,234,.42); animation: cue 2.4s var(--ease-luxury) infinite; }
+        @keyframes cue { 0%,100% { transform: scaleX(.45); transform-origin: left; } 50% { transform: scaleX(1); transform-origin: left; } }
+
+        section:not(#inicio)::before { display: none; }
+        section:not(#inicio) { padding-top: clamp(6rem, 10vw, 10rem) !important; padding-bottom: clamp(6rem, 10vw, 10rem) !important; }
+        section h2 { font-size: clamp(3.4rem, 7vw, 7rem) !important; line-height: .88; }
+        section .gold.text-xs { color: var(--champagne) !important; letter-spacing: .42em !important; }
+        section.py-24.md\:py-32.border-b { background: var(--ivory); color: var(--obsidian); border: 0; }
+        section.py-24.md\:py-32.border-b .text-zinc-500 { color: #68666a !important; }
+
+        #servicios { background: var(--ivory); color: var(--obsidian); }
+        #servicios .text-white { color: var(--obsidian) !important; }
+        #servicios .text-zinc-500, #servicios .text-zinc-600 { color: #68666a !important; }
+        #servicios .gold { color: #8a6b35 !important; }
+        #popularesGrid {
+            border-top: 1px solid rgba(5,5,5,.18);
+            border-bottom: 1px solid rgba(5,5,5,.18);
+            gap: 0 !important;
+        }
+        #popularesGrid > div {
+            background: transparent !important;
+            border: 0 !important;
+            border-right: 1px solid rgba(5,5,5,.14) !important;
+            border-radius: 0 !important;
+            box-shadow: none;
+            padding: 2rem !important;
+        }
+        #popularesGrid > div:last-child { border-right: 0 !important; }
+        #popularesGrid > div::before { display: none; }
+        #popularesGrid > div:hover { transform: none; box-shadow: none; background: rgba(5,5,5,.035) !important; }
+        #popularesGrid .gold-bg { background: transparent !important; color: #8a6b35 !important; padding: 0 !important; }
+        #catalogoGrid { display: block; border-top: 1px solid rgba(5,5,5,.2); }
+        #catalogoGrid > .service-row {
+            display: grid;
+            grid-template-columns: 84px minmax(0,1fr) auto;
+            align-items: center;
+            gap: 2rem;
+            padding: 2.2rem 0 !important;
+            border: 0 !important;
+            border-bottom: 1px solid rgba(5,5,5,.16) !important;
+            border-radius: 0;
+        }
+        #catalogoGrid > .service-row:hover { padding-inline: 1rem !important; background: rgba(5,5,5,.035); }
+        .service-index { font-family: 'Cormorant Garamond', serif; color: #8a6b35; font-size: 1.25rem; }
+        .service-price { font-family: 'Cormorant Garamond', serif; font-size: 1.65rem; color: var(--obsidian) !important; }
+
+        #barberos { background: var(--obsidian) !important; border: 0 !important; }
+        #barberos > div > div:first-child { text-align: left !important; max-width: 820px; }
+        #equipoGrid { display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap: 1.4rem !important; }
+        #equipoGrid > .barber-profile {
+            grid-column: span 4;
+            position: relative;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none;
+        }
+        #equipoGrid > .barber-profile:nth-child(2) { margin-top: 5rem; }
+        #equipoGrid > .barber-profile:nth-child(3) { margin-top: 2rem; }
+        #equipoGrid > .barber-profile:hover { transform: none; box-shadow: none; }
+        #equipoGrid .aspect-\[4\/5\] { aspect-ratio: 3 / 4; background: var(--graphite); }
+        #equipoGrid img { filter: grayscale(.72) saturate(.5) contrast(1.06); transform: scale(1.015); }
+        #equipoGrid .barber-profile:hover img { filter: grayscale(.1) saturate(.75); transform: scale(1.04); }
+        #equipoGrid .barber-meta { padding: 1.5rem 0 0 !important; border-top: 1px solid rgba(244,241,234,.14); margin-top: 1px; }
+
+        .film-break {
+            position: relative;
+            min-height: min(72vw, 760px);
+            padding: 0 !important;
+            overflow: hidden;
+            background: var(--graphite);
+        }
+        .film-break video, .film-break img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.5) contrast(1.08); }
+        .film-break video { z-index: 1; }
+        .film-break img { z-index: 0; }
+        .film-break::after { content: ''; position: absolute; z-index: 2; inset: 0; background: linear-gradient(90deg, rgba(5,5,5,.84), rgba(5,5,5,.16) 68%, rgba(5,5,5,.48)); }
+        .film-break__copy { position: relative; z-index: 3; width: min(1440px, 100%); margin: auto; min-height: inherit; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(2rem, 6vw, 6rem); }
+        .film-break__copy p:last-child { max-width: 540px; color: rgba(244,241,234,.72); }
+
+        #reservas { background: #0a0a0b; }
+        #reservas > div { max-width: 1240px; }
+        #reservas > div > div:first-child { text-align: left !important; display: grid; grid-template-columns: 1fr 1fr; align-items: end; }
+        #reservas .lg\:col-span-2, #reservas aside {
+            border-radius: 0 !important;
+            background: var(--graphite) !important;
+            border-color: rgba(244,241,234,.09) !important;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+        #reservas aside { background: var(--ivory) !important; color: var(--obsidian); }
+        #reservas aside .text-zinc-300 { color: #343337 !important; }
+        #reservas aside .text-zinc-500, #reservas aside .text-zinc-600 { color: #77747a !important; }
+        #reservas aside .border-white\/10 { border-color: rgba(5,5,5,.14) !important; }
+        [data-step-indicator] .step-dot { border-radius: 0 !important; }
+        .tarjeta-servicio, .tarjeta-barbero, .tarjeta-dia, .tarjeta-hora {
+            border-radius: 0 !important;
+            background: #111113 !important;
+            box-shadow: none;
+        }
+        .tarjeta-servicio:hover, .tarjeta-barbero:hover, .tarjeta-dia:hover, .tarjeta-hora:hover { transform: translateY(-2px); }
+        #citaForm input { border-radius: 0 !important; background: #0a0a0b !important; }
+        #reservas button, #btnPaso1Siguiente, #btnPaso2Siguiente, #citaForm button[type='submit'], #btnPaso2Atras, #btnPaso3Atras { border-radius: 0 !important; }
+
+        #mis-citas { background: var(--ivory) !important; color: var(--obsidian); border: 0 !important; }
+        #mis-citas .text-white { color: var(--obsidian) !important; }
+        #mis-citas .text-zinc-500, #mis-citas .text-zinc-600, #mis-citas .text-zinc-700 { color: #68666a !important; }
+        #mis-citas .bg-\[\#0e0e0e\] { background: #ece8df !important; }
+        #mis-citas .border-white\/10, #mis-citas .border-white\/5, #mis-citas .border-white\/15 { border-color: rgba(5,5,5,.15) !important; }
+
+        #galeria { background: var(--obsidian) !important; border: 0 !important; }
+        #galeria > div > div:first-child { text-align: left !important; }
+        #galeria .gallery-grid { display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); grid-auto-rows: 90px; gap: 1rem !important; }
+        #galeria .gallery-cell { border-radius: 0; box-shadow: none; overflow: hidden; }
+        #galeria .gallery-cell:nth-child(1) { grid-column: 1 / span 7; grid-row: 1 / span 6; }
+        #galeria .gallery-cell:nth-child(2) { grid-column: 8 / span 5; grid-row: 2 / span 5; }
+        #galeria .gallery-cell:nth-child(3) { grid-column: 1 / span 5; grid-row: 7 / span 5; }
+        #galeria .gallery-cell:nth-child(4) { grid-column: 6 / span 7; grid-row: 7 / span 6; }
+        #galeria .gallery-cell img { width: 100%; height: 100% !important; filter: grayscale(.45) saturate(.55); }
+
+        footer { background: var(--graphite) !important; }
+
+        .reveal-item { opacity: 0; transform: translateY(42px); transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury); }
+        .reveal-item.is-visible { opacity: 1; transform: translateY(0); }
+        .reveal-item:nth-child(2) { transition-delay: .08s; }
+        .reveal-item:nth-child(3) { transition-delay: .16s; }
+
+        @media (max-width: 767px) {
+            body.menu-open { overflow: hidden; }
+            header > div { height: 74px !important; }
+            #menuMovil:not(.hidden) {
+                position: fixed;
+                inset: 0;
+                z-index: 70;
+                display: flex !important;
+                align-items: center;
+                background: rgba(5,5,5,.98);
+                border: 0;
+                padding: 6rem 1.5rem 2rem;
+            }
+            #menuMovil > div { width: 100%; gap: 0; }
+            #menuMovil a { padding: 1rem 0 !important; border-bottom: 1px solid rgba(244,241,234,.12); border-radius: 0; background: transparent !important; color: var(--ivory); font-family: 'Cormorant Garamond', serif; font-size: clamp(2.1rem, 11vw, 3.3rem); font-weight: 400; letter-spacing: -.03em; }
+            #menuMovil a:nth-child(3) { color: var(--champagne); }
+            #inicio { min-height: 100svh; }
+            #inicio h1 { font-size: clamp(4rem, 21vw, 6rem); line-height: .8; }
+            #inicio .relative.z-10 { padding-top: 7rem !important; }
+            #inicio .hero-film { opacity: .58; object-position: 62% center; }
+            #inicio .hero-overlay { background: linear-gradient(0deg, rgba(5,5,5,.96) 0%, rgba(5,5,5,.45) 65%, rgba(5,5,5,.48)); }
+            section h2 { font-size: clamp(3.2rem, 15vw, 5rem) !important; }
+            #popularesGrid > div { border-right: 0 !important; border-bottom: 1px solid rgba(5,5,5,.14) !important; }
+            #catalogoGrid > .service-row { grid-template-columns: 42px minmax(0,1fr); gap: 1rem; }
+            .service-price { grid-column: 2; }
+            #equipoGrid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -1.5rem; padding-inline: 1.5rem; }
+            #equipoGrid > .barber-profile { flex: 0 0 82vw; margin-top: 0 !important; scroll-snap-align: center; }
+            .film-break { min-height: 78svh; }
+            .film-break video { object-position: 62% center; }
+            #reservas > div > div:first-child { display: block; }
+            #reservas .lg\:col-span-2 { padding: 1.25rem !important; }
+            #paso2 .mt-10, #paso3 .flex.justify-between { gap: .75rem; }
+            #paso2 .mt-10 button, #paso3 .flex.justify-between button { flex: 1; padding-inline: .75rem !important; }
+            #galeria .gallery-grid { grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: 150px; gap: .6rem !important; }
+            #galeria .gallery-cell:nth-child(1) { grid-column: 1 / -1; grid-row: span 3; }
+            #galeria .gallery-cell:nth-child(2) { grid-column: 1; grid-row: span 2; }
+            #galeria .gallery-cell:nth-child(3) { grid-column: 2; grid-row: span 2; }
+            #galeria .gallery-cell:nth-child(4) { grid-column: 1 / -1; grid-row: span 3; }
+            #galeria .gallery-cell img { height: 100% !important; }
+        }
+
+        @media (min-width: 768px) and (max-width: 1100px) {
+            #equipoGrid > .barber-profile { grid-column: span 6; }
+            #equipoGrid > .barber-profile:nth-child(3) { grid-column: 4 / span 6; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-item { opacity: 1; transform: none; }
+            .scroll-cue::before { animation: none; }
+            #inicio .hero-film, .film-break video { display: none; }
+        }
+
+        /* Segunda pasada: menos ornamento, mayor precisión visual */
+        body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+        section:not(#inicio) {
+            padding-top: clamp(5.5rem, 8vw, 8rem) !important;
+            padding-bottom: clamp(5.5rem, 8vw, 8rem) !important;
+        }
+        section h2 { font-size: clamp(3.1rem, 5.8vw, 6.25rem) !important; line-height: .92; }
+        section .gold.text-xs { color: #85827c !important; letter-spacing: .34em !important; }
+        #inicio .gold.text-xs, .film-break .gold.text-xs { color: #b99a61 !important; }
+        #inicio h1 { max-width: 900px; font-size: clamp(4.35rem, 9vw, 8.7rem); line-height: .82; }
+        #inicio h1 .gold { color: #bea166 !important; }
+        #inicio .gold-bg:hover { background: #dedad1 !important; transform: translateY(-1px); }
+        #inicio a.border:hover { transform: translateY(-1px); }
+        #inicio .gold-bg, #inicio a.border, header > div > a:last-child, #btnMenuMovil { border-radius: 4px !important; }
+        .scroll-cue::before { animation: none; width: 34px; opacity: .7; }
+        #popularesGrid > div { padding: 1.75rem !important; }
+        #popularesGrid .gold-bg { color: #75613d !important; }
+        #catalogoGrid > .service-row { padding: 1.9rem 0 !important; transition: background .25s ease, padding .35s var(--ease-luxury); }
+        #catalogoGrid > .service-row:hover { padding-inline: .75rem !important; }
+        .service-index { color: #79756d; }
+        #equipoGrid img { transition: filter .55s var(--ease-luxury), transform .7s var(--ease-luxury); }
+        #equipoGrid .barber-profile:hover img { transform: scale(1.025); }
+        #reservas > div > div:first-child {
+            display: block !important;
+            max-width: 680px;
+            margin-bottom: 3.5rem !important;
+        }
+        #reservas > div > div:first-child h2 { max-width: none; }
+        #reservas > div > div:first-child p:last-child { max-width: 430px; line-height: 1.7; }
+        #reservas > div > div:nth-child(2) { justify-content: flex-start; }
+        #reservas .grid.items-start > *, #paso2 { min-width: 0; }
+        #wizardBarberos, #wizardDias {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overscroll-behavior-inline: contain;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(244,241,234,.22) transparent;
+        }
+        #reservas .lg\:col-span-2, #reservas aside { border: 0 !important; }
+        .tarjeta-servicio, .tarjeta-barbero, .tarjeta-dia, .tarjeta-hora {
+            border-color: transparent !important;
+            background: #19191b !important;
+            transition: background .25s ease, color .25s ease, outline-color .25s ease !important;
+        }
+        .tarjeta-servicio:hover, .tarjeta-barbero:hover, .tarjeta-dia:hover, .tarjeta-hora:hover {
+            transform: none;
+            background: #202023 !important;
+        }
+        .tarjeta-servicio.border-\[\#c9a227\],
+        .tarjeta-barbero.border-\[\#c9a227\],
+        .tarjeta-dia.border-\[\#c9a227\],
+        .tarjeta-hora.border-\[\#c9a227\] {
+            border-color: transparent !important;
+            outline: 1px solid rgba(190,161,102,.8);
+            outline-offset: -1px;
+            background: #211f1b !important;
+        }
+        #reservas button, #citaForm input { border-radius: 4px !important; }
+        #mis-citas .bg-\[\#0e0e0e\] { border-color: transparent !important; box-shadow: none !important; }
+        #galeria .gallery-grid { gap: .55rem !important; }
+        #galeria .gallery-cell img { transition: transform .7s var(--ease-luxury), filter .5s ease; }
+        #galeria .gallery-cell:hover img { transform: scale(1.025); filter: grayscale(.2) saturate(.65); }
+        .reveal-item { transform: translateY(16px); transition-duration: .68s; }
+        .reveal-item:nth-child(2), .reveal-item:nth-child(3) { transition-delay: 0s; }
+
+        @media (max-width: 767px) {
+            section:not(#inicio) { padding-top: 4.75rem !important; padding-bottom: 4.75rem !important; }
+            section h2 { font-size: clamp(3rem, 14vw, 4.5rem) !important; }
+            #inicio h1 { font-size: clamp(3.9rem, 19vw, 5.5rem); line-height: .84; }
+            #menuMovil a { font-size: clamp(2rem, 10vw, 3rem); padding-block: .85rem !important; }
+            #equipoGrid { scrollbar-width: none; padding-bottom: .5rem; }
+            #equipoGrid::-webkit-scrollbar { display: none; }
+            #equipoGrid > .barber-profile { flex-basis: 78vw; }
+            #reservas > div > div:first-child { margin-bottom: 2.5rem !important; }
+            #reservas > div > div:nth-child(2) { justify-content: center; }
+            #wizardBarberos, #wizardDias { scrollbar-width: none; }
+            #wizardBarberos::-webkit-scrollbar, #wizardDias::-webkit-scrollbar { display: none; }
+            #galeria .gallery-grid { gap: .35rem !important; }
+        }
+
+        /* =========================================================
+           RAND CAMPAIGN 001 — EXPERIENCIA CINEMATOGRÁFICA
+           ========================================================= */
+        .brand-intro {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: grid;
+            place-items: center;
+            background: #050505;
+            pointer-events: none;
+            animation: intro-exit .72s 1.05s var(--ease-luxury) forwards;
+        }
+        .brand-intro--skip { display: none; }
+        .brand-intro__mark { text-align: center; animation: intro-mark 1s var(--ease-luxury) both; }
+        .brand-intro__mark span { display: block; font-size: clamp(2.5rem,8vw,6.5rem); font-weight: 700; letter-spacing: .32em; text-indent: .32em; }
+        .brand-intro__mark small { display: block; margin-top: .75rem; color: #77736c; font-size: .55rem; letter-spacing: .42em; text-transform: uppercase; }
+        .brand-intro__line { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--ivory); transform-origin: left; animation: intro-line 1.05s ease-out both; }
+        @keyframes intro-mark { from { opacity: 0; transform: translateY(18px); letter-spacing: .5em; } to { opacity: 1; transform: none; } }
+        @keyframes intro-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        @keyframes intro-exit { to { opacity: 0; visibility: hidden; transform: translateY(-100%); } }
+
+        .scroll-progress { position: fixed; z-index: 100; inset: 0 auto auto 0; width: 100%; height: 2px; background: var(--ivory); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+        header > div { position: relative; }
+        header > div::after { content: ''; position: absolute; left: 1.5rem; right: 1.5rem; bottom: 0; height: 1px; background: rgba(244,241,234,.08); transform: scaleX(0); transition: transform .7s var(--ease-luxury); }
+        header.is-scrolled > div::after { transform: scaleX(1); }
+
+        #inicio .hero-film { transform: scale(1.045) translate3d(0,var(--hero-shift,0),0); animation: hero-breathe 16s ease-in-out infinite alternate; }
+        #inicio .relative.z-10 > div { animation: hero-copy-in 1.05s .72s var(--ease-luxury) both; }
+        .hero-edition { position: absolute; z-index: 12; right: clamp(1.5rem,3vw,3rem); bottom: 2rem; display: flex; gap: 2.2rem; color: rgba(244,241,234,.48); font-size: .55rem; letter-spacing: .28em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); }
+        @keyframes hero-breathe { from { transform: scale(1.045) translate3d(0,var(--hero-shift,0),0); } to { transform: scale(1.085) translate3d(-.5%,var(--hero-shift,0),0); } }
+        @keyframes hero-copy-in { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+
+        #manifiesto.brand-manifesto {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0,1.18fr) minmax(420px,.82fr);
+            min-height: 100svh;
+            padding: 0 !important;
+            overflow: hidden;
+            background: #0a0a0b;
+        }
+        #manifiesto::after { content: 'RAND'; position: absolute; z-index: 0; right: -2vw; bottom: -8vw; color: transparent; -webkit-text-stroke: 1px rgba(244,241,234,.055); font-family: 'DM Sans',sans-serif; font-size: min(24vw,23rem); font-weight: 700; letter-spacing: -.08em; pointer-events: none; }
+        .manifesto-visual { position: relative; min-height: 100svh; overflow: hidden; }
+        .manifesto-visual::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent 62%,#0a0a0b),linear-gradient(0deg,rgba(5,5,5,.6),transparent 35%); }
+        .manifesto-visual img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.55) contrast(1.06); transform: scale(1.01); }
+        .manifesto-visual figcaption { position: absolute; z-index: 2; left: clamp(1.5rem,4vw,4rem); bottom: 2rem; color: rgba(244,241,234,.55); font-size: .55rem; letter-spacing: .32em; text-transform: uppercase; }
+        .manifesto-copy { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(4rem,7vw,8rem) clamp(2rem,6vw,7rem); }
+        .manifesto-kicker { color: #8e8a83; font-size: .6rem; letter-spacing: .38em; text-transform: uppercase; }
+        .manifesto-copy h2 { margin-top: 2rem; font-size: clamp(4rem,6.3vw,7.6rem) !important; line-height: .8; }
+        .manifesto-copy h2 em { color: #bca069; font-weight: 400; }
+        .manifesto-lead { max-width: 470px; margin-top: 2.75rem; color: #99969a; line-height: 1.8; }
+        .manifesto-principles { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin-top: clamp(3.5rem,7vw,7rem); padding-top: 1.4rem; border-top: 1px solid rgba(244,241,234,.12); }
+        .manifesto-principles span { color: #77736c; font-size: .55rem; letter-spacing: .2em; }
+        .manifesto-principles p { margin-top: .85rem; color: rgba(244,241,234,.78); font-size: .75rem; line-height: 1.5; }
+
+        .film-break { min-height: min(64vw,820px); }
+        .film-break::before { content:'02 / RITUAL'; position:absolute; z-index:4; top:clamp(2rem,5vw,5rem); right:clamp(1.5rem,5vw,5rem); color:rgba(244,241,234,.55); font-size:.55rem; letter-spacing:.34em; }
+        .film-break__copy h2 { max-width: 800px; }
+
+        #galeria { padding-inline: clamp(1rem,3vw,3rem) !important; }
+        #galeria > div { max-width: 1440px !important; }
+        .campaign-heading { display: flex; align-items: flex-end; justify-content: space-between; text-align: left !important; }
+        .campaign-heading h2 { max-width: 800px; }
+        .campaign-heading h2 em { color: #bca069; font-weight: 400; }
+        .campaign-grid { display: grid; grid-template-columns: repeat(12,minmax(0,1fr)); grid-template-rows: repeat(10,72px); gap: .7rem; }
+        .campaign-frame { position: relative; margin: 0; overflow: hidden; background: #111; }
+        .campaign-frame::after { content:''; position:absolute; inset:0; background:linear-gradient(0deg,rgba(5,5,5,.72),transparent 42%); pointer-events:none; }
+        .campaign-frame img { width:100%; height:100%!important; object-fit:cover; filter:saturate(.7) contrast(1.04)!important; }
+        .campaign-frame figcaption { position:absolute; z-index:2; left:1.25rem; right:1.25rem; bottom:1.15rem; display:flex; justify-content:space-between; color:rgba(244,241,234,.82); font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; }
+        .campaign-frame figcaption span { color:rgba(244,241,234,.46); }
+        #galeria .campaign-grid > .campaign-frame--portrait { grid-column:1 / span 5 !important; grid-row:1 / span 10 !important; }
+        #galeria .campaign-grid > .campaign-frame--space { grid-column:6 / span 7 !important; grid-row:1 / span 6 !important; }
+        #galeria .campaign-grid > .campaign-frame--tools { grid-column:6 / span 7 !important; grid-row:7 / span 4 !important; }
+
+        footer > div { max-width: 1440px !important; }
+        footer h3 { font-family:'DM Sans',sans-serif; }
+
+        @media (max-width: 900px) {
+            #manifiesto.brand-manifesto { display:block; min-height:auto; }
+            .manifesto-visual { min-height:62svh; }
+            .manifesto-visual::after { background:linear-gradient(0deg,#0a0a0b,transparent 55%); }
+            .manifesto-copy { padding:4rem 1.5rem 5rem; }
+            .manifesto-copy h2 { font-size:clamp(3.8rem,14vw,6rem)!important; }
+            .campaign-grid { grid-template-rows:repeat(12,56px); }
+            #galeria .campaign-grid > .campaign-frame--portrait { grid-column:1 / span 7 !important; grid-row:1 / span 8 !important; }
+            #galeria .campaign-grid > .campaign-frame--space { grid-column:8 / span 5 !important; grid-row:2 / span 5 !important; }
+            #galeria .campaign-grid > .campaign-frame--tools { grid-column:6 / span 7 !important; grid-row:8 / span 5 !important; }
+        }
+        @media (max-width: 767px) {
+            .brand-intro__mark span { font-size:2.8rem; }
+            .brand-intro__mark small { font-size:.48rem; letter-spacing:.3em; }
+            .hero-edition { display:none; }
+            #manifiesto.brand-manifesto { padding:0!important; }
+            .manifesto-visual { min-height:58svh; }
+            .manifesto-principles { gap:.65rem; }
+            .manifesto-principles p { font-size:.68rem; }
+            .film-break { min-height:68svh; }
+            .campaign-heading { display:block; }
+            .campaign-grid { display:grid; grid-template-columns:1fr; grid-template-rows:none; gap:.5rem; }
+            #galeria .campaign-grid > .campaign-frame--portrait,
+            #galeria .campaign-grid > .campaign-frame--space,
+            #galeria .campaign-grid > .campaign-frame--tools { grid-column:1 !important; grid-row:auto !important; }
+            .campaign-frame--portrait { aspect-ratio:4/5; }
+            .campaign-frame--space { aspect-ratio:16/10; }
+            .campaign-frame--tools { aspect-ratio:3/2; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .brand-intro { display:none; }
+            #inicio .hero-film { animation:none; transform:none; }
+            #inicio .relative.z-10 > div { animation:none; }
+        }
+
+        /* Servicios — cristal ahumado sobre obsidiana */
+        #servicios.services-glass {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 16% 12%, rgba(188,160,105,.15), transparent 29rem),
+                radial-gradient(circle at 88% 74%, rgba(111,92,63,.12), transparent 32rem),
+                linear-gradient(145deg, #08090a 0%, #101011 48%, #070708 100%) !important;
+            color: var(--ivory);
+            padding-block: clamp(7rem,11vw,11rem) !important;
+        }
+        #servicios.services-glass::before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            opacity: .23;
+            background-image:
+                linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.032) 1px, transparent 1px);
+            background-size: 96px 96px;
+            mask-image: linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);
+        }
+        #servicios.services-glass::after {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            width: clamp(18rem,36vw,40rem);
+            aspect-ratio: 1;
+            right: -12%;
+            top: 8%;
+            border: 1px solid rgba(244,241,234,.08);
+            border-radius: 50%;
+            box-shadow: 0 0 120px rgba(188,160,105,.08), inset 0 0 80px rgba(255,255,255,.02);
+        }
+        .services-shell { position: relative; z-index: 1; max-width: 1360px !important; }
+        .services-header {
+            display: grid;
+            grid-template-columns: minmax(0,8fr) minmax(260px,4fr);
+            align-items: end;
+            gap: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(244,241,234,.18);
+        }
+        .services-kicker { color: #bca069 !important; }
+        .services-header h2 {
+            max-width: 850px;
+            margin: 0;
+            color: var(--ivory);
+            font-size: clamp(4rem,7.6vw,7.5rem) !important;
+            font-weight: 500;
+            line-height: .83;
+            letter-spacing: -.055em;
+        }
+        .services-header h2 em { display: block; color: #bca069; font-weight: 400; }
+        .services-intro { padding-bottom: .55rem; color: rgba(244,241,234,.56) !important; line-height: 1.85; }
+        .services-intro::before { content: '01 — MENÚ PRIVADO'; display:block; margin-bottom:1.25rem; color:rgba(244,241,234,.34); font-size:.55rem; letter-spacing:.3em; }
+
+        .services-feature {
+            position: relative;
+            margin-top: clamp(4rem,7vw,7rem);
+            padding: clamp(1.25rem,2.5vw,2.25rem);
+            overflow: hidden;
+            border: 1px solid rgba(244,241,234,.13);
+            border-radius: 28px;
+            background: linear-gradient(125deg,rgba(255,255,255,.09),rgba(255,255,255,.025));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 32px 90px rgba(0,0,0,.28);
+            -webkit-backdrop-filter: blur(22px) saturate(115%);
+            backdrop-filter: blur(22px) saturate(115%);
+        }
+        .services-feature::before {
+            content: '';
+            position: absolute;
+            width: 18rem;
+            height: 18rem;
+            left: -7rem;
+            top: -12rem;
+            border-radius: 50%;
+            background: rgba(188,160,105,.2);
+            filter: blur(70px);
+            pointer-events: none;
+        }
+        .services-feature__head { position:relative; display:flex; align-items:end; justify-content:space-between; gap:2rem; margin-bottom:1.5rem; }
+        .services-feature__head h3 { color:var(--ivory); font-family:'DM Sans',sans-serif; font-size:clamp(1.35rem,2.2vw,2rem); font-weight:500; }
+        .services-feature__note { color:rgba(244,241,234,.38); font-size:.58rem; letter-spacing:.25em; text-transform:uppercase; }
+
+        #servicios #popularesGrid {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(min(100%,280px),1fr));
+            gap: .85rem !important;
+            border: 0;
+        }
+        #servicios #popularesGrid > .popular-service-glass {
+            min-height: 230px;
+            display: flex;
+            flex-direction: column;
+            padding: 1.7rem !important;
+            border: 1px solid rgba(244,241,234,.1) !important;
+            border-radius: 20px !important;
+            background: linear-gradient(145deg,rgba(8,8,9,.64),rgba(255,255,255,.045)) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 18px 45px rgba(0,0,0,.18);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            transition: transform .45s var(--ease-luxury), border-color .35s ease, background .35s ease;
+        }
+        #servicios #popularesGrid > .popular-service-glass:hover {
+            transform: translateY(-5px);
+            border-color: rgba(188,160,105,.42) !important;
+            background: linear-gradient(145deg,rgba(188,160,105,.11),rgba(255,255,255,.055)) !important;
+        }
+        #servicios #popularesGrid .popular-rank { display:flex; align-items:center; justify-content:space-between; margin-bottom:auto; }
+        #servicios #popularesGrid .popular-rank strong { color:#bca069; font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:400; line-height:1; }
+        #servicios #popularesGrid .popular-rank span { color:rgba(244,241,234,.35); font-size:.52rem; letter-spacing:.25em; text-transform:uppercase; }
+        #servicios #popularesGrid h4 { color:var(--ivory) !important; font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:500; line-height:1; }
+        #servicios #popularesGrid p { color:rgba(244,241,234,.48) !important; line-height:1.6; }
+        #servicios #popularesGrid .popular-meta { border-top:1px solid rgba(244,241,234,.1); padding-top:1rem; }
+        #servicios #popularesGrid .popular-meta span:first-child { color:rgba(244,241,234,.38) !important; }
+        #servicios #popularesGrid .popular-meta span:last-child { color:#d0b478 !important; font-family:'Cormorant Garamond',serif; font-size:1.3rem; }
+
+        .services-catalogue { margin-top: clamp(4.5rem,8vw,8rem); }
+        .services-catalogue__head { display:flex; align-items:center; justify-content:space-between; gap:2rem; margin-bottom:1.4rem; }
+        .services-catalogue__head p { color:rgba(244,241,234,.38); font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; }
+        .services-catalogue__head span { width:min(34vw,380px); height:1px; background:linear-gradient(90deg,rgba(244,241,234,.18),transparent); }
+        #servicios #catalogoGrid {
+            display: grid !important;
+            grid-template-columns: repeat(2,minmax(0,1fr));
+            gap: .85rem;
+            border: 0;
+        }
+        #servicios #catalogoGrid > .service-row {
+            position: relative;
+            min-height: 220px;
+            display: grid;
+            grid-template-columns: 52px minmax(0,1fr) !important;
+            grid-template-rows: 1fr auto;
+            align-items: start;
+            gap: 1rem 1.2rem;
+            padding: 1.7rem !important;
+            overflow: hidden;
+            border: 1px solid rgba(244,241,234,.1) !important;
+            border-radius: 20px !important;
+            background: linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.022)) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 18px 60px rgba(0,0,0,.16);
+            -webkit-backdrop-filter: blur(18px) saturate(110%);
+            backdrop-filter: blur(18px) saturate(110%);
+            transition: transform .45s var(--ease-luxury), border-color .35s ease, background .35s ease !important;
+        }
+        #servicios #catalogoGrid > .service-row::after {
+            content:'';
+            position:absolute;
+            inset:0;
+            background:linear-gradient(115deg,transparent 25%,rgba(255,255,255,.075) 48%,transparent 68%);
+            transform:translateX(-115%);
+            transition:transform .8s var(--ease-luxury);
+            pointer-events:none;
+        }
+        #servicios #catalogoGrid > .service-row:hover { padding-inline:1.7rem !important; transform:translateY(-4px); border-color:rgba(188,160,105,.4) !important; background:linear-gradient(145deg,rgba(188,160,105,.1),rgba(255,255,255,.035)) !important; }
+        #servicios #catalogoGrid > .service-row:hover::after { transform:translateX(115%); }
+        #servicios .service-index { color:#bca069; font-size:1rem; letter-spacing:.12em; }
+        #servicios .service-row h3 { color:var(--ivory) !important; font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:500; line-height:1; }
+        #servicios .service-row p { color:rgba(244,241,234,.47) !important; line-height:1.65; }
+        #servicios .service-row div span { color:rgba(244,241,234,.34) !important; }
+        #servicios .service-price { grid-column:2; align-self:end; color:#d0b478 !important; font-size:1.55rem; font-weight:500; }
+        #servicios.services-glass .text-white { color:var(--ivory) !important; }
+        #servicios.services-glass .text-zinc-500,
+        #servicios.services-glass .text-zinc-600 { color:rgba(244,241,234,.48) !important; }
+
+        @media (max-width: 767px) {
+            #servicios.services-glass { padding-block:6rem !important; }
+            #servicios.services-glass::before { background-size:64px 64px; opacity:.16; }
+            .services-header { grid-template-columns:1fr; gap:1.6rem; }
+            .services-header h2 { font-size:clamp(3.5rem,17vw,5rem) !important; }
+            .services-intro { max-width:30rem; }
+            .services-feature { margin-inline:-.25rem; padding:1rem; border-radius:22px; }
+            .services-feature__head { align-items:start; flex-direction:column; gap:.6rem; padding:.35rem .35rem 0; }
+            #servicios #popularesGrid > .popular-service-glass { min-height:210px; border-radius:16px !important; }
+            .services-catalogue__head span { flex:1; width:auto; }
+            #servicios #catalogoGrid { grid-template-columns:1fr; }
+            #servicios #catalogoGrid > .service-row { min-height:200px; grid-template-columns:38px minmax(0,1fr) !important; padding:1.4rem !important; border-radius:16px !important; }
+            #servicios #catalogoGrid > .service-row:hover { padding-inline:1.4rem !important; transform:none; }
+            #servicios .service-row h3 { font-size:1.75rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #servicios #catalogoGrid > .service-row::after { display:none; }
+            #servicios #catalogoGrid > .service-row,
+            #servicios #popularesGrid > .popular-service-glass { transition:none !important; }
+        }
+
+        /* Mis citas — archivo privado en plata y grafito */
+        #mis-citas.appointments-section {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            padding-block: clamp(7rem,10vw,10rem) !important;
+            border: 0 !important;
+            background:
+                radial-gradient(circle at 82% 15%, rgba(220,226,232,.11), transparent 25rem),
+                radial-gradient(circle at 8% 88%, rgba(112,122,134,.12), transparent 30rem),
+                linear-gradient(135deg,#090b0d 0%,#15191e 48%,#080a0c 100%) !important;
+            color: #edf0f2;
+        }
+        #mis-citas.appointments-section::before {
+            content:'';
+            position:absolute;
+            z-index:-1;
+            inset:0;
+            opacity:.2;
+            background:
+                repeating-linear-gradient(115deg,transparent 0,transparent 70px,rgba(255,255,255,.028) 71px,transparent 72px),
+                linear-gradient(90deg,transparent,rgba(255,255,255,.025) 50%,transparent);
+            mask-image:linear-gradient(#000,transparent 92%);
+        }
+        .appointments-shell { position:relative; z-index:1; max-width:1360px !important; }
+        .appointments-shell::before {
+            content:'RAND';
+            position:absolute;
+            z-index:-1;
+            right:-.04em;
+            top:-.37em;
+            color:transparent;
+            font-family:'DM Sans',sans-serif;
+            font-size:clamp(8rem,22vw,22rem);
+            font-weight:700;
+            letter-spacing:-.08em;
+            -webkit-text-stroke:1px rgba(224,229,234,.045);
+            pointer-events:none;
+        }
+        .appointments-header {
+            display:grid;
+            grid-template-columns:minmax(0,8fr) minmax(280px,4fr);
+            align-items:end;
+            gap:3rem;
+            padding:1.65rem 0 2.5rem;
+            border-top:1px solid rgba(226,231,235,.27);
+            border-bottom:1px solid rgba(226,231,235,.1);
+        }
+        .appointments-kicker { color:#aeb6bd !important; }
+        .appointments-heading h2 {
+            margin:0;
+            color:#f2f3f4;
+            font-size:clamp(4rem,8vw,8rem) !important;
+            font-weight:500;
+            line-height:.82;
+            letter-spacing:-.06em;
+        }
+        .appointments-heading h2 em {
+            display:block;
+            background:linear-gradient(115deg,#747c83 0%,#f4f6f7 38%,#929aa1 70%,#e2e6e9 100%);
+            background-clip:text;
+            -webkit-background-clip:text;
+            color:transparent;
+            font-weight:400;
+            filter:drop-shadow(0 8px 18px rgba(0,0,0,.34));
+        }
+        .appointments-heading p:last-child { max-width:640px; color:rgba(226,231,235,.53) !important; line-height:1.75; }
+        .appointments-control { display:flex; flex-direction:column; align-items:flex-start; gap:1.2rem; padding-bottom:.35rem; }
+        .appointments-control__label { color:rgba(226,231,235,.32); font-size:.54rem; letter-spacing:.3em; text-transform:uppercase; }
+        #btnActualizarMisCitas.appointments-refresh {
+            position:relative;
+            min-width:220px;
+            padding:1rem 1.35rem;
+            overflow:hidden;
+            border:1px solid rgba(255,255,255,.5) !important;
+            border-radius:4px;
+            background:linear-gradient(145deg,#eef1f3 0%,#aeb5ba 45%,#f4f5f6 100%);
+            color:#111418;
+            box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.22),0 12px 35px rgba(0,0,0,.3),0 0 0 1px rgba(0,0,0,.55);
+            font-weight:700;
+            text-shadow:0 1px rgba(255,255,255,.55);
+            transition:transform .35s var(--ease-luxury),box-shadow .35s ease,filter .35s ease;
+        }
+        #btnActualizarMisCitas.appointments-refresh::after {
+            content:'';
+            position:absolute;
+            inset:-40% auto -40% -35%;
+            width:30%;
+            background:rgba(255,255,255,.7);
+            filter:blur(10px);
+            transform:skewX(-18deg);
+            transition:left .65s var(--ease-luxury);
+            pointer-events:none;
+        }
+        #btnActualizarMisCitas.appointments-refresh:hover { transform:translateY(-2px); filter:brightness(1.06); box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.22),0 18px 42px rgba(0,0,0,.38),0 0 0 1px rgba(0,0,0,.55); }
+        #btnActualizarMisCitas.appointments-refresh:hover::after { left:115%; }
+        #btnActualizarMisCitas.appointments-refresh:disabled { opacity:.62; transform:none; }
+
+        #misCitasGrid.appointments-grid { margin-top:clamp(2.5rem,5vw,4.5rem); gap:1rem !important; }
+        .appointment-card {
+            position:relative;
+            min-height:360px;
+            display:flex;
+            flex-direction:column;
+            padding:1.55rem;
+            overflow:hidden;
+            border:1px solid rgba(225,230,234,.25);
+            border-radius:16px;
+            background:
+                linear-gradient(145deg,rgba(255,255,255,.115),rgba(255,255,255,.028) 55%,rgba(0,0,0,.08)),
+                #11151a;
+            box-shadow:
+                inset 1px 1px 0 rgba(255,255,255,.17),
+                inset -1px -1px 0 rgba(0,0,0,.5),
+                0 28px 65px rgba(0,0,0,.32),
+                0 0 0 1px rgba(0,0,0,.35);
+            transition:transform .45s var(--ease-luxury),border-color .35s ease,box-shadow .35s ease;
+        }
+        .appointment-card::before {
+            content:'';
+            position:absolute;
+            inset:0;
+            background:linear-gradient(112deg,transparent 15%,rgba(255,255,255,.085) 42%,transparent 66%);
+            transform:translateX(-115%);
+            transition:transform .9s var(--ease-luxury);
+            pointer-events:none;
+        }
+        .appointment-card::after {
+            content:'';
+            position:absolute;
+            width:180px;
+            height:180px;
+            right:-90px;
+            bottom:-100px;
+            border:1px solid rgba(225,230,234,.1);
+            border-radius:50%;
+            box-shadow:0 0 50px rgba(201,209,216,.05);
+            pointer-events:none;
+        }
+        .appointment-card:hover { transform:translateY(-6px); border-color:rgba(235,239,242,.44); box-shadow:inset 1px 1px 0 rgba(255,255,255,.2),inset -1px -1px 0 rgba(0,0,0,.5),0 38px 80px rgba(0,0,0,.43),0 0 0 1px rgba(0,0,0,.4); }
+        .appointment-card:hover::before { transform:translateX(115%); }
+        .appointment-card__top { position:relative; display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+        .appointment-card__eyebrow { color:rgba(225,230,234,.3); font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; }
+        .appointment-card h3 { margin-top:1rem; color:#f0f2f3; font-family:'Cormorant Garamond',serif; font-size:clamp(1.8rem,2.5vw,2.35rem); font-weight:500; line-height:.95; }
+        .appointment-card__barber { margin-top:.55rem; color:rgba(225,230,234,.48); font-size:.78rem; }
+        .appointment-state {
+            flex:0 0 auto;
+            padding:.55rem .7rem;
+            border:1px solid rgba(224,229,233,.2);
+            border-radius:999px;
+            background:rgba(255,255,255,.045);
+            color:#cbd1d5;
+            font-size:.48rem;
+            font-weight:700;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            box-shadow:inset 0 1px rgba(255,255,255,.07),0 7px 20px rgba(0,0,0,.2);
+        }
+        .status-confirmed { border-color:rgba(173,205,190,.35); color:#c4d9cf; }
+        .status-pending { border-color:rgba(219,205,164,.32); color:#d8cfb5; }
+        .status-cancelled { border-color:rgba(203,161,164,.3); color:#d2b4b6; }
+        .status-completed { border-color:rgba(179,196,211,.34); color:#c4d0da; }
+        .appointment-card__date {
+            position:relative;
+            margin-top:auto;
+            padding-top:1.4rem;
+            border-top:1px solid rgba(225,230,234,.12);
+        }
+        .appointment-card__day { color:#dce1e4; font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:500; text-transform:capitalize; }
+        .appointment-card__time { margin-top:.25rem; color:#aeb6bc; font-size:1rem; letter-spacing:.08em; }
+        .appointment-card__detail { margin-top:1rem; min-height:2.5em; color:rgba(225,230,234,.38); font-size:.68rem; line-height:1.6; }
+        .appointment-forget { position:relative; align-self:flex-start; margin-top:1.1rem; color:rgba(225,230,234,.28); font-size:.48rem; letter-spacing:.18em; text-transform:uppercase; transition:color .25s ease; }
+        .appointment-forget:hover { color:#d6dadd; }
+
+        .appointments-empty,
+        .appointments-feedback {
+            position:relative;
+            grid-column:1/-1;
+            min-height:310px;
+            display:grid;
+            place-items:center;
+            padding:clamp(2rem,6vw,5rem);
+            overflow:hidden;
+            border:1px solid rgba(225,230,234,.22) !important;
+            border-radius:18px;
+            background:linear-gradient(145deg,rgba(255,255,255,.095),rgba(255,255,255,.022)),#101419 !important;
+            box-shadow:inset 1px 1px 0 rgba(255,255,255,.15),inset -1px -1px 0 rgba(0,0,0,.5),0 30px 80px rgba(0,0,0,.3) !important;
+            text-align:center;
+        }
+        .appointments-empty::before {
+            content:'R';
+            position:absolute;
+            right:clamp(-1rem,2vw,2rem);
+            bottom:-.3em;
+            color:transparent;
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(13rem,31vw,28rem);
+            line-height:.7;
+            -webkit-text-stroke:1px rgba(225,230,234,.065);
+            pointer-events:none;
+        }
+        .appointments-empty__content { position:relative; z-index:1; max-width:560px; }
+        .appointments-empty__seal {
+            width:60px;
+            height:60px;
+            display:grid;
+            place-items:center;
+            margin:0 auto 1.6rem;
+            border:1px solid rgba(240,243,245,.45);
+            border-radius:50%;
+            background:linear-gradient(145deg,#dfe3e6,#737c84 55%,#e7e9eb);
+            color:#101317;
+            box-shadow:inset 0 1px 1px #fff,inset 0 -2px 3px rgba(0,0,0,.35),0 12px 30px rgba(0,0,0,.35);
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.7rem;
+            font-weight:700;
+        }
+        .appointments-empty h3 { color:#eef0f2; font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3.2rem); font-weight:500; line-height:1; }
+        .appointments-empty p { margin-top:.8rem; color:rgba(225,230,234,.45) !important; line-height:1.65; }
+        .appointments-empty a { display:inline-flex; margin-top:1.6rem; padding-bottom:.35rem; border-bottom:1px solid rgba(225,230,234,.45); color:#dce0e3 !important; font-size:.56rem; letter-spacing:.2em; text-transform:uppercase; }
+        .appointments-footnote { display:flex; gap:.8rem; align-items:flex-start; margin-top:1.5rem; color:rgba(225,230,234,.28) !important; }
+        .appointments-footnote::before { content:'i'; flex:0 0 auto; width:18px; height:18px; display:grid; place-items:center; border:1px solid rgba(225,230,234,.22); border-radius:50%; color:rgba(225,230,234,.5); font-family:serif; font-size:.65rem; text-transform:none; }
+        #mis-citas.appointments-section .text-white { color:#edf0f2 !important; }
+        #mis-citas.appointments-section .text-zinc-500,
+        #mis-citas.appointments-section .text-zinc-600,
+        #mis-citas.appointments-section .text-zinc-700 { color:rgba(225,230,234,.45) !important; }
+
+        @media (max-width:767px) {
+            #mis-citas.appointments-section { padding-block:6rem !important; }
+            .appointments-header { grid-template-columns:1fr; gap:2rem; }
+            .appointments-heading h2 { font-size:clamp(4rem,20vw,5.4rem) !important; }
+            .appointments-control { width:100%; }
+            #btnActualizarMisCitas.appointments-refresh { width:100%; }
+            #misCitasGrid.appointments-grid { grid-template-columns:1fr; }
+            .appointment-card { min-height:330px; border-radius:14px; }
+            .appointments-empty,.appointments-feedback { min-height:340px; border-radius:14px; }
+            .appointments-footnote { font-size:.5rem !important; line-height:1.7 !important; }
+        }
+        @media (prefers-reduced-motion:reduce) {
+            .appointment-card,.appointment-card::before,#btnActualizarMisCitas.appointments-refresh,#btnActualizarMisCitas.appointments-refresh::after { transition:none !important; }
+            .appointment-card:hover,#btnActualizarMisCitas.appointments-refresh:hover { transform:none; }
+        }
+
+        /* Mis citas — variante oro envejecido */
+        #mis-citas.appointments-section {
+            background: radial-gradient(circle at 82% 15%,rgba(206,169,96,.16),transparent 25rem), radial-gradient(circle at 8% 88%,rgba(113,82,36,.16),transparent 30rem), linear-gradient(135deg,#0b0906 0%,#19140d 48%,#080705 100%) !important;
+        }
+        .appointments-shell::before { -webkit-text-stroke-color:rgba(210,172,98,.06); }
+        .appointments-header { border-top-color:rgba(217,183,117,.3); border-bottom-color:rgba(217,183,117,.12); }
+        .appointments-kicker { color:#b99352 !important; }
+        .appointments-heading h2 em { background-image:linear-gradient(115deg,#7f5d2a 0%,#efd9a8 38%,#a77c37 70%,#e4c98f 100%); }
+        .appointments-control__label { color:rgba(221,190,128,.38); }
+        #btnActualizarMisCitas.appointments-refresh { border-color:rgba(255,230,178,.62) !important; background:linear-gradient(145deg,#ead29e 0%,#a77b38 46%,#f2dfb2 100%); color:#181107; box-shadow:inset 0 1px 0 #fff2cf,inset 0 -1px 0 rgba(67,42,8,.5),0 14px 36px rgba(0,0,0,.38),0 0 0 1px rgba(62,38,7,.7); }
+        .appointment-card { border-color:rgba(218,181,109,.27); background:linear-gradient(145deg,rgba(209,169,91,.115),rgba(255,255,255,.025) 55%,rgba(0,0,0,.08)),#151109; box-shadow:inset 1px 1px 0 rgba(255,226,166,.17),inset -1px -1px 0 rgba(0,0,0,.55),0 28px 65px rgba(0,0,0,.4),0 0 0 1px rgba(57,38,10,.55); }
+        .appointment-card::after { border-color:rgba(218,181,109,.13); box-shadow:0 0 50px rgba(197,151,67,.07); }
+        .appointment-card h3,.appointment-card__day { color:#f1e5cc; }
+        .appointment-state { border-color:rgba(218,181,109,.24); background:rgba(186,140,57,.055); color:#dbc28f; }
+        .appointment-card__date { border-top-color:rgba(218,181,109,.15); }
+        .appointment-card__time { color:#bea777; }
+        .appointments-empty,.appointments-feedback { border-color:rgba(218,181,109,.25) !important; background:linear-gradient(145deg,rgba(206,164,83,.105),rgba(255,255,255,.018)),#141008 !important; box-shadow:inset 1px 1px 0 rgba(255,226,166,.16),inset -1px -1px 0 rgba(0,0,0,.55),0 30px 80px rgba(0,0,0,.4) !important; }
+        .appointments-empty::before { -webkit-text-stroke-color:rgba(218,181,109,.075); }
+        .appointments-empty__seal { border-color:rgba(255,226,164,.55); background:linear-gradient(145deg,#ecd7aa,#946c2e 55%,#f2dfb6); color:#1b1308; box-shadow:inset 0 1px 1px #fff1d0,inset 0 -2px 3px rgba(70,43,6,.5),0 14px 34px rgba(0,0,0,.42); }
+        .appointments-empty h3 { color:#f1e5cc; }
+        .appointments-empty a { border-bottom-color:rgba(218,181,109,.5); color:#dfc68f !important; }
+
+        /* Reserva — experiencia de concierge privada */
+        #reservas.booking-section { position:relative; isolation:isolate; overflow:hidden; padding-block:clamp(7rem,11vw,11rem) !important; background:radial-gradient(circle at 92% 8%,rgba(181,139,63,.18),transparent 28rem),linear-gradient(135deg,#f1ece2 0%,#dfd5c4 52%,#ece5da 100%) !important; color:#0b0b0c; }
+        #reservas.booking-section::before { content:'03'; position:absolute; z-index:-1; right:-.04em; top:-.2em; color:rgba(97,73,35,.045); font-family:'Cormorant Garamond',serif; font-size:clamp(18rem,43vw,43rem); font-weight:600; line-height:.75; pointer-events:none; }
+        .booking-shell { position:relative; z-index:1; max-width:1360px !important; }
+        #reservas.booking-section > .booking-shell > .booking-header { display:grid !important; grid-template-columns:minmax(0,8fr) minmax(270px,4fr); align-items:end; gap:3rem; max-width:none !important; margin-bottom:clamp(3rem,6vw,5.5rem) !important; padding-top:1.6rem; border-top:1px solid rgba(35,25,11,.28); }
+        .booking-kicker { color:#80602a !important; }
+        #reservas .booking-header h2 { max-width:820px; margin:0; color:#0c0c0d; font-size:clamp(4.5rem,8.5vw,8.5rem) !important; font-weight:500; line-height:.8; letter-spacing:-.06em; }
+        .booking-header h2 em { display:block; color:#9a7331; font-weight:400; }
+        #reservas .booking-header p:last-child { max-width:420px; margin:0 0 .55rem; color:rgba(12,12,13,.56) !important; font-size:.84rem; line-height:1.8; }
+        #reservas .booking-header p:last-child::before { content:'PRIVATE APPOINTMENT'; display:block; margin-bottom:1.15rem; color:rgba(12,12,13,.35); font-size:.52rem; letter-spacing:.28em; }
+        #reservas .booking-progress { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.55rem; margin-bottom:1rem; padding:.55rem; border:1px solid rgba(35,25,11,.16); border-radius:16px; background:rgba(255,255,255,.34); box-shadow:inset 0 1px rgba(255,255,255,.6),0 16px 50px rgba(60,43,15,.08); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); }
+        #reservas .booking-progress > [data-step-indicator] { min-width:0; display:grid; grid-template-columns:42px minmax(0,1fr); align-items:center; gap:.8rem; padding:.7rem; border:1px solid transparent; border-radius:11px; color:rgba(12,12,13,.42); transition:background .35s ease,border-color .35s ease,color .35s ease; }
+        #reservas .booking-progress .step-dot { width:42px !important; height:42px !important; border:1px solid rgba(43,31,12,.18) !important; border-radius:50% !important; background:transparent !important; color:inherit !important; }
+        #reservas .booking-progress [data-step-indicator] > span:last-child { display:block !important; color:inherit !important; font-size:.52rem; letter-spacing:.18em; white-space:nowrap; }
+        #reservas .booking-progress [data-state='active'] { border-color:rgba(145,104,39,.24); background:#11100e; color:#ddc184; box-shadow:inset 0 1px rgba(255,255,255,.06),0 12px 30px rgba(49,34,10,.15); }
+        #reservas .booking-progress [data-state='active'] .step-dot { border-color:rgba(221,193,132,.55) !important; }
+        #reservas .booking-progress [data-state='complete'] { color:#62491f; background:rgba(166,124,51,.1); }
+        #reservas .booking-progress [data-state='complete'] .step-dot { border-color:#9a7331 !important; background:#9a7331 !important; color:#fff5dd !important; }
+        #reservas .booking-layout { display:grid; grid-template-columns:minmax(0,8fr) minmax(280px,4fr); gap:1rem; align-items:start; }
+        #reservas .booking-workspace { position:relative; grid-column:auto !important; min-height:640px; padding:clamp(1.4rem,3.5vw,3rem) !important; overflow:hidden; border:1px solid rgba(222,185,112,.2) !important; border-radius:22px !important; background:radial-gradient(circle at 95% 0,rgba(188,145,67,.12),transparent 22rem),linear-gradient(145deg,#151515,#090909) !important; box-shadow:inset 0 1px rgba(255,255,255,.07),0 28px 80px rgba(52,36,10,.22) !important; color:#f4f1ea; -webkit-backdrop-filter:none; backdrop-filter:none; }
+        #reservas .booking-workspace::before { content:'RAND'; position:absolute; right:-.05em; bottom:-.12em; color:transparent; font-family:'DM Sans',sans-serif; font-size:clamp(7rem,16vw,15rem); font-weight:700; letter-spacing:-.08em; -webkit-text-stroke:1px rgba(208,168,92,.055); pointer-events:none; }
+        .booking-step { position:relative; z-index:1; }
+        .booking-step__eyebrow { margin-bottom:.8rem; color:#ad8848; font-size:.52rem; letter-spacing:.26em; text-transform:uppercase; }
+        #reservas .booking-step h3 { color:#f5f0e5; font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,4vw,3.4rem); font-weight:500; line-height:1; }
+        #reservas .booking-step > h3 + p { max-width:600px; color:rgba(244,241,234,.46) !important; line-height:1.65; }
+        #reservas .booking-field-label { color:rgba(218,190,137,.55) !important; }
+        #reservas .tarjeta-servicio { position:relative; min-height:190px; display:flex; flex-direction:column; padding:1.35rem !important; overflow:hidden; border:1px solid rgba(244,241,234,.09) !important; border-radius:14px !important; background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.015)) !important; box-shadow:inset 0 1px rgba(255,255,255,.06),0 16px 38px rgba(0,0,0,.16); transition:transform .4s var(--ease-luxury),border-color .3s ease,background .3s ease !important; }
+        #reservas .tarjeta-servicio::after { content:'+'; position:absolute; right:1rem; top:.75rem; color:rgba(218,190,137,.35); font-family:'Cormorant Garamond',serif; font-size:1.5rem; }
+        #reservas .tarjeta-servicio:hover { transform:translateY(-3px); border-color:rgba(202,159,81,.38) !important; background:linear-gradient(145deg,rgba(188,145,67,.115),rgba(255,255,255,.02)) !important; }
+        #reservas .tarjeta-servicio[aria-pressed='true'] { outline:1px solid #b78a3c !important; outline-offset:-1px; border-color:#b78a3c !important; background:linear-gradient(145deg,rgba(188,145,67,.2),rgba(255,255,255,.03)) !important; }
+        #reservas .tarjeta-servicio[aria-pressed='true']::after { content:'✓'; color:#dfc485; }
+        #reservas .booking-option__index { margin-bottom:auto; color:rgba(218,190,137,.46); font-family:'Cormorant Garamond',serif; font-size:1.25rem; }
+        #reservas .tarjeta-servicio > p.font-semibold { margin-top:1.5rem; color:#f4f0e7 !important; font-family:'Cormorant Garamond',serif; font-size:1.65rem; font-weight:500; line-height:1; }
+        #reservas .tarjeta-servicio > p.text-zinc-600 { color:rgba(244,241,234,.4) !important; line-height:1.55; }
+        #reservas .tarjeta-servicio > div { border-top:1px solid rgba(244,241,234,.08); padding-top:.9rem; }
+        #reservas .tarjeta-servicio > div span:last-child { color:#d1ad69 !important; font-family:'Cormorant Garamond',serif; font-size:1.2rem; }
+        #reservas #wizardBarberos { gap:.7rem; }
+        #reservas .tarjeta-barbero { width:150px !important; padding:.5rem !important; border:1px solid rgba(244,241,234,.09) !important; border-radius:13px !important; background:rgba(255,255,255,.035) !important; text-align:left; transition:border-color .3s ease,background .3s ease !important; }
+        #reservas .tarjeta-barbero > div { margin-bottom:.75rem !important; border-radius:9px; filter:saturate(.72); }
+        #reservas .tarjeta-barbero p { padding-inline:.4rem; }
+        #reservas .tarjeta-barbero[aria-pressed='true'] { outline:1px solid #b78a3c !important; outline-offset:-1px; border-color:#b78a3c !important; background:rgba(188,145,67,.14) !important; }
+        #reservas .tarjeta-dia { width:72px !important; min-height:76px; border:1px solid rgba(244,241,234,.08) !important; border-radius:12px !important; background:rgba(255,255,255,.035) !important; }
+        #reservas .tarjeta-dia[aria-pressed='true'] { outline:1px solid #b78a3c !important; outline-offset:-1px; border-color:#b78a3c !important; background:rgba(188,145,67,.15) !important; }
+        #reservas .tarjeta-hora { min-height:48px; border:1px solid rgba(244,241,234,.07) !important; border-radius:10px !important; background:rgba(255,255,255,.035) !important; color:#dfd9ce; }
+        #reservas .tarjeta-hora[aria-pressed='true'] { outline:1px solid #b78a3c !important; outline-offset:-1px; border-color:#b78a3c !important; background:#b78a3c !important; color:#0c0b09 !important; font-weight:700; }
+        #reservas .booking-actions { display:flex; align-items:center; gap:.75rem; padding-top:1rem; border-top:1px solid rgba(244,241,234,.08); }
+        #reservas .booking-actions--end { justify-content:flex-end; }
+        #reservas .booking-primary,#reservas #btnConfirmarReserva { min-width:170px; border:1px solid rgba(248,220,162,.52) !important; border-radius:4px !important; background:linear-gradient(145deg,#e4c88d,#a87931 48%,#efd9a7) !important; color:#171005 !important; box-shadow:inset 0 1px #fff0cb,inset 0 -1px rgba(75,45,5,.5),0 12px 30px rgba(0,0,0,.28); }
+        #reservas .booking-secondary { border:1px solid rgba(244,241,234,.18) !important; border-radius:4px !important; color:#dad4c8; }
+        #reservas .booking-primary:disabled,#reservas #btnConfirmarReserva:disabled { opacity:.28; box-shadow:none; }
+        #reservas #citaForm input { min-height:56px; border:0 !important; border-bottom:1px solid rgba(244,241,234,.2) !important; border-radius:0 !important; background:rgba(255,255,255,.035) !important; color:#f4f1ea; box-shadow:inset 0 1px rgba(255,255,255,.035); }
+        #reservas #citaForm input:focus { border-bottom-color:#c89b4d !important; box-shadow:inset 3px 0 #c89b4d; }
+        #reservas .booking-summary { position:sticky; top:7rem; min-height:500px; display:flex; flex-direction:column; padding:1.7rem !important; overflow:hidden; border:1px solid rgba(45,30,8,.25) !important; border-radius:22px !important; background:linear-gradient(145deg,#19150e,#0d0b08) !important; color:#f2eadb; box-shadow:inset 0 1px rgba(255,232,186,.1),0 28px 70px rgba(59,40,9,.22) !important; }
+        #reservas .booking-summary::before { content:'R'; position:absolute; right:-.07em; bottom:-.25em; color:transparent; font-family:'Cormorant Garamond',serif; font-size:17rem; line-height:1; -webkit-text-stroke:1px rgba(205,165,86,.08); pointer-events:none; }
+        .booking-summary__head { position:relative; display:flex; align-items:center; justify-content:space-between; padding-bottom:1.4rem; border-bottom:1px solid rgba(216,180,110,.16); }
+        .booking-summary__seal { width:42px; height:42px; display:grid; place-items:center; border:1px solid rgba(236,207,150,.5); border-radius:50%; background:linear-gradient(145deg,#dfc68f,#8e672b 58%,#ead5a8); color:#171005; font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:700; box-shadow:inset 0 1px #fff0ca,0 8px 20px rgba(0,0,0,.34); }
+        #reservas .booking-summary .gold { color:#caa45d !important; }
+        .booking-summary__rows { position:relative; margin-top:1.5rem; }
+        .booking-summary__row { padding:0 0 1.15rem; margin-bottom:1.15rem; border-bottom:1px solid rgba(216,180,110,.1); }
+        #reservas .booking-summary__row > p:first-child { color:rgba(228,208,169,.38) !important; }
+        #reservas .booking-summary__row > p:last-child { margin-top:.45rem; color:#eee5d4 !important; font-family:'Cormorant Garamond',serif; font-size:1.35rem; line-height:1.1; }
+        .booking-summary__total { position:relative; margin-top:auto; padding-top:1.35rem; border-top:1px solid rgba(216,180,110,.2); }
+        #reservas .booking-summary__total span:first-child { color:rgba(228,208,169,.42) !important; }
+        #reservas #resumenPrecio { color:#d5b36f !important; font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:500; }
+        @media (max-width:1023px) { #reservas .booking-layout { grid-template-columns:1fr; } #reservas .booking-summary { position:relative; top:auto; min-height:auto; } }
+        @media (max-width:767px) {
+            #reservas.booking-section { padding-block:6rem !important; }
+            #reservas.booking-section > .booking-shell > .booking-header { grid-template-columns:1fr; gap:1.6rem; }
+            #reservas .booking-header h2 { font-size:clamp(4.2rem,20vw,5.6rem) !important; }
+            #reservas .booking-progress { gap:.3rem; padding:.35rem; }
+            #reservas .booking-progress > [data-step-indicator] { grid-template-columns:1fr; justify-items:center; gap:.45rem; padding:.55rem .25rem; text-align:center; }
+            #reservas .booking-progress [data-step-indicator] > span:last-child { font-size:.44rem; letter-spacing:.1em; }
+            #reservas .booking-progress .step-dot { width:36px !important; height:36px !important; }
+            #reservas .booking-workspace { min-height:560px; padding:1.25rem !important; border-radius:16px !important; }
+            #reservas .booking-step h3 { font-size:2.35rem; }
+            #reservas #wizardServicios { grid-template-columns:1fr; }
+            #reservas .tarjeta-servicio { min-height:178px; }
+            #reservas .tarjeta-barbero { width:136px !important; }
+            #reservas .booking-actions { flex-direction:column-reverse; }
+            #reservas .booking-actions > button { width:100%; }
+            #reservas .booking-actions--end { flex-direction:column; }
+            #reservas .booking-summary { border-radius:16px !important; }
+        }
+        @media (prefers-reduced-motion:reduce) { #reservas .tarjeta-servicio,#reservas .booking-progress > [data-step-indicator] { transition:none !important; } #reservas .tarjeta-servicio:hover { transform:none; } }
+    </style>
+</head>
+
+
+<body class="bg-[#090909] text-white font-sans">
+
+<a href="#contenido-principal" class="skip-link">Ir al contenido</a>
+
+<div id="brandIntro" class="brand-intro" aria-hidden="true">
+    <div class="brand-intro__mark">
+        <span>RAND</span>
+        <small>Private House · Medellín</small>
+    </div>
+    <div class="brand-intro__line"></div>
+</div>
+
+<div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<header id="siteHeader"
+        class="fixed top-0 left-0 w-full z-50
+               bg-black/80 backdrop-blur-xl
+               border-b border-white/10">
+
+    <div
+            class="max-w-7xl mx-auto
+                   px-6 h-20
+                   flex items-center
+                   justify-between">
+
+
+        <!-- LOGO -->
+
+        <a href="#inicio" aria-label="RAND Barbería, inicio">
+
+            <div class="leading-none">
+
+                    <span
+                            class="text-xl md:text-2xl
+                               font-black
+                               tracking-[0.25em]">
+
+                        RAND
+
+                    </span>
+
+                <span
+                        class="block
+                               text-[8px]
+                               text-zinc-500
+                               uppercase
+                               tracking-[0.45em]
+                               mt-2">
+
+                        Barbería
+
+                    </span>
+
+            </div>
+
+        </a>
+
+
+        <!-- MENU -->
+
+        <nav aria-label="Navegación principal"
+                class="hidden md:flex
+                       items-center
+                       gap-8
+                       text-[10px]
+                       uppercase
+                       tracking-[0.2em]">
+
+            <a
+                    href="#servicios"
+                    class="text-zinc-400
+                           hover:text-white
+                           transition">
+
+                Servicios
+
+            </a>
+
+            <a
+                    href="#barberos"
+                    class="text-zinc-400
+                           hover:text-white
+                           transition">
+
+                Barberos
+
+            </a>
+
+            <a
+                    href="#mis-citas"
+                    class="text-zinc-400
+                           hover:text-white
+                           transition">
+
+                Mis citas
+
+            </a>
+
+            <a
+                    href="#galeria"
+                    class="text-zinc-400
+                           hover:text-white
+                           transition">
+
+                Galería
+
+            </a>
+
+        </nav>
+
+        <button id="btnMenuMovil" type="button" aria-expanded="false" aria-controls="menuMovil" aria-label="Abrir menú"
+                class="md:hidden w-11 h-11 border border-white/15 rounded-full flex items-center justify-center text-xl">
+            <span aria-hidden="true">☰</span>
+        </button>
+
+
+        <!-- RESERVAR -->
+
+        <a
+                href="#reservas"
+                class="gold-bg hidden sm:inline-flex
+                       text-black
+                       font-bold
+                       px-5 py-3
+                       text-[10px]
+                       uppercase
+                       tracking-[0.15em]
+                       transition">
+
+            Reservar cita
+
+        </a>
+
+    </div>
+
+    <nav id="menuMovil" aria-label="Navegación móvil" class="hidden md:hidden border-t border-white/10 bg-[#090909] px-6 py-5">
+        <div class="grid gap-1 text-sm">
+            <a href="#servicios" class="px-4 py-3 rounded-lg hover:bg-white/5">Servicios</a>
+            <a href="#barberos" class="px-4 py-3 rounded-lg hover:bg-white/5">Barberos</a>
+            <a href="#reservas" class="px-4 py-3 rounded-lg bg-[#c9a227] text-black font-bold">Reservar cita</a>
+            <a href="#mis-citas" class="px-4 py-3 rounded-lg hover:bg-white/5">Mis citas</a>
+            <a href="#galeria" class="px-4 py-3 rounded-lg hover:bg-white/5">Galería</a>
+        </div>
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<main id="contenido-principal">
+<section
+        id="inicio"
+        class="relative
+               min-h-screen
+               flex items-center
+               overflow-hidden">
+
+
+    <!-- IMAGEN DE FONDO -->
+
+    <div class="absolute inset-0">
+
+        <video class="hero-film" autoplay muted loop playsinline preload="metadata" poster="/media/rand-campaign-razor.webp" aria-hidden="true">
+            <source src="/media/rand-hero.mp4" type="video/mp4">
+        </video>
+
+        <img
+                src="/media/rand-campaign-razor.webp"
+                alt="Barbero trabajando"
+                class="hero-poster w-full h-full object-cover">
+
+        <div
+                class="absolute inset-0 hero-overlay">
+        </div>
+
+    </div>
+
+    <div class="hero-edition" aria-hidden="true">
+        <span>RAND / 01</span>
+        <span>Private grooming</span>
+    </div>
+
+
+    <!-- CONTENIDO -->
+
+    <div
+            class="relative z-10
+                   max-w-7xl mx-auto
+                   w-full px-6
+                   pt-20">
+
+        <div class="max-w-3xl">
+
+
+            <p
+                    class="gold
+                           text-xs
+                           uppercase
+                           tracking-[0.35em]
+                           font-semibold
+                           mb-6">
+
+                Medellín · Citas privadas
+
+            </p>
+
+
+            <h1
+                    class="text-5xl
+                           sm:text-6xl
+                           md:text-8xl
+                           font-black
+                           uppercase
+                           leading-[0.9]
+                           tracking-tight">
+
+                Precisión
+
+                <br>
+
+                <span class="gold">
+
+                        que se nota.
+
+                    </span>
+
+            </h1>
+
+
+            <p
+                    class="mt-8
+                           text-zinc-300
+                           text-base
+                           md:text-lg
+                           max-w-xl
+                           leading-relaxed">
+
+                Oficio, tiempo y detalle. Una experiencia privada
+                para quienes entienden que la presencia comienza
+                mucho antes de hablar.
+
+            </p>
+
+
+            <div
+                    class="flex flex-col
+                           sm:flex-row
+                           gap-4
+                           mt-10">
+
+
+                <a
+                        href="#reservas"
+                        class="gold-bg
+                               text-black
+                               font-bold
+                               px-8 py-4
+                               text-xs
+                               uppercase
+                               tracking-[0.15em]
+                               text-center
+                               transition">
+
+                    Reservar experiencia
+
+                </a>
+
+
+                <a
+                        href="#servicios"
+                        class="border
+                               border-white/30
+                               hover:border-white
+                               px-8 py-4
+                               text-xs
+                               uppercase
+                               tracking-[0.15em]
+                               text-center
+                               transition">
+
+                    Ver servicios
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCROLL -->
+
+    <div
+            class="scroll-cue absolute
+                   bottom-8
+                   left-1/2
+                   -translate-x-1/2
+                   text-[9px]
+                   uppercase
+                   tracking-[0.4em]
+                   text-zinc-500">
+
+        Scroll
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     FILOSOFÍA
+====================================================== -->
+
+<section id="manifiesto" class="brand-manifesto">
+    <figure class="manifesto-visual">
+        <img src="/media/rand-atelier.webp" alt="Atelier privado RAND" loading="eager">
+        <figcaption>Atelier 01 · Medellín</figcaption>
+    </figure>
+    <div class="manifesto-copy">
+        <p class="manifesto-kicker">El estándar privado</p>
+        <h2>El lujo de<br><em>hacerlo exacto.</em></h2>
+        <p class="manifesto-lead">No buscamos transformar quién eres. Refinamos lo que ya te distingue mediante técnica, criterio y tiempo.</p>
+        <div class="manifesto-principles" aria-label="Principios de RAND">
+            <div><span>01</span><p>Precisión<br>sin exceso</p></div>
+            <div><span>02</span><p>Tiempo<br>bien invertido</p></div>
+            <div><span>03</span><p>Presencia<br>personal</p></div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- =====================================================
+     SERVICIOS (catálogo informativo)
+====================================================== -->
+
+<section
+        id="servicios"
+        class="services-glass py-24 md:py-32">
+
+    <div
+            class="services-shell max-w-6xl
+                   mx-auto
+                   px-6">
+
+
+        <!-- TITULO -->
+
+        <div class="services-header">
+
+
+            <div>
+
+                <p
+                        class="services-kicker gold
+                               text-xs
+                               uppercase
+                               tracking-[0.35em]
+                               mb-4">
+
+                    Menú
+
+                </p>
+
+
+                <h2
+                        class="text-4xl
+                               md:text-5xl
+                               font-bold">
+
+                    Nuestros
+                    <em>servicios.</em>
+
+                </h2>
+
+            </div>
+
+
+            <p
+                    class="services-intro text-zinc-500
+                           text-sm
+                           max-w-sm">
+
+                Cada ritual combina técnica, tiempo y detalle. Elige la precisión que tu presencia necesita.
+
+            </p>
+
+        </div>
+
+
+        <!-- ===================== LO MÁS PEDIDO ===================== -->
+
+        <div class="services-feature">
+
+            <div class="services-feature__head">
+                <div>
+                    <p class="services-kicker gold text-[10px] uppercase tracking-[0.35em] mb-3">Selección RAND</p>
+                    <h3>Los rituales más elegidos.</h3>
+                </div>
+                <p class="services-feature__note">Preferidos por nuestros clientes</p>
+            </div>
+
+            <div id="popularesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <p class="col-span-full text-center text-zinc-600 py-6">Cargando tendencias...</p>
+            </div>
+
+        </div>
+
+
+        <!-- SERVICIOS DINÁMICOS -->
+
+        <div class="services-catalogue">
+            <div class="services-catalogue__head">
+                <p>Colección completa</p>
+                <span aria-hidden="true"></span>
+            </div>
+
+            <div id="catalogoGrid" class="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+
+            <p
+                    class="col-span-full
+                           text-center
+                           text-zinc-600
+                           py-10">
+
+                Cargando servicios...
+
+            </p>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="film-break" aria-label="La experiencia RAND">
+    <video muted loop playsinline preload="none" poster="/media/rand-tools.webp" aria-hidden="true">
+        <source src="/media/rand-ritual.mp4" type="video/mp4">
+    </video>
+    <img src="/media/rand-tools.webp" alt="Instrumentos de precisión del ritual RAND" loading="lazy">
+    <div class="film-break__copy">
+        <p class="gold text-xs uppercase tracking-[0.35em] mb-5">El ritual</p>
+        <h2 class="text-5xl md:text-7xl mb-6">Cada detalle<br>tiene intención.</h2>
+        <p>Una sesión sin prisa, ejecutada con herramientas precisas y criterio personal.</p>
+    </div>
+</section>
+
+
+
+<!-- =====================================================
+     BARBEROS (equipo informativo)
+====================================================== -->
+
+<section
+        id="barberos"
+        class="py-24 md:py-32
+               bg-[#0e0e0e]
+               border-y border-white/10">
+
+    <div
+            class="max-w-6xl
+                   mx-auto
+                   px-6">
+
+
+        <div
+                class="text-center
+                       mb-14">
+
+            <p
+                    class="gold
+                           text-xs
+                           uppercase
+                           tracking-[0.35em]
+                           mb-4">
+
+                El equipo
+
+            </p>
+
+
+            <h2
+                    class="text-4xl
+                           md:text-5xl
+                           font-bold">
+
+                Maestros barberos
+
+            </h2>
+
+
+            <p
+                    class="text-zinc-500
+                           text-sm
+                           mt-4">
+
+                Experiencia, precisión y pasión
+                por el oficio.
+
+            </p>
+
+        </div>
+
+
+        <!-- BARBEROS DINÁMICOS -->
+
+        <div
+                id="equipoGrid"
+                class="grid
+                       grid-cols-1
+                       sm:grid-cols-2
+                       lg:grid-cols-3
+                       gap-6">
+
+            <p
+                    class="col-span-full
+                           text-center
+                           text-zinc-600
+                           py-10">
+
+                Cargando barberos...
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     RESERVAS — WIZARD DE 3 PASOS
+====================================================== -->
+
+<section
+        id="reservas"
+        class="booking-section py-24
+               md:py-32">
+
+    <div
+            class="booking-shell max-w-6xl
+                   mx-auto
+                   px-6">
+
+
+        <!-- TITULO -->
+
+        <div class="booking-header mb-12">
+
+            <div class="booking-title">
+                <p
+                        class="booking-kicker gold
+                           text-xs
+                           uppercase
+                           tracking-[0.35em]
+                           mb-4">
+
+                Reservaciones
+
+                </p>
+
+
+                <h2
+                    class="text-4xl
+                           md:text-5xl
+                           font-bold">
+
+                    Reserva tu
+                    <em>experiencia.</em>
+
+                </h2>
+            </div>
+
+
+            <p
+                    class="text-zinc-500
+                           text-sm
+                           mt-4">
+
+                Un proceso preciso y privado. Elige el ritual, el profesional y el momento que mejor encajen contigo.
+
+            </p>
+
+        </div>
+
+
+        <!-- INDICADOR DE PASOS -->
+
+        <div class="booking-progress" role="list" aria-label="Progreso de la reserva">
+
+            <div data-step-indicator="1" data-state="active" role="listitem" aria-current="step">
+                <span class="step-dot w-8 h-8 flex items-center justify-center rounded-full border border-[#c9a227] text-[#c9a227] text-xs font-bold transition">1</span>
+                <span class="text-[10px] uppercase tracking-widest text-zinc-400 hidden sm:inline">Servicio</span>
+            </div>
+
+            <div data-step-indicator="2" data-state="upcoming" role="listitem">
+                <span class="step-dot w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-zinc-500 text-xs font-bold transition">2</span>
+                <span class="text-[10px] uppercase tracking-widest text-zinc-600 hidden sm:inline">Detalles</span>
+            </div>
+
+            <div data-step-indicator="3" data-state="upcoming" role="listitem">
+                <span class="step-dot w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-zinc-500 text-xs font-bold transition">3</span>
+                <span class="text-[10px] uppercase tracking-widest text-zinc-600 hidden sm:inline">Confirmar</span>
+            </div>
+
+        </div>
+
+
+        <div class="booking-layout grid lg:grid-cols-3 gap-8 items-start">
+
+
+            <!-- ===================== WIZARD ===================== -->
+
+            <div class="booking-workspace lg:col-span-2 border border-white/10 bg-[#0e0e0e] p-6 md:p-10 min-h-[420px]">
+
+
+                <!-- PASO 1: SERVICIO -->
+
+                <div id="paso1" class="booking-step">
+
+                    <p class="booking-step__eyebrow">01 / El ritual</p>
+                    <h3 id="tituloPaso1" tabindex="-1" class="text-lg font-semibold mb-2">Elige un servicio</h3>
+                    <p class="text-zinc-500 text-sm mb-6">La duración define cuántos minutos quedarán bloqueados en la agenda.</p>
+
+                    <div id="wizardServicios" class="grid sm:grid-cols-2 gap-4">
+                        <p class="col-span-full text-center text-zinc-600 py-10">Cargando servicios...</p>
+                    </div>
+
+                    <div class="booking-actions booking-actions--end mt-10 flex justify-end">
+                        <button type="button" id="btnPaso1Siguiente" disabled
+                                class="booking-primary gold-bg text-black font-bold px-8 py-4 text-xs uppercase tracking-[0.15em] disabled:opacity-30 disabled:cursor-not-allowed transition">
+                            Continuar
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- PASO 2: BARBERO, FECHA Y HORA -->
+
+                <div id="paso2" class="booking-step hidden">
+
+                    <p class="booking-step__eyebrow">02 / El momento</p>
+                    <h3 id="tituloPaso2" tabindex="-1" class="text-lg font-semibold mb-2">Elige barbero, fecha y hora</h3>
+                    <p class="text-zinc-500 text-sm mb-6">Los horarios mostrados ya consideran la duración del servicio y la agenda del barbero.</p>
+
+                    <p class="booking-field-label text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-3">Barbero</p>
+                    <div id="wizardBarberos" class="carrusel flex gap-4 overflow-x-auto pb-3 mb-8">
+                        <p class="text-zinc-600 text-sm">Cargando barberos...</p>
+                    </div>
+
+                    <p class="booking-field-label text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-3">Día</p>
+                    <div id="wizardDias" class="carrusel flex gap-3 overflow-x-auto pb-3 mb-8"></div>
+
+                    <p class="booking-field-label text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-3">Hora disponible</p>
+                    <div id="wizardHoras" class="grid grid-cols-3 sm:grid-cols-4 gap-3 min-h-[80px]" aria-live="polite" aria-busy="false">
+                        <p class="col-span-full text-center text-zinc-600 text-sm py-6">Selecciona barbero y día para ver horarios.</p>
+                    </div>
+
+                    <div class="booking-actions mt-10 flex justify-between">
+                        <button type="button" id="btnPaso2Atras"
+                                class="booking-secondary border border-white/20 hover:border-white px-8 py-4 text-xs uppercase tracking-[0.15em] transition">
+                            Atrás
+                        </button>
+                        <button type="button" id="btnPaso2Siguiente" disabled
+                                class="booking-primary gold-bg text-black font-bold px-8 py-4 text-xs uppercase tracking-[0.15em] disabled:opacity-30 disabled:cursor-not-allowed transition">
+                            Continuar
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- PASO 3: DATOS Y CONFIRMACIÓN -->
+
+                <div id="paso3" class="booking-step hidden">
+
+                    <p class="booking-step__eyebrow">03 / Confirmación privada</p>
+                    <h3 id="tituloPaso3" tabindex="-1" class="text-lg font-semibold mb-2">Revisa y completa tus datos</h3>
+                    <p class="text-zinc-500 text-sm mb-6">Usaremos estos datos únicamente para identificar y confirmar tu cita.</p>
+
+                    <form id="citaForm" class="space-y-6">
+
+                        <div>
+                            <label for="clienteNombre" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-3">
+                                Nombre completo
+                            </label>
+                            <input type="text" id="clienteNombre" placeholder="Ej. Juan Pérez" required maxlength="120" autocomplete="name"
+                                   class="w-full bg-black border border-white/10 px-4 py-4 text-sm text-white placeholder:text-zinc-700 outline-none focus:border-[#c9a227] transition">
+                        </div>
+
+                        <div>
+                            <label for="clienteTelefono" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-3">
+                                Teléfono
+                            </label>
+                            <input type="tel" id="clienteTelefono" placeholder="Ej. 3001234567" required minlength="7" maxlength="20" autocomplete="tel" inputmode="tel" aria-describedby="ayudaTelefono"
+                                   class="w-full bg-black border border-white/10 px-4 py-4 text-sm text-white placeholder:text-zinc-700 outline-none focus:border-[#c9a227] transition">
+                            <p id="ayudaTelefono" class="text-zinc-600 text-xs mt-2">Incluye indicativo del país si tu número no es colombiano.</p>
+                        </div>
+
+                        <div>
+                            <label for="clienteEmail" class="block text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-3">
+                                Email
+                            </label>
+                            <input type="email" id="clienteEmail" placeholder="correo@ejemplo.com" required maxlength="150" autocomplete="email"
+                                   class="w-full bg-black border border-white/10 px-4 py-4 text-sm text-white placeholder:text-zinc-700 outline-none focus:border-[#c9a227] transition">
+                        </div>
+
+                        <div class="booking-actions flex justify-between pt-4">
+                            <button type="button" id="btnPaso3Atras"
+                                    class="booking-secondary border border-white/20 hover:border-white px-8 py-4 text-xs uppercase tracking-[0.15em] transition">
+                                Atrás
+                            </button>
+                            <button type="submit" id="btnConfirmarReserva"
+                                    class="gold-bg text-black font-bold px-8 py-4 text-xs uppercase tracking-[0.15em] transition disabled:opacity-50">
+                                Confirmar reserva
+                            </button>
+                        </div>
+
+                    </form>
+
+
+                    <!-- MENSAJE -->
+
+                    <div id="mensaje" class="mt-6 text-center text-sm hidden p-4" role="alert" aria-live="assertive" tabindex="-1"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===================== CARRITO / RESUMEN ===================== -->
+
+            <aside aria-label="Resumen de la reserva" class="booking-summary lg:sticky lg:top-28 border border-white/10 bg-[#0e0e0e] p-6 md:p-8">
+
+                <div class="booking-summary__head">
+                    <p class="gold text-xs uppercase tracking-[0.35em]">Tu reserva</p>
+                    <span class="booking-summary__seal" aria-hidden="true">R</span>
+                </div>
+
+                <div class="booking-summary__rows space-y-5 text-sm">
+
+                    <div class="booking-summary__row">
+                        <p class="text-zinc-600 text-[10px] uppercase tracking-widest mb-1">Servicio</p>
+                        <p id="resumenServicio" class="text-zinc-300">Sin seleccionar</p>
+                    </div>
+
+                    <div class="booking-summary__row">
+                        <p class="text-zinc-600 text-[10px] uppercase tracking-widest mb-1">Barbero</p>
+                        <p id="resumenBarbero" class="text-zinc-300">Sin seleccionar</p>
+                    </div>
+
+                    <div class="booking-summary__row">
+                        <p class="text-zinc-600 text-[10px] uppercase tracking-widest mb-1">Fecha y hora</p>
+                        <p id="resumenFechaHora" class="text-zinc-300">Sin seleccionar</p>
+                    </div>
+
+                </div>
+
+                <div class="booking-summary__total border-t border-white/10 mt-6 pt-6 flex items-center justify-between">
+                    <span class="text-xs uppercase tracking-widest text-zinc-500">Total</span>
+                    <span id="resumenPrecio" class="text-[#c9a227] text-xl font-bold">$0</span>
+                </div>
+
+            </aside>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MIS CITAS — RECORDADAS EN ESTE DISPOSITIVO
+====================================================== -->
+
+<section id="mis-citas" class="appointments-section py-24 bg-[#0b0b0b] border-y border-white/10">
+    <div class="appointments-shell max-w-6xl mx-auto px-6">
+        <div class="appointments-header">
+            <div class="appointments-heading">
+                <p class="appointments-kicker text-xs uppercase tracking-[0.35em] mb-4">Archivo privado</p>
+                <h2>Mis <em>citas.</em></h2>
+                <p class="text-zinc-500 text-sm mt-4 max-w-2xl">
+                    Tu agenda RAND, conservada de forma privada en este dispositivo. Consulta cada reserva y su estado sin memorizar códigos.
+                </p>
+            </div>
+            <div class="appointments-control">
+                <p class="appointments-control__label">Private appointment ledger</p>
+                <button id="btnActualizarMisCitas" type="button"
+                    class="appointments-refresh border border-white/15 px-5 py-3 text-[10px] uppercase tracking-[0.18em] transition self-start md:self-auto">
+                    Actualizar estado
+                </button>
+            </div>
+        </div>
+
+        <div id="misCitasGrid" class="appointments-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" aria-live="polite">
+            <div class="appointments-feedback">
+                Cargando tus citas...
+            </div>
+        </div>
+
+        <p class="appointments-footnote text-zinc-700 text-[10px] uppercase tracking-widest mt-6 leading-relaxed">
+            Si borras los datos del navegador o cambias de dispositivo, estas citas dejarán de aparecer aquí. La barbería seguirá conservando la reserva.
+        </p>
+    </div>
+</section>
+
+
+
+<!-- =====================================================
+     GALERÍA
+====================================================== -->
+
+<section
+        id="galeria"
+        class="py-24
+               bg-[#0e0e0e]
+               border-y border-white/10">
+
+    <div
+            class="max-w-6xl
+                   mx-auto
+                   px-6">
+
+
+        <div
+                class="text-center
+                       mb-12">
+
+            <p
+                    class="gold
+                           text-xs
+                           uppercase
+                           tracking-[0.35em]
+                           mb-4">
+
+                Campaign 001
+
+            </p>
+
+
+            <h2
+                    class="text-4xl
+                           md:text-5xl
+                           font-bold">
+
+                El oficio,<br><em>elevado.</em>
+
+            </h2>
+
+        </div>
+
+
+
+        <div class="campaign-grid">
+            <figure class="gallery-cell campaign-frame campaign-frame--portrait">
+                <img src="/media/rand-campaign-razor.webp" alt="Ritual de afeitado de precisión" loading="lazy">
+                <figcaption><span>01</span>La mano</figcaption>
+            </figure>
+            <figure class="gallery-cell campaign-frame campaign-frame--space">
+                <img src="/media/rand-atelier.webp" alt="Atelier privado RAND" loading="lazy">
+                <figcaption><span>02</span>El espacio</figcaption>
+            </figure>
+            <figure class="gallery-cell campaign-frame campaign-frame--tools">
+                <img src="/media/rand-tools.webp" alt="Herramientas profesionales de barbería" loading="lazy">
+                <figcaption><span>03</span>La precisión</figcaption>
+            </figure>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+</main>
+
+<footer
+        class="bg-black
+               border-t border-white/10">
+
+    <div
+            class="max-w-6xl
+                   mx-auto
+                   px-6
+                   py-16">
+
+
+        <div
+                class="grid
+                       md:grid-cols-3
+                       gap-12">
+
+
+            <!-- MARCA -->
+
+            <div>
+
+                <h3
+                        class="text-2xl
+                               font-black
+                               tracking-[0.25em]">
+
+                    RAND
+
+                </h3>
+
+
+                <p
+                        class="text-zinc-600
+                               text-[9px]
+                               uppercase
+                               tracking-[0.4em]
+                               mt-2">
+
+                    Barbería
+
+                </p>
+
+
+                <p
+                        class="text-zinc-500
+                               text-sm
+                               mt-6
+                               leading-relaxed">
+
+                    El arte de la barbería clásica
+                    llevado a una nueva generación.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- UBICACIÓN -->
+
+            <div>
+
+                <h4
+                        class="text-xs
+                               uppercase
+                               tracking-[0.2em]
+                               text-zinc-400
+                               mb-5">
+
+                    Visítanos
+
+                </h4>
+
+
+                <p class="text-zinc-500 text-sm">
+
+                    Medellín, Colombia
+
+                </p>
+
+
+                <p
+                        class="text-zinc-600
+                               text-xs
+                               mt-2">
+
+                    Lunes a sábado ·
+                    8:00 AM - 8:00 PM
+
+                </p>
+
+            </div>
+
+
+
+            <!-- CONTACTO -->
+
+            <div>
+
+                <h4
+                        class="text-xs
+                               uppercase
+                               tracking-[0.2em]
+                               text-zinc-400
+                               mb-5">
+
+                    Contacto
+
+                </h4>
+
+
+                <a
+                        href="https://wa.me/573000000000"
+                        target="_blank"
+                        class="inline-block
+                               border border-[#c9a227]/40
+                               hover:border-[#c9a227]
+                               text-[#c9a227]
+                               px-5 py-3
+                               text-xs
+                               uppercase
+                               tracking-widest
+                               transition">
+
+                    WhatsApp
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- COPYRIGHT -->
+
+        <div
+                class="border-t
+                       border-white/10
+                       mt-14
+                       pt-6
+                       flex flex-col
+                       md:flex-row
+                       justify-between
+                       gap-3
+                       text-[10px]
+                       uppercase
+                       tracking-widest
+                       text-zinc-700">
+
+                <span>
+                    © 2026 RAND Barbería
+                </span>
+
+            <span>
+                    Todos los derechos reservados
+                </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     SPRING BOOT
+====================================================== -->
+
+<script>
+
+    // =================================================
+    // FORMATEAR PRECIO
+    // =================================================
+
+    function formatearPrecio(precio) {
+        return new Intl.NumberFormat(
+            'es-CO',
+            { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }
+        ).format(precio);
+    }
+
+    let csrf = null;
+
+    const btnMenuMovil = document.getElementById('btnMenuMovil');
+    const menuMovil = document.getElementById('menuMovil');
+    const siteHeader = document.getElementById('siteHeader');
+    const scrollProgress = document.getElementById('scrollProgress');
+    const heroFilm = document.querySelector('#inicio .hero-film');
+    const brandIntro = document.getElementById('brandIntro');
+    const movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    try {
+        if (sessionStorage.getItem('rand-intro-seen')) brandIntro?.classList.add('brand-intro--skip');
+        else sessionStorage.setItem('rand-intro-seen', 'true');
+    } catch (_) {
+        // La experiencia sigue funcionando si el navegador bloquea sessionStorage.
+    }
+    brandIntro?.addEventListener('animationend', evento => {
+        if (evento.animationName === 'intro-shell') brandIntro.classList.add('brand-intro--skip');
+    });
+
+    let escenaPendiente = false;
+    const actualizarEscena = () => {
+        if (escenaPendiente) return;
+        escenaPendiente = true;
+        window.requestAnimationFrame(() => {
+            siteHeader?.classList.toggle('is-scrolled', window.scrollY > 24);
+            const recorrido = document.documentElement.scrollHeight - window.innerHeight;
+            const progreso = recorrido > 0 ? Math.min(window.scrollY / recorrido, 1) : 0;
+            if (scrollProgress) scrollProgress.style.transform = `scaleX(${progreso})`;
+            if (heroFilm && !movimientoReducido) {
+                heroFilm.style.setProperty('--hero-shift', `${Math.min(window.scrollY * .025, 18)}px`);
+            }
+            escenaPendiente = false;
+        });
+    };
+    actualizarEscena();
+    window.addEventListener('scroll', actualizarEscena, { passive: true });
+    window.addEventListener('resize', actualizarEscena, { passive: true });
+
+    btnMenuMovil?.addEventListener('click', () => {
+        const abierto = btnMenuMovil.getAttribute('aria-expanded') === 'true';
+        btnMenuMovil.setAttribute('aria-expanded', String(!abierto));
+        btnMenuMovil.setAttribute('aria-label', abierto ? 'Abrir menú' : 'Cerrar menú');
+        btnMenuMovil.querySelector('span').textContent = abierto ? '☰' : '×';
+        menuMovil.classList.toggle('hidden', abierto);
+        document.body.classList.toggle('menu-open', !abierto);
+    });
+    menuMovil?.querySelectorAll('a').forEach(enlace => enlace.addEventListener('click', () => {
+        menuMovil.classList.add('hidden');
+        btnMenuMovil.setAttribute('aria-expanded', 'false');
+        btnMenuMovil.setAttribute('aria-label', 'Abrir menú');
+        btnMenuMovil.querySelector('span').textContent = '☰';
+        document.body.classList.remove('menu-open');
+    }));
+
+    const videoRitual = document.querySelector('.film-break video');
+    if (videoRitual && !movimientoReducido && 'IntersectionObserver' in window) {
+        const observadorVideo = new IntersectionObserver(([entrada]) => {
+            if (entrada.isIntersecting) videoRitual.play().catch(() => {});
+            else videoRitual.pause();
+        }, { rootMargin: '15% 0px', threshold: .08 });
+        observadorVideo.observe(videoRitual);
+    }
+
+    if (!movimientoReducido && 'IntersectionObserver' in window) {
+        const elementosReveal = document.querySelectorAll('section > div, #catalogoGrid, #equipoGrid, .gallery-cell');
+        elementosReveal.forEach(elemento => elemento.classList.add('reveal-item'));
+        const observadorReveal = new IntersectionObserver(entradas => {
+            entradas.forEach(entrada => {
+                if (!entrada.isIntersecting) return;
+                entrada.target.classList.add('is-visible');
+                observadorReveal.unobserve(entrada.target);
+            });
+        }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
+        elementosReveal.forEach(elemento => observadorReveal.observe(elemento));
+    }
+
+    function escaparHtml(valor) {
+        return String(valor ?? '').replace(/[&<>'"]/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[c]));
+    }
+
+    function urlImagenSegura(valor) {
+        if (!valor) return '';
+        try {
+            const url = new URL(valor, window.location.origin);
+            return ['http:', 'https:'].includes(url.protocol) ? escaparHtml(url.href) : '';
+        } catch (_) {
+            return '';
+        }
+    }
+
+    function activarFallbackFotos(contenedor) {
+        contenedor.querySelectorAll('[data-barbero-img]').forEach(img => {
+            img.addEventListener('error', () => {
+                const padre = img.parentElement;
+                if (!padre) return;
+                padre.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-zinc-950 text-zinc-700 text-sm font-black">RAND</div>';
+            }, { once: true });
+        });
+    }
+
+    async function obtenerCsrf() {
+        if (csrf) return csrf;
+        const response = await fetch('/api/auth/csrf', { credentials: 'same-origin' });
+        if (!response.ok) throw new Error('No se pudo inicializar la seguridad de la reserva.');
+        csrf = await response.json();
+        return csrf;
+    }
+
+    async function fetchSeguro(url, options = {}) {
+        const token = await obtenerCsrf();
+        const headers = new Headers(options.headers || {});
+        headers.set(token.headerName, token.token);
+        return fetch(url, { ...options, headers, credentials: 'same-origin' });
+    }
+
+    async function leerError(response, fallback) {
+        try {
+            const data = await response.json();
+            return Object.values(data.errores || {})[0] || data.mensaje || fallback;
+        } catch (_) {
+            return fallback;
+        }
+    }
+
+
+    // =================================================
+    // MIS CITAS — almacenamiento privado en este navegador
+    // =================================================
+
+    const CLAVE_MIS_CITAS = 'rand_mis_citas_v1';
+
+    function leerTokensMisCitas() {
+        try {
+            const guardados = JSON.parse(localStorage.getItem(CLAVE_MIS_CITAS) || '[]');
+            if (!Array.isArray(guardados)) return [];
+            return [...new Set(guardados.filter(token =>
+                typeof token === 'string' && /^[0-9a-fA-F-]{36}$/.test(token)
+            ))].slice(0, 30);
+        } catch (_) {
+            return [];
+        }
+    }
+
+    function guardarCitaEnDispositivo(token) {
+        if (!token || !/^[0-9a-fA-F-]{36}$/.test(token)) return;
+        const tokens = leerTokensMisCitas().filter(t => t !== token);
+        tokens.unshift(token);
+        localStorage.setItem(CLAVE_MIS_CITAS, JSON.stringify(tokens.slice(0, 30)));
+    }
+
+    function olvidarCitaDelDispositivo(token) {
+        if (!confirm('¿Quitar esta cita de este dispositivo? La reserva seguirá existiendo en la barbería.')) return;
+        const tokens = leerTokensMisCitas().filter(t => t !== token);
+        localStorage.setItem(CLAVE_MIS_CITAS, JSON.stringify(tokens));
+        cargarMisCitas(false);
+    }
+
+    function estiloEstadoCliente(estado) {
+        return ({
+            PENDIENTE: { clase: 'status-pending', texto: 'Pendiente', detalle: 'La barbería está revisando tu solicitud.' },
+            CONFIRMADA: { clase: 'status-confirmed', texto: 'Confirmada', detalle: 'Tu cita fue aceptada. Te esperamos.' },
+            CANCELADA: { clase: 'status-cancelled', texto: 'Cancelada', detalle: 'Esta cita fue cancelada.' },
+            COMPLETADA: { clase: 'status-completed', texto: 'Completada', detalle: 'Gracias por visitar RAND Barbería.' }
+        })[estado] || { clase: '', texto: estado || 'Sin estado', detalle: '' };
+    }
+
+    async function cargarMisCitas(mostrarCarga = true) {
+        const grid = document.getElementById('misCitasGrid');
+        if (!grid) return;
+
+        const tokens = leerTokensMisCitas();
+        if (!tokens.length) {
+            grid.innerHTML = `
+                <div class="appointments-empty">
+                    <div class="appointments-empty__content">
+                        <span class="appointments-empty__seal" aria-hidden="true">R</span>
+                        <h3>Tu agenda está disponible.</h3>
+                        <p class="text-sm">Cuando reserves una experiencia, sus detalles y su estado aparecerán aquí automáticamente.</p>
+                        <a href="#reservas">Reservar una experiencia →</a>
+                    </div>
+                </div>`;
+            return;
+        }
+
+        if (mostrarCarga) {
+            grid.innerHTML = '<div class="appointments-feedback">Actualizando tu agenda privada...</div>';
+        }
+
+        const resultados = await Promise.all(tokens.map(async token => {
+            try {
+                const response = await fetch(`/api/citas/mis/${encodeURIComponent(token)}`, { credentials: 'same-origin' });
+                if (response.status === 404) return { token, eliminar: true };
+                if (!response.ok) return { token, error: true };
+                return { token, cita: await response.json() };
+            } catch (_) {
+                return { token, error: true };
+            }
+        }));
+
+        const invalidos = resultados.filter(r => r.eliminar).map(r => r.token);
+        if (invalidos.length) {
+            const vigentes = tokens.filter(t => !invalidos.includes(t));
+            localStorage.setItem(CLAVE_MIS_CITAS, JSON.stringify(vigentes));
+        }
+
+        const citas = resultados.filter(r => r.cita).map(r => ({ ...r.cita, _token: r.token }));
+        citas.sort((a, b) => new Date(a.fechaHoraInicio) - new Date(b.fechaHoraInicio));
+
+        if (!citas.length) {
+            const huboError = resultados.some(r => r.error);
+            grid.innerHTML = `<div class="appointments-feedback ${huboError ? 'text-red-300' : ''}">${huboError ? 'No pudimos actualizar tus citas en este momento. Intenta de nuevo.' : 'No hay citas guardadas en este dispositivo.'}</div>`;
+            return;
+        }
+
+        grid.innerHTML = citas.map(cita => {
+            const inicio = new Date(cita.fechaHoraInicio);
+            const estado = estiloEstadoCliente(cita.estado);
+            return `
+                <article class="appointment-card">
+                    <div class="appointment-card__top">
+                        <div>
+                            <p class="appointment-card__eyebrow">Experiencia RAND</p>
+                            <h3>${escaparHtml(cita.nombreServicio)}</h3>
+                            <p class="appointment-card__barber">con ${escaparHtml(cita.nombreBarbero)}</p>
+                        </div>
+                        <span class="appointment-state ${estado.clase}">${escaparHtml(estado.texto)}</span>
+                    </div>
+                    <div class="appointment-card__date">
+                        <p class="appointment-card__day">${escaparHtml(inicio.toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' }))}</p>
+                        <time class="appointment-card__time" datetime="${escaparHtml(cita.fechaHoraInicio)}">${escaparHtml(inicio.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }))}</time>
+                        <p class="appointment-card__detail">${escaparHtml(estado.detalle)}</p>
+                    </div>
+                    <button type="button" data-olvidar-cita="${escaparHtml(cita._token)}" class="appointment-forget">Quitar de este dispositivo</button>
+                </article>`;
+        }).join('');
+
+        grid.querySelectorAll('[data-olvidar-cita]').forEach(btn => {
+            btn.addEventListener('click', () => olvidarCitaDelDispositivo(btn.dataset.olvidarCita));
+        });
+    }
+
+    document.getElementById('btnActualizarMisCitas')?.addEventListener('click', async (event) => {
+        const boton = event.currentTarget;
+        boton.disabled = true;
+        boton.textContent = 'Actualizando...';
+        try { await cargarMisCitas(); }
+        finally { boton.disabled = false; boton.textContent = 'Actualizar estado'; }
+    });
+
+    // Si el cliente deja la página abierta, el estado se refresca periódicamente.
+    setInterval(() => {
+        if (!document.hidden && leerTokensMisCitas().length) cargarMisCitas(false);
+    }, 60000);
+
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && leerTokensMisCitas().length) cargarMisCitas(false);
+    });
+
+
+    // =================================================
+    // ESTADO GLOBAL DEL WIZARD
+    // =================================================
+
+    const estado = {
+        servicio: null,
+        barbero: null,
+        fecha: null,   // 'YYYY-MM-DD'
+        hora: null     // 'HH:mm'
+    };
+
+    let SERVICIOS = [];
+    let BARBEROS = [];
+
+
+    // =================================================
+    // CARGA INICIAL
+    // =================================================
+
+    document.addEventListener("DOMContentLoaded", async () => {
+
+        // Independientes del wizard: si fallan, no deben romper el resto de la página
+        cargarServiciosPopulares();
+        cargarMisCitas();
+
+        try {
+
+            const [resServicios, resBarberos] = await Promise.all([
+                fetch('/api/citas/servicios'),
+                fetch('/api/citas/barberos')
+            ]);
+
+            if (!resServicios.ok || !resBarberos.ok) {
+                throw new Error("Error cargando datos iniciales");
+            }
+
+            SERVICIOS = await resServicios.json();
+            BARBEROS = await resBarberos.json();
+
+            renderCatalogoServicios();
+            renderEquipoBarberos();
+            renderWizardServicios();
+            renderWizardBarberos();
+            renderWizardDias();
+
+        } catch {
+
+            document.getElementById('catalogoGrid').innerHTML =
+                `<p class="col-span-full text-center text-red-500">No se pudieron cargar los servicios.</p>`;
+
+            document.getElementById('wizardServicios').innerHTML =
+                `<p class="col-span-full text-center text-red-500">No se pudieron cargar los servicios.</p>`;
+
+        }
+
+    });
+
+
+    // =================================================
+    // SECCIONES INFORMATIVAS (catálogo / equipo)
+    // =================================================
+
+    function renderCatalogoServicios() {
+
+        const grid = document.getElementById('catalogoGrid');
+
+        if (!SERVICIOS.length) {
+            grid.innerHTML = `<p class="col-span-full text-center text-zinc-600">No hay servicios disponibles.</p>`;
+            return;
+        }
+
+        grid.innerHTML = SERVICIOS.map((s, index) => `
+            <div class="service-row group border-b border-white/10 py-7 flex justify-between gap-6 hover:border-[#c9a227]/40 transition">
+                <span class="service-index">${String(index + 1).padStart(2, '0')}</span>
+                <div>
+                    <h3 class="text-lg font-semibold text-white group-hover:text-[#c9a227] transition">${escaparHtml(s.nombre)}</h3>
+                    <p class="text-zinc-600 text-xs mt-2 max-w-md">${escaparHtml(s.descripcion || 'Servicio profesional de barbería.')}</p>
+                    <span class="inline-block text-[9px] uppercase tracking-widest text-zinc-600 mt-4">${s.duracionMinutos} minutos</span>
+                </div>
+                <span class="service-price text-[#c9a227] font-semibold whitespace-nowrap">${formatearPrecio(s.precio)}</span>
+            </div>
+        `).join('');
+
+    }
+
+
+    function renderEquipoBarberos() {
+
+        const grid = document.getElementById('equipoGrid');
+
+        if (!BARBEROS.length) {
+            grid.innerHTML = `<p class="col-span-full text-center text-zinc-600">No hay barberos disponibles.</p>`;
+            return;
+        }
+
+        grid.innerHTML = BARBEROS.map(b => {
+            const foto = urlImagenSegura(b.fotoUrl);
+            const visual = foto
+                ? `<img data-barbero-img src="${foto}" alt="${escaparHtml(b.nombre)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">`
+                : `<div class="w-full h-full flex items-center justify-center bg-zinc-950 text-zinc-700 text-3xl font-black">RAND</div>`;
+            return `
+                <div class="barber-profile group bg-black border border-white/10 overflow-hidden">
+                    <div class="aspect-[4/5] overflow-hidden">
+                        ${visual}
+                    </div>
+                    <div class="barber-meta p-6">
+                        <h3 class="text-xl font-semibold">${escaparHtml(b.nombre)}</h3>
+                        <p class="text-[#c9a227] text-[10px] uppercase tracking-[0.2em] mt-2">${escaparHtml(b.especialidad || '')}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        activarFallbackFotos(grid);
+
+    }
+
+
+    // =================================================
+    // LO MÁS PEDIDO (servicios populares)
+    // =================================================
+
+    async function cargarServiciosPopulares() {
+
+        const cont = document.getElementById('popularesGrid');
+        if (!cont) return;
+
+        try {
+
+            const res = await fetch('/api/citas/servicios/populares');
+
+            if (!res.ok) {
+                throw new Error("Error cargando tendencias");
+            }
+
+            const populares = await res.json();
+
+            if (!populares.length) {
+                cont.innerHTML = `<p class="col-span-full text-center text-zinc-600">Aún no hay suficientes reservas para mostrar tendencias.</p>`;
+                return;
+            }
+
+            cont.innerHTML = populares.map((p, index) => {
+
+                const s = p.servicio;
+                const posicion = index + 1;
+
+                return `
+                    <div class="popular-service-glass">
+                        <div class="popular-rank">
+                            <strong>${String(posicion).padStart(2, '0')}</strong>
+                            <span>En reservas</span>
+                        </div>
+                        <h4 class="text-lg font-semibold text-white">${escaparHtml(s.nombre)}</h4>
+                        <p class="text-zinc-600 text-xs mt-2">${escaparHtml(s.descripcion || 'Servicio profesional de barbería.')}</p>
+                        <div class="popular-meta flex items-center justify-between mt-5">
+                            <span class="text-[9px] uppercase tracking-widest text-zinc-600">${s.duracionMinutos} min</span>
+                            <span class="text-[#c9a227] font-semibold text-sm">${formatearPrecio(s.precio)}</span>
+                        </div>
+                    </div>
+                `;
+
+            }).join('');
+
+        } catch {
+            cont.innerHTML = `<p class="col-span-full text-center text-red-500">No se pudieron cargar las tendencias.</p>`;
+
+        }
+
+    }
+
+
+    // =================================================
+    // PASO 1 — SERVICIOS (interactivo)
+    // =================================================
+
+    function renderWizardServicios() {
+
+        const cont = document.getElementById('wizardServicios');
+
+        if (!SERVICIOS.length) {
+            cont.innerHTML = `<p class="col-span-full text-center text-zinc-600">No hay servicios disponibles.</p>`;
+            return;
+        }
+
+        cont.innerHTML = SERVICIOS.map((s, index) => `
+            <button type="button" data-servicio-id="${s.id}" aria-pressed="false"
+                    class="tarjeta-servicio text-left border border-white/10 bg-black p-5 hover:border-[#c9a227]/50 transition">
+                <span class="booking-option__index">${String(index + 1).padStart(2, '0')}</span>
+                <p class="font-semibold text-white">${escaparHtml(s.nombre)}</p>
+                <p class="text-zinc-600 text-xs mt-2">${escaparHtml(s.descripcion || 'Servicio profesional de barbería.')}</p>
+                <div class="flex items-center justify-between mt-4">
+                    <span class="text-[9px] uppercase tracking-widest text-zinc-600">${s.duracionMinutos} min</span>
+                    <span class="text-[#c9a227] font-semibold text-sm">${formatearPrecio(s.precio)}</span>
+                </div>
+            </button>
+        `).join('');
+
+        cont.querySelectorAll('.tarjeta-servicio').forEach(btn => {
+            btn.addEventListener('click', () => seleccionarServicio(btn));
+        });
+
+    }
+
+
+    function seleccionarServicio(btnSeleccionado) {
+
+        document.querySelectorAll('.tarjeta-servicio').forEach(b => {
+            b.classList.remove('border-[#c9a227]', 'bg-[#161207]');
+            b.classList.add('border-white/10');
+            b.setAttribute('aria-pressed', 'false');
+        });
+
+        btnSeleccionado.classList.remove('border-white/10');
+        btnSeleccionado.classList.add('border-[#c9a227]', 'bg-[#161207]');
+        btnSeleccionado.setAttribute('aria-pressed', 'true');
+
+        const id = btnSeleccionado.dataset.servicioId;
+        estado.servicio = SERVICIOS.find(s => String(s.id) === String(id));
+
+        document.getElementById('btnPaso1Siguiente').disabled = false;
+
+        // La duración cambió: cualquier hora elegida antes ya no es válida
+        estado.hora = null;
+        actualizarResumen();
+
+        if (estado.barbero && estado.fecha) {
+            cargarDisponibilidad();
+        }
+
+    }
+
+
+    // =================================================
+    // PASO 2 — BARBEROS (interactivo)
+    // =================================================
+
+    function renderWizardBarberos() {
+
+        const cont = document.getElementById('wizardBarberos');
+
+        if (!BARBEROS.length) {
+            cont.innerHTML = `<p class="text-zinc-600 text-sm">No hay barberos disponibles.</p>`;
+            return;
+        }
+
+        cont.innerHTML = BARBEROS.map(b => {
+            const foto = urlImagenSegura(b.fotoUrl);
+            const visual = foto
+                ? `<img data-barbero-img src="${foto}" alt="${escaparHtml(b.nombre)}" class="w-full h-full object-cover">`
+                : `<div class="w-full h-full flex items-center justify-center bg-zinc-950 text-zinc-700 text-xs font-black">RAND</div>`;
+            return `
+                <button type="button" data-barbero-id="${b.id}" aria-pressed="false"
+                        class="tarjeta-barbero flex-shrink-0 w-28 text-center border border-white/10 bg-black p-3 hover:border-[#c9a227]/50 transition">
+                    <div class="w-full aspect-square overflow-hidden mb-2">
+                        ${visual}
+                    </div>
+                    <p class="text-xs font-semibold truncate">${escaparHtml(b.nombre)}</p>
+                    <p class="text-[9px] text-zinc-600 uppercase tracking-widest truncate">${escaparHtml(b.especialidad || '')}</p>
+                </button>
+            `;
+        }).join('');
+
+        activarFallbackFotos(cont);
+
+        cont.querySelectorAll('.tarjeta-barbero').forEach(btn => {
+            btn.addEventListener('click', () => seleccionarBarbero(btn));
+        });
+
+    }
+
+
+    function seleccionarBarbero(btnSeleccionado) {
+
+        document.querySelectorAll('.tarjeta-barbero').forEach(b => {
+            b.classList.remove('border-[#c9a227]', 'bg-[#161207]');
+            b.classList.add('border-white/10');
+            b.setAttribute('aria-pressed', 'false');
+        });
+
+        btnSeleccionado.classList.remove('border-white/10');
+        btnSeleccionado.classList.add('border-[#c9a227]', 'bg-[#161207]');
+        btnSeleccionado.setAttribute('aria-pressed', 'true');
+
+        const id = btnSeleccionado.dataset.barberoId;
+        estado.barbero = BARBEROS.find(b => String(b.id) === String(id));
+
+        estado.hora = null;
+        actualizarResumen();
+        cargarDisponibilidad();
+
+    }
+
+
+    // =================================================
+    // PASO 2 — DÍAS (carrusel de próximos 10 días)
+    // =================================================
+
+    function renderWizardDias() {
+
+        const cont = document.getElementById('wizardDias');
+        const dias = [];
+        const hoy = new Date();
+
+        let desplazamiento = 0;
+        while (dias.length < 10) {
+            const d = new Date(hoy);
+            d.setDate(hoy.getDate() + desplazamiento);
+            desplazamiento++;
+            if (d.getDay() === 0) continue; // Domingo: cerrado
+            dias.push(d);
+        }
+
+        const formatoDiaSemana = new Intl.DateTimeFormat('es-CO', { weekday: 'short' });
+
+        cont.innerHTML = dias.map(d => {
+
+            const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            const diaSemana = formatoDiaSemana.format(d).replace('.', '');
+
+            return `
+                <button type="button" data-fecha="${iso}" aria-pressed="false" aria-label="${escaparHtml(d.toLocaleDateString('es-CO', {weekday:'long', day:'numeric', month:'long'}))}"
+                        class="tarjeta-dia flex-shrink-0 w-16 py-3 border border-white/10 bg-black text-center hover:border-[#c9a227]/50 transition">
+                    <p class="text-[9px] uppercase tracking-widest text-zinc-600">${diaSemana}</p>
+                    <p class="text-lg font-semibold mt-1">${d.getDate()}</p>
+                </button>
+            `;
+
+        }).join('');
+
+        cont.querySelectorAll('.tarjeta-dia').forEach(btn => {
+            btn.addEventListener('click', () => seleccionarDia(btn));
+        });
+
+    }
+
+
+    function seleccionarDia(btnSeleccionado) {
+
+        document.querySelectorAll('.tarjeta-dia').forEach(b => {
+            b.classList.remove('border-[#c9a227]', 'bg-[#161207]');
+            b.classList.add('border-white/10');
+            b.setAttribute('aria-pressed', 'false');
+        });
+
+        btnSeleccionado.classList.remove('border-white/10');
+        btnSeleccionado.classList.add('border-[#c9a227]', 'bg-[#161207]');
+        btnSeleccionado.setAttribute('aria-pressed', 'true');
+
+        estado.fecha = btnSeleccionado.dataset.fecha;
+        estado.hora = null;
+
+        actualizarResumen();
+        cargarDisponibilidad();
+
+    }
+
+
+    // =================================================
+    // PASO 2 — HORAS DISPONIBLES
+    // =================================================
+
+    async function cargarDisponibilidad() {
+
+        const cont = document.getElementById('wizardHoras');
+
+        if (!estado.barbero || !estado.servicio || !estado.fecha) {
+            cont.innerHTML = `<p class="col-span-full text-center text-zinc-600 text-sm py-6">Selecciona barbero y día para ver horarios.</p>`;
+            return;
+        }
+
+        const solicitudActual = ++cargarDisponibilidad.secuencia;
+        cont.setAttribute('aria-busy', 'true');
+        cont.innerHTML = `<p class="loading-line col-span-full justify-center text-zinc-500 text-sm py-6">Buscando horarios disponibles</p>`;
+        document.getElementById('btnPaso2Siguiente').disabled = true;
+
+        try {
+
+            const url = `/api/citas/disponibilidad?barberoId=${estado.barbero.id}&servicioId=${estado.servicio.id}&fecha=${estado.fecha}`;
+            const res = await fetch(url);
+
+            if (solicitudActual !== cargarDisponibilidad.secuencia) return;
+
+            if (!res.ok) {
+                throw new Error("Error consultando disponibilidad");
+            }
+
+            const horas = await res.json();
+
+            if (!horas.length) {
+                cont.innerHTML = `<p class="col-span-full text-center text-zinc-600 text-sm py-6">No hay horarios disponibles este día.</p>`;
+                return;
+            }
+
+            cont.innerHTML = horas.map(h => `
+                <button type="button" data-hora="${h}" aria-pressed="false" aria-label="Reservar a las ${h}"
+                        class="tarjeta-hora border border-white/10 bg-black py-3 text-sm hover:border-[#c9a227]/50 transition">
+                    ${h}
+                </button>
+            `).join('');
+
+            cont.querySelectorAll('.tarjeta-hora').forEach(btn => {
+                btn.addEventListener('click', () => seleccionarHora(btn));
+            });
+
+        } catch {
+
+            if (solicitudActual !== cargarDisponibilidad.secuencia) return;
+
+            cont.innerHTML = `<div class="col-span-full text-center py-6"><p class="text-red-400 text-sm">No pudimos consultar la agenda.</p><button type="button" id="btnReintentarDisponibilidad" class="mt-4 border border-white/15 px-5 py-2 text-xs text-white">Reintentar</button></div>`;
+            document.getElementById('btnReintentarDisponibilidad')?.addEventListener('click', cargarDisponibilidad);
+
+        } finally {
+            if (solicitudActual === cargarDisponibilidad.secuencia) cont.setAttribute('aria-busy', 'false');
+        }
+
+    }
+
+    cargarDisponibilidad.secuencia = 0;
+
+
+    function seleccionarHora(btnSeleccionado) {
+
+        document.querySelectorAll('.tarjeta-hora').forEach(b => {
+            b.classList.remove('border-[#c9a227]', 'bg-[#161207]');
+            b.classList.add('border-white/10');
+            b.setAttribute('aria-pressed', 'false');
+        });
+
+        btnSeleccionado.classList.remove('border-white/10');
+        btnSeleccionado.classList.add('border-[#c9a227]', 'bg-[#161207]');
+        btnSeleccionado.setAttribute('aria-pressed', 'true');
+
+        estado.hora = btnSeleccionado.dataset.hora;
+
+        document.getElementById('btnPaso2Siguiente').disabled = false;
+        actualizarResumen();
+
+    }
+
+
+    // =================================================
+    // RESUMEN LATERAL (CARRITO)
+    // =================================================
+
+    function actualizarResumen() {
+
+        document.getElementById('resumenServicio').textContent =
+            estado.servicio ? estado.servicio.nombre : 'Sin seleccionar';
+
+        document.getElementById('resumenBarbero').textContent =
+            estado.barbero ? estado.barbero.nombre : 'Sin seleccionar';
+
+        const resumenFechaHora = document.getElementById('resumenFechaHora');
+
+        if (estado.fecha && estado.hora) {
+
+            const fechaObj = new Date(`${estado.fecha}T${estado.hora}:00`);
+
+            resumenFechaHora.textContent = fechaObj.toLocaleString(
+                'es-CO',
+                { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }
+            );
+
+        } else if (estado.fecha) {
+            resumenFechaHora.textContent = 'Elige una hora';
+        } else {
+            resumenFechaHora.textContent = 'Sin seleccionar';
+        }
+
+        document.getElementById('resumenPrecio').textContent =
+            estado.servicio ? formatearPrecio(estado.servicio.precio) : formatearPrecio(0);
+
+    }
+
+
+    // =================================================
+    // NAVEGACIÓN ENTRE PASOS
+    // =================================================
+
+    function irAPaso(n) {
+
+        [1, 2, 3].forEach(p => {
+
+            document.getElementById(`paso${p}`).classList.toggle('hidden', p !== n);
+
+            const dot = document.querySelector(`[data-step-indicator="${p}"] .step-dot`);
+            const indicador = document.querySelector(`[data-step-indicator="${p}"]`);
+            if (p === n) indicador.setAttribute('aria-current', 'step');
+            else indicador.removeAttribute('aria-current');
+            indicador.dataset.state = p < n ? 'complete' : p === n ? 'active' : 'upcoming';
+
+            if (p < n) {
+                dot.className = "step-dot w-8 h-8 flex items-center justify-center rounded-full bg-[#c9a227] text-black text-xs font-bold transition";
+            } else if (p === n) {
+                dot.className = "step-dot w-8 h-8 flex items-center justify-center rounded-full border border-[#c9a227] text-[#c9a227] text-xs font-bold transition";
+            } else {
+                dot.className = "step-dot w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-zinc-500 text-xs font-bold transition";
+            }
+
+        });
+
+        document.getElementById('reservas').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.setTimeout(() => document.getElementById(`tituloPaso${n}`)?.focus({ preventScroll: true }), 250);
+
+    }
+
+    document.getElementById('btnPaso1Siguiente').addEventListener('click', () => irAPaso(2));
+    document.getElementById('btnPaso2Atras').addEventListener('click', () => irAPaso(1));
+    document.getElementById('btnPaso2Siguiente').addEventListener('click', () => irAPaso(3));
+    document.getElementById('btnPaso3Atras').addEventListener('click', () => irAPaso(2));
+
+
+    // =================================================
+    // PASO 3 — ENVIAR RESERVA
+    // =================================================
+
+    let reservaEnCurso = false;
+    let ultimoIntentoReserva = null;
+
+    // getRandomValues también funciona desde un celular por HTTP en la red local.
+    function nuevaClaveReserva() {
+        const bytes = crypto.getRandomValues(new Uint8Array(16));
+        bytes[6] = (bytes[6] & 15) | 64;
+        bytes[8] = (bytes[8] & 63) | 128;
+        const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+        return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+    }
+
+    document.getElementById('citaForm').addEventListener('submit', async (e) => {
+
+        e.preventDefault();
+
+        if (reservaEnCurso || document.getElementById('citaForm').classList.contains('hidden')) return;
+
+        const clienteNombre = document.getElementById('clienteNombre').value.trim();
+        const clienteTelefono = document.getElementById('clienteTelefono').value.trim();
+        const clienteEmail = document.getElementById('clienteEmail').value.trim();
+
+        if (!clienteNombre || !clienteTelefono || !clienteEmail ||
+            !estado.servicio || !estado.barbero || !estado.fecha || !estado.hora) {
+
+            mostrarMensaje("Por favor completa todos los campos y selecciona tu horario.", false);
+            return;
+
+        }
+
+        const payload = {
+            clienteNombre: clienteNombre,
+            clienteTelefono: clienteTelefono,
+            clienteEmail: clienteEmail,
+            servicioId: Number(estado.servicio.id),
+            barberoId: estado.barbero.id,
+            fechaHoraInicio: `${estado.fecha}T${estado.hora}:00`
+        };
+
+        const btnReserva = document.getElementById('btnConfirmarReserva');
+        const textoBoton = btnReserva.textContent;
+        reservaEnCurso = true;
+        btnReserva.disabled = true;
+        btnReserva.textContent = 'Reservando...';
+
+        try {
+
+            const cuerpo = JSON.stringify(payload);
+            if (!ultimoIntentoReserva || ultimoIntentoReserva.cuerpo !== cuerpo) {
+                ultimoIntentoReserva = { cuerpo, clave: nuevaClaveReserva() };
+            }
+            const response = await fetchSeguro('/api/citas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Idempotency-Key': ultimoIntentoReserva.clave },
+                body: cuerpo
+            });
+
+            if (response.ok) {
+
+                const cita = await response.json();
+                guardarCitaEnDispositivo(cita.consultaToken);
+                cargarMisCitas(false);
+
+                const mensajeDiv = document.getElementById('mensaje');
+
+                mensajeDiv.innerHTML = `
+                    <div class="space-y-3">
+                        <p class="text-green-400 font-bold text-base">✓ Solicitud de cita recibida</p>
+                        <p class="text-zinc-300">${escaparHtml(cita.nombreServicio)}</p>
+                        <p class="text-zinc-500 text-xs">${cita.fechaHoraInicio ? new Date(cita.fechaHoraInicio).toLocaleString('es-CO') : ''}</p>
+                        <p class="text-[#c9a227] text-xs uppercase tracking-widest">Estado: ${escaparHtml(cita.estado || 'PENDIENTE')}</p>
+                        <p class="text-zinc-600 text-xs">Puedes ver si fue confirmada en “Mis citas”. RAND la recordará en este dispositivo.</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-3 mt-4">
+                            <a href="#mis-citas"
+                               class="gold-bg text-black font-bold px-6 py-3 text-xs uppercase tracking-[0.15em] transition">
+                                Ver mis citas
+                            </a>
+                            <button type="button" onclick="location.reload()"
+                                    class="border border-white/20 hover:border-white px-6 py-3 text-xs uppercase tracking-[0.15em] transition">
+                                Reservar otra cita
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                mensajeDiv.className = "mt-6 text-center bg-green-950/30 border border-green-900 p-5";
+                mensajeDiv.classList.remove("hidden");
+                mensajeDiv.focus();
+
+                document.getElementById('citaForm').classList.add('hidden');
+                ultimoIntentoReserva = null;
+
+            } else {
+
+                mostrarMensaje(await leerError(response, "No fue posible reservar la cita."), false);
+
+            }
+
+        } catch {
+            mostrarMensaje("No se pudo verificar la respuesta. Reintenta sin cambiar los datos para recuperar tu reserva sin duplicarla.", false);
+
+        } finally {
+            reservaEnCurso = false;
+            if (!document.getElementById('citaForm').classList.contains('hidden')) {
+                btnReserva.disabled = false;
+                btnReserva.textContent = textoBoton;
+            }
+        }
+
+    });
+
+
+    function mostrarMensaje(texto, exito) {
+
+        const mensajeDiv = document.getElementById('mensaje');
+
+        mensajeDiv.textContent = texto;
+
+        mensajeDiv.className = exito
+            ? "mt-6 text-center bg-green-950/30 border border-green-900 p-5"
+            : "mt-6 text-center text-red-400 bg-red-950/30 border border-red-900 p-4";
+
+        mensajeDiv.classList.remove("hidden");
+        mensajeDiv.focus();
+
+    }
+
+</script>
+
+</body>
+
+</html>
