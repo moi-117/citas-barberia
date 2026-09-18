@@ -120,6 +120,22 @@
             padding: 12px 20px !important;
         }
 
+        .nav-login {
+            border: 1px solid rgba(244,241,234,.28);
+            color: var(--ivory) !important;
+            font-size: .58rem;
+            letter-spacing: .16em;
+            padding: .7rem 1rem;
+            text-transform: uppercase;
+            transition: border-color .25s ease, background .25s ease, color .25s ease;
+        }
+
+        .nav-login:hover {
+            background: rgba(244,241,234,.08);
+            border-color: var(--champagne);
+            color: var(--champagne) !important;
+        }
+
         /* Hero */
         #inicio {
             min-height: 760px;
@@ -1734,6 +1750,10 @@
 
         </nav>
 
+        <a href="login.html" class="nav-login hidden md:inline-flex items-center justify-center" aria-label="Iniciar sesión o crear una cuenta">
+            Iniciar sesión
+        </a>
+
         <button id="btnMenuMovil" type="button" aria-expanded="false" aria-controls="menuMovil" aria-label="Abrir menú"
                 class="md:hidden w-11 h-11 border border-white/15 rounded-full flex items-center justify-center text-xl">
             <span aria-hidden="true">☰</span>
@@ -1766,6 +1786,7 @@
             <a href="#reservas" class="px-4 py-3 rounded-lg bg-[#c9a227] text-black font-bold">Reservar cita</a>
             <a href="#mis-citas" class="px-4 py-3 rounded-lg hover:bg-white/5">Mis citas</a>
             <a href="#galeria" class="px-4 py-3 rounded-lg hover:bg-white/5">Galería</a>
+            <a href="login.html" class="px-4 py-3 rounded-lg hover:bg-white/5">Iniciar sesión</a>
         </div>
     </nav>
 
